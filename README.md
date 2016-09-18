@@ -60,6 +60,7 @@ Copyright (C) 2016 Crown Copyright (Office for National Statistics)
 
 
 ## TODO list
+- Add Spring Integration to thw project and code ReceiptPublisher (see what was done in DRS Gateway)
 - Reuse the CTPException from common: currently not done as it creates conflicts in the pom
 - Update Swagger spec for caseRef
 - More details returned with health endpoint: build number, etc. And unit test it with
