@@ -37,12 +37,12 @@ Default is for the DEV environment (wsdls pointing ot the SoapUI mock service).
 ##################################################
 ## To test the health endpoint
 curl http://localhost:8291/mgmt/health -v -X GET
-200 {"status":"UP"}
+{"status":"UP","diskSpace":{"status":"UP","total":30335164416,"free":7011123200,"threshold":10485760}}
 
 
 ## To post an invalid receipt
-curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
-TODO {"timestamp":1474195851815,"status":405,"error":"Method Not Allowed","message":"HTTP method POST is not supported by this URL","path":"/questionnairereceipts"}
+curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8080/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
+204
 
 
 ## Copyright
@@ -50,6 +50,8 @@ Copyright (C) 2016 Crown Copyright (Office for National Statistics)
 
 
 ## TODO list
+Chnage app port from 8080 to 8191
+Switch to Undertow
 More details returned with health endpoint: build number, etc.
 Add Sleuth
 
