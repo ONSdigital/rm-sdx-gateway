@@ -55,7 +55,6 @@ Copyright (C) 2016 Crown Copyright (Office for National Statistics)
 
 
 ## TODO list
-Switch to Undertow
 Error handling for the 400, etc
 More details returned with health endpoint: build number, etc.
 Add Sleuth
