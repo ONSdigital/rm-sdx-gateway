@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import uk.gov.ons.ctp.sdx.error.CTPException;
 
+import static uk.gov.ons.ctp.sdx.endpoint.ReceiptEndpoint.INVALID_RECEIPT;
+
 @Slf4j
 @ControllerAdvice
 public class RestExceptionHandler {
@@ -17,13 +19,31 @@ public class RestExceptionHandler {
   @ExceptionHandler(CTPException.class)
   public ResponseEntity<?> handleCTPException(CTPException ex, Locale locale) {
     log.debug("Entering handleCTPException...");
-    return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+    HttpStatus returnedStatus;
+    switch(ex.getFault()){
+      case VALIDATION_FAILED:
+        returnedStatus = HttpStatus.BAD_REQUEST;
+        break;
+      case RESOURCE_NOT_FOUND:
+        returnedStatus = HttpStatus.NOT_FOUND;
+        break;
+      case RESOURCE_VERSION_CONFLICT:
+        returnedStatus = HttpStatus.CONFLICT;
+        break;
+      case ACCESS_DENIED:
+        returnedStatus = HttpStatus.FORBIDDEN;
+        break;
+      default:
+        returnedStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+    }
+    return new ResponseEntity<>(ex, returnedStatus);
   }
 
   @ResponseBody
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, Locale locale) {
     log.debug("Entering handleHttpMessageNotReadableException...");
-    return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+    CTPException ctpException = new CTPException(CTPException.Fault.VALIDATION_FAILED, INVALID_RECEIPT);
+    return new ResponseEntity<>(ctpException, HttpStatus.BAD_REQUEST);
   }
 }

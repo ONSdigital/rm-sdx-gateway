@@ -47,7 +47,7 @@ curl -H "Accept: application/json" -H "Content-Type: application/json" http://lo
 
 ## To post an invalid receipt (caseRef is not numeric)
 curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"abc\"}"
-400 {"timestamp":1474207248615,"status":400,"error":"Bad Request","exception":"org.springframework.http.converter.HttpMessageNotReadableException","message":"Bad Request","path":"/questionnairereceipts"}
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20160918152730226","message":"The receipt provided is invalid."}}
 
 
 ## To post a valid receipt
