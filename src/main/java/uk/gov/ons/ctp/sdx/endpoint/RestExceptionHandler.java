@@ -12,15 +12,25 @@ import uk.gov.ons.ctp.sdx.error.CTPException;
 
 import static uk.gov.ons.ctp.sdx.endpoint.ReceiptEndpoint.INVALID_RECEIPT;
 
+/**
+ * The handler for exceptions
+ */
 @Slf4j
 @ControllerAdvice
 public class RestExceptionHandler {
+
+  /**
+   * To intercept {@link CTPException}
+   * @param ctpException the exception orignally thrown
+   * @param locale the locale
+   * @return the relevant ResponseEntity
+   */
   @ResponseBody
   @ExceptionHandler(CTPException.class)
-  public ResponseEntity<?> handleCTPException(CTPException ex, Locale locale) {
+  public ResponseEntity<?> handleCTPException(CTPException ctpException, Locale locale) {
     log.debug("Entering handleCTPException...");
     HttpStatus returnedStatus;
-    switch(ex.getFault()){
+    switch(ctpException.getFault()){
       case VALIDATION_FAILED:
         returnedStatus = HttpStatus.BAD_REQUEST;
         break;
@@ -36,9 +46,15 @@ public class RestExceptionHandler {
       default:
         returnedStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     }
-    return new ResponseEntity<>(ex, returnedStatus);
+    return new ResponseEntity<>(ctpException, returnedStatus);
   }
 
+  /**
+   * To intercept {@link HttpMessageNotReadableException}
+   * @param ex the exception originally thrown
+   * @param locale the locale
+   * @return the relevant ResponseEntity
+   */
   @ResponseBody
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, Locale locale) {
