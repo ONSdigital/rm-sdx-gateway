@@ -41,7 +41,12 @@ curl http://localhost:8291/mgmt/health -v -X GET
 
 
 ## To post an invalid receipt
-curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8080/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
+curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
+400
+
+
+## To post a valid receipt
+curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseId\":1}"
 204
 
 
@@ -50,8 +55,8 @@ Copyright (C) 2016 Crown Copyright (Office for National Statistics)
 
 
 ## TODO list
-Chnage app port from 8080 to 8191
 Switch to Undertow
+Error handling for the 400, etc
 More details returned with health endpoint: build number, etc.
 Add Sleuth
 

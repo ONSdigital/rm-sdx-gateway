@@ -5,10 +5,14 @@ info:
   branch: ${scmBranch}
   buildTime: ${timestamp}
 
-management:
-  port: 8291
-  context-path: /mgmt
-
 spring:
   application:
     name: Survey Data Exchange Gateway
+
+server:
+  port: 8191
+
+
+management:
+  port: 8291
+  context-path: /mgmt
