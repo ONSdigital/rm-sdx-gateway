@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class Receipt {
-  private final Integer caseRef;
+  private Integer caseRef;
 }
