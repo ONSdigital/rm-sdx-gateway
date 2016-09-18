@@ -40,13 +40,18 @@ curl http://localhost:8291/mgmt/health -v -X GET
 {"status":"UP","diskSpace":{"status":"UP","total":30335164416,"free":7011123200,"threshold":10485760}}
 
 
-## To post an invalid receipt
+## To post an invalid receipt (missing caseRef)
 curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
-400
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20160918144436912","message":"The receipt provided is invalid."}}
+
+
+## To post an invalid receipt (caseRef is not numeric)
+curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"abc\"}"
+400 {"timestamp":1474207248615,"status":400,"error":"Bad Request","exception":"org.springframework.http.converter.HttpMessageNotReadableException","message":"Bad Request","path":"/questionnairereceipts"}
 
 
 ## To post a valid receipt
-curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseId\":1}"
+curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":1}"
 204
 
 
@@ -55,7 +60,7 @@ Copyright (C) 2016 Crown Copyright (Office for National Statistics)
 
 
 ## TODO list
-Error handling for the 400, etc
+Error handling improve
 More details returned with health endpoint: build number, etc.
 Add Sleuth
 
