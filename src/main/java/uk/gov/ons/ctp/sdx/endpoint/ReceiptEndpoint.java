@@ -16,7 +16,8 @@ import javax.validation.Valid;
 @RequestMapping("/questionnairereceipts")
 public class ReceiptEndpoint {
 
-  @RequestMapping(method= RequestMethod.POST)
+  // TODO IS 204 ok on positive scenario? --> I emailed Neville on 29/09.
+  @RequestMapping(method=RequestMethod.POST)
   public ResponseEntity<?> acknowledge(@RequestBody @Valid Receipt receipt) {
     log.debug("acknowledging receipt {}", receipt);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);

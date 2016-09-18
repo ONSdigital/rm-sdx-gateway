@@ -1,0 +1,32 @@
+info:
+  contactEmail: philippe.brossier@ons.gov.uk
+  version: ${project.version}
+  commit: ${buildNumber}
+  branch: ${scmBranch}
+  buildTime: ${timestamp}
+
+security:
+  basic:
+    enabled: false
+  user:
+    name: admin
+    password: ctp
+
+management:
+  port: 8291
+  context-path: /mgmt
+  security:
+    role: SUPERUSER
+    enabled: true
+
+server:
+  port: 8191
+  servlet-path: /mgmt
+
+endpoints:
+  enabled: true
+  sensitive: true
+
+spring:
+  application:
+    name: Survey Data Exchange Gateway

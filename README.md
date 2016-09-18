@@ -21,5 +21,35 @@ Default is for the DEV environment (wsdls pointing ot the SoapUI mock service).
 ./mvnw clean install
 
 
+##################################################
+# To run the app
+##################################################
+- Prerequisites:
+    - for logging:
+        - cd /var/log/ctp/responsemanagement
+        - mkdir sdxgateway
+        - chmod 777 sdxgateway
+./mvnw spring-boot:run
+
+
+##################################################
+# To test
+##################################################
+## To test the health endpoint
+curl http://localhost:8291/mgmt/health -v -X GET
+200 {"status":"UP"}
+
+
+## To post an invalid receipt
+curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
+TODO {"timestamp":1474195851815,"status":405,"error":"Method Not Allowed","message":"HTTP method POST is not supported by this URL","path":"/questionnairereceipts"}
+
+
 ## Copyright
 Copyright (C) 2016 Crown Copyright (Office for National Statistics)
+
+
+## TODO list
+More details returned with health endpoint: build number, etc.
+Add Sleuth
+
