@@ -60,7 +60,7 @@ Copyright (C) 2016 Crown Copyright (Office for National Statistics)
 
 
 ## TODO list
-Error handling improve
+Reuse the CTPEXception from common: currently not done as it creates conflicts in the pom
 More details returned with health endpoint: build number, etc.
 Add Sleuth
 
