@@ -6,7 +6,7 @@ info:
     to notify Response Management when a questionnaire has been receipted.
 
     Note that all of the endpoints this service provides are authenticated using HTTP basic authentication.
-  version: 9.24.0
+  version: 9.25.0
 schemes:
   - http
 basePath: /
