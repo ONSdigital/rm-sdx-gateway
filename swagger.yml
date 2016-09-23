@@ -19,7 +19,7 @@ paths:
   /questionnairereceipts:
     post:
       summary: Receipt Questionnaire
-      description: Records in Response Management that a questionnaire identified by the mandatory questionnaireId property has been receipted. The optional iac, caseId and questionSet properties may be used to provide further context, typically as part of an electronic questionnaire submission.
+      description: Records in Response Management that a questionnaire identified by the case ID has been receipted.
       consumes:
         - application/json
       parameters:
@@ -49,20 +49,11 @@ definitions:
   QuestionnaireReceiptCreationRequest:
     type: object
     required:
-      - questionnaireId
+      - caseId
     properties:
-      questionnaireId:
-        type: integer
-        description: Unique case identifier
-      iac:
-        type: string
-        description: Unique Internet Access Code
       caseId:
         type: integer
         description: Unique case identifier
-      questionSet:
-        type: string
-        description: Question set
   Error:
     type: object
     properties:
