@@ -62,6 +62,11 @@ curl -H "Accept: application/json" -H "Content-Type: application/json" http://lo
 TODO Should it be a CTPException one - 400 {"timestamp":1475589808417,"status":400,"error":"Bad Request","message":"Bad Request","path":"/questionnairereceipts"}
 
 
+## To post an invalid receipt (empty caseRef)
+curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"\"}"
+TODO Should it be a CTPException one - 400 {"timestamp":1475602589719,"status":400,"error":"Bad Request","message":"Bad Request","path":"/questionnairereceipts"}
+
+
 ## To post a valid receipt
 curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"abc\"}"
 204

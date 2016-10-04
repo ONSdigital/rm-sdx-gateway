@@ -3,6 +3,7 @@ package uk.gov.ons.ctp.sdx.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseFeedback;
+import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.message.CaseFeedbackPublisher;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
@@ -13,27 +14,51 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Date;
 
+/**
+ * The service to acknowleged receipts
+ */
 @Slf4j
 @Named
 public class ReceiptServiceImpl implements ReceiptService {
 
   private static final String EXCEPTION_ACKNOWLEGDING_RECEIPT =
           "An unexpected error occured while acknowledging your receipt. ";
+  public static final String EXCEPTION_INVALID_RECEIPT = "Invalid receipt. It can't be acknowledged.";
+
   @Inject
   private CaseFeedbackPublisher caseFeedbackPublisher;
 
   @Override
-  public void acknowledge(Receipt receipt) throws CTPException {
+  public final void acknowledge(Receipt receipt) throws CTPException {
     log.debug("acknowledging receipt {}", receipt);
+    validate(receipt);
+
     CaseFeedback caseFeedback = new CaseFeedback();
     caseFeedback.setCaseRef(receipt.getCaseRef());
     caseFeedback.setResponseDateTime(giveMeCalendarForNow());
-    // TODO Remove hardcoding below
-    caseFeedback.setInboundChannel("online");
+    caseFeedback.setInboundChannel(receipt.getInboundChannel());
     caseFeedbackPublisher.send(caseFeedback);
   }
 
-  public static XMLGregorianCalendar giveMeCalendarForNow() throws CTPException {
+  /**
+   * To validate a receipt
+   * @param receipt to be validated
+   * @throws CTPException if the receipt does NOT have an inboundChannel.
+   */
+  private static void validate(Receipt receipt) throws CTPException {
+    InboundChannel inboundChannel = receipt.getInboundChannel();
+    if (inboundChannel == null) {
+      log.error(EXCEPTION_INVALID_RECEIPT);
+      throw new CTPException(CTPException.Fault.SYSTEM_ERROR, EXCEPTION_INVALID_RECEIPT);
+    }
+  }
+
+  /**
+   * To get a XMLGregorianCalendar for now
+   * @return a XMLGregorianCalendar for now
+   * @throws CTPException if it can't create a calendar
+   */
+  private static XMLGregorianCalendar giveMeCalendarForNow() throws CTPException {
     java.util.GregorianCalendar gregorianCalendar = new java.util.GregorianCalendar();
     gregorianCalendar.setTime(new Date());
 

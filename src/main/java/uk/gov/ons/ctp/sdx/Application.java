@@ -11,12 +11,14 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import uk.gov.ons.ctp.common.jaxrs.CTPXmlMessageBodyReader;
 import uk.gov.ons.ctp.common.jaxrs.JAXRSRegister;
-import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.endpoint.ReceiptEndpoint;
 import uk.gov.ons.ctp.sdx.representation.ReceiptDTO;
 
 import javax.inject.Named;
 
+/**
+ * The main application class
+ */
 @Slf4j
 @IntegrationComponentScan
 @EnableAsync
@@ -44,6 +46,11 @@ public class Application {
       System.setProperty("ma.glasnost.orika.writeClassFiles", "false");
     }
   }
+
+  /**
+   * This method is the entry point to the Spring Boot application.
+   * @param args These are the optional command line arguments
+   */
   public static void main(String[] args) {
     log.debug("About to start the SDX Gateway application...");
     SpringApplication.run(Application.class, args);
