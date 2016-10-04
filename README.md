@@ -68,12 +68,12 @@ curl http://localhost:8291/mgmt/env -v -X GET -u admin:ctp
 
 ## To post an invalid receipt (missing caseRef)
 curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
-TODO Should it be a CTPException one - 400 {"timestamp":1475589808417,"status":400,"error":"Bad Request","message":"Bad Request","path":"/questionnairereceipts"}
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161004212343106","message":"Provided json is incorrect."}}
 
 
 ## To post an invalid receipt (empty caseRef)
 curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"\"}"
-TODO Should it be a CTPException one - 400 {"timestamp":1475602589719,"status":400,"error":"Bad Request","message":"Bad Request","path":"/questionnairereceipts"}
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161004212425903","message":"Provided json fails validation."}}
 
 
 ## To post a valid receipt

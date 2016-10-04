@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import uk.gov.ons.ctp.common.jaxrs.CTPXmlMessageBodyReader;
+import uk.gov.ons.ctp.common.jaxrs.CTPMessageBodyReader;
 import uk.gov.ons.ctp.common.jaxrs.JAXRSRegister;
 import uk.gov.ons.ctp.sdx.endpoint.ReceiptEndpoint;
 import uk.gov.ons.ctp.sdx.representation.ReceiptDTO;
@@ -40,7 +40,7 @@ public class Application {
       JAXRSRegister.listCommonTypes().forEach(t->register(t));
 
       register(ReceiptEndpoint.class);
-      register(new CTPXmlMessageBodyReader<ReceiptDTO>(ReceiptDTO.class) { });
+      register(new CTPMessageBodyReader<ReceiptDTO>(ReceiptDTO.class) { });
 
       System.setProperty("ma.glasnost.orika.writeSourceFiles", "false");
       System.setProperty("ma.glasnost.orika.writeClassFiles", "false");
