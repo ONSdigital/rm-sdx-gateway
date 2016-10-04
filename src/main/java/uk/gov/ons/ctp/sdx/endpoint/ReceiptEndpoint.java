@@ -1,7 +1,9 @@
 package uk.gov.ons.ctp.sdx.endpoint;
 
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
 import uk.gov.ons.ctp.common.error.CTPException;
+import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.representation.ReceiptDTO;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
@@ -29,10 +31,14 @@ public class ReceiptEndpoint {
   @Inject
   private ReceiptService receiptService;
 
+  @Inject
+  private MapperFacade mapperFacade;
+
   // TODO IS 204 ok on positive scenario? --> I emailed Neville on 29/09.
   @POST
   public final ReceiptDTO acknowledge(final @Valid ReceiptDTO receiptDTO) throws CTPException {
     log.debug("Entering acknowledge with receipt {}", receiptDTO);
+    receiptService.acknowledge(mapperFacade.map(receiptDTO, Receipt.class));
     // TODO Put message on queue to Case service
     return null;
   }

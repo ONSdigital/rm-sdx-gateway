@@ -2,8 +2,10 @@ package uk.gov.ons.ctp.sdx.endpoint;
 
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
+import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.common.jaxrs.CTPXmlMessageBodyReader;
 import uk.gov.ons.ctp.common.jersey.CTPJerseyTest;
+import uk.gov.ons.ctp.sdx.BeanMapper;
 import uk.gov.ons.ctp.sdx.endpoint.utility.MockReceiptServiceFactory;
 import uk.gov.ons.ctp.sdx.representation.ReceiptDTO;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
@@ -20,7 +22,7 @@ public class ReceiptEndpointUnitTest extends CTPJerseyTest {
    */
   @Override
   public Application configure() {
-    return super.init(ReceiptEndpoint.class, ReceiptService.class, MockReceiptServiceFactory.class, null,
+    return super.init(ReceiptEndpoint.class, ReceiptService.class, MockReceiptServiceFactory.class, new BeanMapper(),
             new CTPXmlMessageBodyReader<ReceiptDTO>(ReceiptDTO.class) { });
   }
 
