@@ -47,6 +47,6 @@ public class ReceiptEndpoint {
     Receipt receipt = mapperFacade.map(receiptDTO, Receipt.class);
     receipt.setInboundChannel(InboundChannel.ONLINE);
     receiptService.acknowledge(receipt);
-    return null;  // TODO IS 204 ok on positive scenario? --> I emailed Neville on 29/09.
+    return null;
   }
 }
