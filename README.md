@@ -44,7 +44,17 @@ Default is for the DEV environment (wsdls pointing ot the SoapUI mock service).
 ##################################################
 ## To test the info endpoint
 curl http://localhost:8291/mgmt/info -v -X GET
-200 {"contactEmail":"philippe.brossier@ons.gov.uk","version":"${project.version}","commit":"${buildNumber}","branch":"${scmBranch}","buildTime":"${timestamp}"}
+200 {"contactEmail":"philippe.brossier@ons.gov.uk","version":"9.26.0-SNAPSHOT","commit":"162cf42","branch":"master","buildTime":"16:10:00 BST on 04 October 2016"}
+
+
+## To test the health endpoint
+curl http://localhost:8291/mgmt/health -v -X GET
+200 {"status":"UP"}
+
+
+## To test the env endpoint
+curl http://localhost:8291/mgmt/env -v -X GET
+200 long json
 
 
 ## To post an invalid receipt (missing caseRef)
@@ -61,7 +71,6 @@ Copyright (C) 2016 Crown Copyright (Office for National Statistics)
 
 
 ## TODO list
-- info endpoint details: see curl test above
 - Update Swagger spec for caseRef
 - Add Sleuth
 
