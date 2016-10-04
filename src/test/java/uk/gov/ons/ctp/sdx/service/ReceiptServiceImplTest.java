@@ -31,7 +31,7 @@ public class ReceiptServiceImplTest {
   @InjectMocks
   ReceiptServiceImpl receiptService;
 
-  private static final String CASE_REF = "abc";
+  public static final String CASE_REF = "abc";
 
   @Test
   public void testValidReceipt() throws CTPException {

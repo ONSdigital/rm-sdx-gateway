@@ -58,7 +58,7 @@ public class ReceiptServiceImpl implements ReceiptService {
    * @return a XMLGregorianCalendar for now
    * @throws CTPException if it can't create a calendar
    */
-  private static XMLGregorianCalendar giveMeCalendarForNow() throws CTPException {
+  public static XMLGregorianCalendar giveMeCalendarForNow() throws CTPException {
     java.util.GregorianCalendar gregorianCalendar = new java.util.GregorianCalendar();
     gregorianCalendar.setTime(new Date());
 
