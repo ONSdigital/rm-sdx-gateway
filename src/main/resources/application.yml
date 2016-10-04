@@ -7,7 +7,7 @@ info:
 
 security:
   basic:
-    enabled: false
+    enabled: true
   user:
     name: admin
     password: ctp
@@ -19,9 +19,6 @@ spring:
 management:
   port: 8291
   context-path: /mgmt
-  security:
-    role: SUPERUSER
-    enabled: true
 
 server:
   port: 8191

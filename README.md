@@ -17,8 +17,9 @@ mvn -N io.takari:maven:wrapper
 ##################################################
 # To build
 ##################################################
-Default is for the DEV environment (wsdls pointing ot the SoapUI mock service).
+Default is for the DEV environment
 ./mvnw clean install
+./mvnw clean install -DskipITs (if you want to skip integration tests which are run by default with the dev profile)
 
 
 ##################################################
@@ -42,33 +43,37 @@ Default is for the DEV environment (wsdls pointing ot the SoapUI mock service).
 ##################################################
 # To test
 ##################################################
+## To test the info endpoint WITHOUT credentials
+401 {"timestamp":1475607716095,"status":401,"error":"Unauthorized","message":"Full authentication is required to access this resource","path":"/mgmt/health"}
+
+
 ## To test the info endpoint
-curl http://localhost:8291/mgmt/info -v -X GET
+curl http://localhost:8291/mgmt/info -v -X GET -u admin:ctp
 200 {"contactEmail":"philippe.brossier@ons.gov.uk","version":"9.26.0-SNAPSHOT","commit":"162cf42","branch":"master","buildTime":"16:10:00 BST on 04 October 2016"}
 
 
 ## To test the health endpoint
-curl http://localhost:8291/mgmt/health -v -X GET
+curl http://localhost:8291/mgmt/health -v -X GET -u admin:ctp
 200 {"status":"UP"}
 
 
 ## To test the env endpoint
-curl http://localhost:8291/mgmt/env -v -X GET
+curl http://localhost:8291/mgmt/env -v -X GET -u admin:ctp
 200 long json
 
 
 ## To post an invalid receipt (missing caseRef)
-curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
+curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
 TODO Should it be a CTPException one - 400 {"timestamp":1475589808417,"status":400,"error":"Bad Request","message":"Bad Request","path":"/questionnairereceipts"}
 
 
 ## To post an invalid receipt (empty caseRef)
-curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"\"}"
+curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"\"}"
 TODO Should it be a CTPException one - 400 {"timestamp":1475602589719,"status":400,"error":"Bad Request","message":"Bad Request","path":"/questionnairereceipts"}
 
 
 ## To post a valid receipt
-curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"abc\"}"
+curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"abc\"}"
 204
 
 ## Copyright
