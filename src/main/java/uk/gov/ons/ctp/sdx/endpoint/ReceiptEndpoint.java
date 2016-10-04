@@ -34,12 +34,10 @@ public class ReceiptEndpoint {
   @Inject
   private MapperFacade mapperFacade;
 
-  // TODO IS 204 ok on positive scenario? --> I emailed Neville on 29/09.
   @POST
   public final ReceiptDTO acknowledge(final @Valid ReceiptDTO receiptDTO) throws CTPException {
     log.debug("Entering acknowledge with receipt {}", receiptDTO);
     receiptService.acknowledge(mapperFacade.map(receiptDTO, Receipt.class));
-    // TODO Put message on queue to Case service
-    return null;
+    return null;  // TODO IS 204 ok on positive scenario? --> I emailed Neville on 29/09.
   }
 }

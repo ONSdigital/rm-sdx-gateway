@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-xml="http://www.springframework.org/schema/integration/xml"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+  http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+  http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
+  http://www.springframework.org/schema/integration/xml
+  http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
+
+    <!-- setup the outbound jms queue -->
+    <bean id="caseFeedbackQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="Case.Responses"/>
+    </bean>
+
+    <int:annotation-config/>
+    <!--  setup the outbound channels - note each queue needs a channel -->
+    <int:channel id="caseFeedbackOutbound" />
+    <int:channel id="caseFeedbackXml" />
+    <int:channel id="caseFeedback" />
+
+    <!--  the @Publisher sends to the marshalling-transformers input channel -->
+    <int-xml:marshalling-transformer
+            input-channel="caseFeedbackOutbound" output-channel="caseFeedbackXml"
+            marshaller="caseFeedbackMarshaller"
+            result-transformer="caseFeedbackTransformer"/>
+    <!--  the caseFeedbackMarshaller turns java objects into xml dom -->
+    <bean id="caseFeedbackMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="contextPath" value="uk.gov.ons.ctp.response.casesvc.message.feedback" />
+    </bean>
+    <!--  the caseFeedbackTransformer turns the xml dom into a string -->
+    <bean id="caseFeedbackTransformer" class="org.springframework.integration.xml.transformer.ResultToStringTransformer" />
+
+    <!-- we validate here that we post case feedbacks matching the outbound schema -->
+    <!-- Option to be used in Debug/Test: throw-exception-on-rejection="true" -->
+    <int-xml:validating-filter id="caseFeedbackValidator" input-channel="caseFeedbackXml"
+                               output-channel="caseFeedbackXmlValid" schema-location="classpath:xsd/caseFeedback.xsd" discard-channel="caseFeedbackXmlInvalid"/>
+
+    <!-- define the channel name to send our xml string to -->
+    <int:router input-channel="caseFeedbackXmlValid" expression="'caseFeedback'"/>
+
+    <!--  each channel adapter listens to one of our routed channels and adapts the SI message to a JMS message -->
+    <int-jms:outbound-channel-adapter id="jmsout" channel="caseFeedback" destination="caseFeedbackQueue"/>
+
+</beans>
+

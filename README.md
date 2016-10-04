@@ -29,30 +29,37 @@ Default is for the DEV environment (wsdls pointing ot the SoapUI mock service).
         - cd /var/log/ctp/responsemanagement
         - mkdir sdxgateway
         - chmod 777 sdxgateway
+    - Stop RabbitMQ if running: sudo /sbin/service rabbitmq-server stop
+    - Install ActiveMQ:
+        - Install Apache ActiveMQ 5.13.3: download and unzip under /opt
+        - Edit /conf/activemq.xml: replace 61616 with 53445 (port defined in broker-int.xml)
+        - Start it by going to /bin and typing: ./activemq console
+        - console accessed at http://localhost:8161/ with user = admin - pwd = admin
+
 ./mvnw spring-boot:run
 
 
 ##################################################
 # To test
 ##################################################
-## To test the health endpoint
-curl http://localhost:8291/mgmt/health -v -X GET
-{"status":"UP","diskSpace":{"status":"UP","total":30335164416,"free":7011123200,"threshold":10485760}}
+## To test the info endpoint
+curl http://localhost:8291/mgmt/info -v -X GET
+200 {"contactEmail":"philippe.brossier@ons.gov.uk","version":"${project.version}","commit":"${buildNumber}","branch":"${scmBranch}","buildTime":"${timestamp}"}
 
 
 ## To post an invalid receipt (missing caseRef)
 curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
-400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20160918144436912","message":"The receipt provided is invalid."}}
+TODO Should it be a CTPException one - 400 {"timestamp":1475589808417,"status":400,"error":"Bad Request","message":"Bad Request","path":"/questionnairereceipts"}
 
 
-## To post an invalid receipt (caseRef is not numeric)
-curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"abc\"}"
-400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20160918152730226","message":"The receipt provided is invalid."}}
+## To post an invalid receipt (caseRef is not a string)
+curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":6}"
+TODO 500 {"error":{"code":"SYSTEM_ERROR","timestamp":"20161004150454125","message":"failed to look up MessageChannel with name 'caseFeedbackOutbound' in the BeanFactory.; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'caseFeedbackOutbound' is defined"}}
 
 
 ## To post a valid receipt
-curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":1}"
-204
+curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"abc\"}"
+TODO {"error":{"code":"SYSTEM_ERROR","timestamp":"20161004150553968","message":"failed to look up MessageChannel with name 'caseFeedbackOutbound' in the BeanFactory.; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'caseFeedbackOutbound' is defined"}}
 
 
 ## Copyright
@@ -60,7 +67,7 @@ Copyright (C) 2016 Crown Copyright (Office for National Statistics)
 
 
 ## TODO list
-- Add Spring Integration to thw project and code ReceiptPublisher (see what was done in DRS Gateway)
+- info endpoint details: see curl test above
 - Update Swagger spec for caseRef
 - Add Sleuth
 
