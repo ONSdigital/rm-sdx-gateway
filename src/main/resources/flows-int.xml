@@ -11,6 +11,13 @@
   http://www.springframework.org/schema/integration/xml
   http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
 
+    <!-- anything sent to this channel is put on the queue Case.InvalidCaseFeedbacks -->
+    <int:channel id="caseFeedbackXmlInvalid" />
+    <bean id="invalidCaseFeedbackQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="Case.InvalidCaseFeedbacks"/>
+    </bean>
+    <int-jms:outbound-channel-adapter id="invalidCaseFeedbackJmsOut" destination="invalidCaseFeedbackQueue" channel="caseFeedbackXmlInvalid"/>
+
     <!-- setup the outbound jms queue -->
     <bean id="caseFeedbackQueue" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg value="Case.Responses"/>

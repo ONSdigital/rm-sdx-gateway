@@ -52,15 +52,9 @@ curl -H "Accept: application/json" -H "Content-Type: application/json" http://lo
 TODO Should it be a CTPException one - 400 {"timestamp":1475589808417,"status":400,"error":"Bad Request","message":"Bad Request","path":"/questionnairereceipts"}
 
 
-## To post an invalid receipt (caseRef is not a string)
-curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":6}"
-TODO 500 {"error":{"code":"SYSTEM_ERROR","timestamp":"20161004150454125","message":"failed to look up MessageChannel with name 'caseFeedbackOutbound' in the BeanFactory.; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'caseFeedbackOutbound' is defined"}}
-
-
 ## To post a valid receipt
 curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"abc\"}"
-TODO {"error":{"code":"SYSTEM_ERROR","timestamp":"20161004150553968","message":"failed to look up MessageChannel with name 'caseFeedbackOutbound' in the BeanFactory.; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'caseFeedbackOutbound' is defined"}}
-
+204
 
 ## Copyright
 Copyright (C) 2016 Crown Copyright (Office for National Statistics)
