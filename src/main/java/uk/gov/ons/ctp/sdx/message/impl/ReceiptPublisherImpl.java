@@ -1,15 +1,13 @@
 package uk.gov.ons.ctp.sdx.message.impl;
 
 import lombok.extern.slf4j.Slf4j;
-//import org.springframework.integration.annotation.Publisher;
-
-import org.springframework.stereotype.Service;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.message.ReceiptPublisher;
 
-// TODO change the stereotype below to an integration-specific one
-@Service
+import javax.inject.Named;
+
 @Slf4j
+@Named
 public class ReceiptPublisherImpl implements ReceiptPublisher{
   //@Publisher(channel = "actionFeedbackOutbound")
   @Override

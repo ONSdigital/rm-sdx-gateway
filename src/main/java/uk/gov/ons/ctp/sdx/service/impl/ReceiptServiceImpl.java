@@ -7,11 +7,14 @@ import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.message.ReceiptPublisher;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 @Slf4j
-@Service
+@Named
 public class ReceiptServiceImpl implements ReceiptService {
 
-  @Autowired
+  @Inject
   private ReceiptPublisher receiptPublisher;
 
   @Override
