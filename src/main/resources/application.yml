@@ -16,6 +16,13 @@ spring:
   application:
     name: Survey Data Exchange Gateway API
 
+  sleuth:
+    sampler:
+      percentage: 1
+
+  zipkin:
+    enabled: true # true is the default to post to a Zipkin server at 9411
+
 management:
   port: 8291
   context-path: /mgmt

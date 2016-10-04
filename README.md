@@ -82,9 +82,3 @@ curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/js
 
 ## Copyright
 Copyright (C) 2016 Crown Copyright (Office for National Statistics)
-
-
-## TODO list
-- Update Swagger spec for caseRef
-- Add Sleuth
-
