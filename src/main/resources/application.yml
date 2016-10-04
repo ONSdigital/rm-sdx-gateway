@@ -14,7 +14,7 @@ security:
 
 spring:
   application:
-    name: Survey Data Exchange Gateway
+    name: Survey Data Exchange Gateway API
 
 management:
   port: 8291

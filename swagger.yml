@@ -6,7 +6,7 @@ info:
     to notify Response Management when a questionnaire has been receipted.
 
     Note that all of the endpoints this service provides are authenticated using HTTP basic authentication.
-  version: 9.25.0
+  version: 9.26.0
 schemes:
   - http
 basePath: /
@@ -19,7 +19,7 @@ paths:
   /questionnairereceipts:
     post:
       summary: Receipt Questionnaire
-      description: Records in Response Management that a questionnaire identified by the case ID has been receipted.
+      description: Records in Response Management that a questionnaire identified by the case Ref has been receipted.
       consumes:
         - application/json
       parameters:
@@ -30,14 +30,14 @@ paths:
           type: string
         - in: body
           name: receipt
-          description: Questionnaire receipt to create
+          description: Questionnaire receipt to acknowledge
           required: true
           schema:
             $ref: '#/definitions/QuestionnaireReceiptCreationRequest'
       tags:
         - Receipt
       responses:
-        200:
+        204:
           description: Questionnaire receipted
         400:
           description: Invalid input
@@ -49,10 +49,10 @@ definitions:
   QuestionnaireReceiptCreationRequest:
     type: object
     required:
-      - caseId
+      - caseRef
     properties:
-      caseId:
-        type: integer
+      caseRef:
+        type: string
         description: Unique case identifier
   Error:
     type: object
