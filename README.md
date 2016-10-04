@@ -37,7 +37,11 @@ Default is for the DEV environment
         - Start it by going to /bin and typing: ./activemq console
         - console accessed at http://localhost:8161/ with user = admin - pwd = admin
 
-./mvnw spring-boot:run
+- To start with default credentials:
+    ./mvnw spring-boot:run
+
+- To start with specific credentials:
+    ./mvnw spring-boot:run -Dsecurity.user.name=tiptop -Dsecurity.user.password=override
 
 
 ##################################################
