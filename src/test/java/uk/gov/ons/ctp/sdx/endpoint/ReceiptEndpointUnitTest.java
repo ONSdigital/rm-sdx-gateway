@@ -13,11 +13,15 @@ import uk.gov.ons.ctp.sdx.service.ReceiptService;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
+import static uk.gov.ons.ctp.sdx.service.ReceiptServiceImplTest.CASE_REF;
+
 public class ReceiptEndpointUnitTest extends CTPJerseyTest {
 
+  private static final String LOCATION = "Location";
   private static final String RECEIPT_INVALIDJSON_SCENARIO1 = "{\"random\":  \"abc\"}";
   private static final String RECEIPT_INVALIDJSON_SCENARIO2 = "{\"caseRef\":  \"\"}";
-  private static final String RECEIPT_VALIDJSON = "{\"caseRef\":  \"abc\"}";
+  private static final String RECEIPT_VALIDJSON = String.format("{\"caseRef\":  \"%s\"}", CASE_REF);
+  private static final String SERVER_URL = "http://localhost:9998/questionnairereceipts";
   /**
    * configure the test
    */
@@ -29,16 +33,16 @@ public class ReceiptEndpointUnitTest extends CTPJerseyTest {
 
   @Test
   public void acknowledgeReceiptGoodJsonProvided() {
-    with("http://localhost:9998/questionnairereceipts").post(MediaType.APPLICATION_JSON_TYPE, RECEIPT_VALIDJSON)
+    with(SERVER_URL).post(MediaType.APPLICATION_JSON_TYPE, RECEIPT_VALIDJSON)
             .assertResponseCodeIs(HttpStatus.CREATED)
-            .assertStringInBody("$.caseRef", "abc")
+            .assertStringInBody("$.caseRef", CASE_REF)
+            .assertHeader(LOCATION, String.format("%s/%s", SERVER_URL, CASE_REF))
             .andClose();
-    // TODO verify header Location
   }
 
   @Test
   public void acknowledgeReceiptBadJsonProvidedScenario1() {
-    with("http://localhost:9998/questionnairereceipts").post(MediaType.APPLICATION_JSON_TYPE, RECEIPT_INVALIDJSON_SCENARIO1)
+    with(SERVER_URL).post(MediaType.APPLICATION_JSON_TYPE, RECEIPT_INVALIDJSON_SCENARIO1)
             .assertResponseCodeIs(HttpStatus.BAD_REQUEST)
             .assertFaultIs(CTPException.Fault.VALIDATION_FAILED)
             .assertTimestampExists()
@@ -48,7 +52,7 @@ public class ReceiptEndpointUnitTest extends CTPJerseyTest {
 
   @Test
   public void acknowledgeReceiptBadJsonProvidedScenario2() {
-    with("http://localhost:9998/questionnairereceipts").post(MediaType.APPLICATION_JSON_TYPE, RECEIPT_INVALIDJSON_SCENARIO2)
+    with(SERVER_URL).post(MediaType.APPLICATION_JSON_TYPE, RECEIPT_INVALIDJSON_SCENARIO2)
             .assertResponseCodeIs(HttpStatus.BAD_REQUEST)
             .assertFaultIs(CTPException.Fault.VALIDATION_FAILED)
             .assertTimestampExists()
