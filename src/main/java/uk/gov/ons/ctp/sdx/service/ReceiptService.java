@@ -3,6 +3,8 @@ package uk.gov.ons.ctp.sdx.service;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
 
+import java.io.InputStream;
+
 /**
  * The service to acknowleged receipts
  */
@@ -13,4 +15,6 @@ public interface ReceiptService {
    * @throws CTPException if invalid receipt or if it can't be acknowledged
    */
   void acknowledge(Receipt receipt) throws CTPException;
+
+  void acknowledgeFile(InputStream fileContents) throws CTPException;
 }

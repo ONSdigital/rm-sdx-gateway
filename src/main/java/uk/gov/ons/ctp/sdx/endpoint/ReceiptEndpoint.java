@@ -54,4 +54,5 @@ public class ReceiptEndpoint {
     URI receiptUri = ub.path(receipt.getCaseRef()).build();
     return Response.created(receiptUri).entity(receiptDTO).build();
   }
+
 }

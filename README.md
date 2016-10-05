@@ -81,5 +81,11 @@ curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/js
 201 {"caseRef":"abc"} and header Location: http://localhost:8191/questionnairereceipts/abc
 
 
+## To post a valid daily .csv file
+cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
+curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sample.csv
+201
+
+
 ## Copyright
 Copyright (C) 2016 Crown Copyright (Office for National Statistics)

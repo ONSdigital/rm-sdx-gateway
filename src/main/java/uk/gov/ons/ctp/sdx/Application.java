@@ -1,6 +1,7 @@
 package uk.gov.ons.ctp.sdx;
 
 import lombok.extern.slf4j.Slf4j;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import uk.gov.ons.ctp.common.jaxrs.CTPMessageBodyReader;
 import uk.gov.ons.ctp.common.jaxrs.JAXRSRegister;
+import uk.gov.ons.ctp.sdx.endpoint.PaperReceiptEndpoint;
 import uk.gov.ons.ctp.sdx.endpoint.ReceiptEndpoint;
 import uk.gov.ons.ctp.sdx.representation.ReceiptDTO;
 
@@ -41,6 +43,9 @@ public class Application {
 
       register(ReceiptEndpoint.class);
       register(new CTPMessageBodyReader<ReceiptDTO>(ReceiptDTO.class) { });
+
+      register(MultiPartFeature.class);
+      register(PaperReceiptEndpoint.class);
 
       System.setProperty("ma.glasnost.orika.writeSourceFiles", "false");
       System.setProperty("ma.glasnost.orika.writeClassFiles", "false");

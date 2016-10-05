@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.InputStream;
 import java.util.Date;
 
 /**
@@ -38,6 +39,12 @@ public class ReceiptServiceImpl implements ReceiptService {
     caseFeedback.setResponseDateTime(giveMeCalendarForNow());
     caseFeedback.setInboundChannel(receipt.getInboundChannel());
     caseFeedbackPublisher.send(caseFeedback);
+  }
+
+  @Override
+  public void acknowledgeFile(InputStream fileContents) throws CTPException {
+    log.debug("acknowledgeFile {}", fileContents);
+    // TODO
   }
 
   /**
