@@ -93,7 +93,7 @@ public class ReceiptServiceImplTest {
   public void testInvalidFileReceipt() throws CTPException{
     when(fileParser.parseIt(any(InputStream.class))).thenThrow(new CTPException(CTPException.Fault.SYSTEM_ERROR, EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT));
 
-    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleInvalidReceipts.csv");
+    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/totalRandom.txt");
     boolean exceptionThrown = false;
     try{
       receiptService.acknowledgeFile(inputStream);

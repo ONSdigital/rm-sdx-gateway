@@ -89,7 +89,7 @@ curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F
 
 ## To post an invalid daily .csv file
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
-curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleInvalidReceipts.csv
+curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@totalRandom.txt
 TODO Should not give back a 201
 
 
