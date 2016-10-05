@@ -6,7 +6,7 @@ import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.common.jaxrs.CTPMessageBodyReader;
 import uk.gov.ons.ctp.common.jersey.CTPJerseyTest;
 import uk.gov.ons.ctp.sdx.BeanMapper;
-import uk.gov.ons.ctp.sdx.endpoint.utility.MockReceiptServiceFactory;
+import uk.gov.ons.ctp.sdx.utility.MockReceiptServiceFactory;
 import uk.gov.ons.ctp.sdx.representation.ReceiptDTO;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
@@ -30,8 +30,10 @@ public class ReceiptEndpointUnitTest extends CTPJerseyTest {
   @Test
   public void acknowledgeReceiptGoodJsonProvided() {
     with("http://localhost:9998/questionnairereceipts").post(MediaType.APPLICATION_JSON_TYPE, RECEIPT_VALIDJSON)
-            .assertResponseCodeIs(HttpStatus.NO_CONTENT)
+            .assertResponseCodeIs(HttpStatus.CREATED)
+            .assertStringInBody("$.caseRef", "abc")
             .andClose();
+    // TODO verify header Location
   }
 
   @Test

@@ -37,8 +37,10 @@ paths:
       tags:
         - Receipt
       responses:
-        204:
+        201:
           description: Questionnaire receipted
+          schema:
+            $ref: '#/definitions/QuestionnaireReceiptCreationRequest'
         400:
           description: Invalid input
         default:

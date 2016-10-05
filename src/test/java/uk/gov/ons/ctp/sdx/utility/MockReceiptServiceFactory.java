@@ -1,4 +1,4 @@
-package uk.gov.ons.ctp.sdx.endpoint.utility;
+package uk.gov.ons.ctp.sdx.utility;
 
 import org.glassfish.hk2.api.Factory;
 import org.mockito.Mockito;

@@ -14,7 +14,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.*;
+import java.net.URI;
 
 /**
  * The endpoint to receive notifications from SDX
@@ -25,28 +26,32 @@ import javax.ws.rs.core.MediaType;
 @Path("/questionnairereceipts")
 public class ReceiptEndpoint {
 
-
-  private static final int MIN_CASE_REF = 1;
-
   @Inject
   private ReceiptService receiptService;
 
   @Inject
   private MapperFacade mapperFacade;
 
+  @Context
+  UriInfo uriInfo;
+
   /**
    * This receives a receipt and forwards it to the ReceiptService for acknowledgment.
    *
    * @param receiptDTO the receipt to be acknowledged
-   * @return 204 if successful
+   * @return 201 if successful
    * @throws CTPException if invalid receipt or if it can't be acknowledged
    */
   @POST
-  public final ReceiptDTO acknowledge(final @Valid ReceiptDTO receiptDTO) throws CTPException {
+  public final Response acknowledge(final @Valid ReceiptDTO receiptDTO) throws CTPException {
     log.debug("Entering acknowledge with receipt {}", receiptDTO);
     Receipt receipt = mapperFacade.map(receiptDTO, Receipt.class);
     receipt.setInboundChannel(InboundChannel.ONLINE);
+
     receiptService.acknowledge(receipt);
-    return null;
+
+    UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+    URI receiptUri = ub.path(receipt.getCaseRef()).build();
+    return Response.created(receiptUri).entity(receiptDTO).build();
   }
 }
