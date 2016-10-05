@@ -28,8 +28,8 @@ import java.util.List;
 public class FileParserImpl implements FileParser {
   private static final String CASE_REF = "caseRef";
   private static final String RESPONSE_DATE_TIME = "responseDateTime";
-  private static final String EXCEPTION_ACKNOWLEGDING_RECEIPT =
-          "An unexpected error occured while acknowledging your receipt. ";
+  public static final String EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT =
+          "An unexpected error occured while acknowledging your receipts file. ";
   private static final String EXCEPTION_PARSING_RECORD =
           "An unexpected error occured while parsing a paper receipt record.";
 
@@ -52,7 +52,7 @@ public class FileParserImpl implements FileParser {
               "IOException thrown while parsing file contents with msg = %s", e.getMessage());
       log.error(error);
       throw new CTPException(CTPException.Fault.SYSTEM_ERROR,
-              String.format("%s%s", EXCEPTION_ACKNOWLEGDING_RECEIPT, error));
+              String.format("%s%s", EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT, error));
     } catch (ParseException e) {
       log.error(String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage()));
     } catch (DatatypeConfigurationException e) {

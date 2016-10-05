@@ -23,6 +23,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT;
 import static uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl.EXCEPTION_INVALID_RECEIPT;
 
 /**
@@ -81,5 +82,23 @@ public class ReceiptServiceImplTest {
     receiptService.acknowledgeFile(inputStream);
 
     verify(caseFeedbackPublisher, times(1)).send(any(CaseFeedback.class));
+  }
+
+  @Test
+  public void testInvalidFileReceipt() throws CTPException{
+    when(fileParser.parseIt(any(InputStream.class))).thenThrow(new CTPException(CTPException.Fault.SYSTEM_ERROR, EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT));
+
+    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleInvalidReceipts.csv");
+    boolean exceptionThrown = false;
+    try{
+      receiptService.acknowledgeFile(inputStream);
+    } catch (CTPException e){
+      exceptionThrown = true;
+      assertEquals(CTPException.Fault.SYSTEM_ERROR, e.getFault());
+      assertEquals(EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT, e.getMessage());
+    }
+    assertTrue(exceptionThrown);
+
+    verify(caseFeedbackPublisher, times(0)).send(any(CaseFeedback.class));
   }
 }
