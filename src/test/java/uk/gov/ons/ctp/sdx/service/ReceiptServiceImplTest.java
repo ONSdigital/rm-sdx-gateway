@@ -23,7 +23,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT;
+import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.EXCEPTION_NO_RECORDS;
 import static uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl.EXCEPTION_INVALID_RECEIPT;
 
 /**
@@ -91,7 +91,7 @@ public class ReceiptServiceImplTest {
 
   @Test
   public void testInvalidFileReceipt() throws CTPException{
-    when(fileParser.parseIt(any(InputStream.class))).thenThrow(new CTPException(CTPException.Fault.SYSTEM_ERROR, EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT));
+    when(fileParser.parseIt(any(InputStream.class))).thenThrow(new CTPException(CTPException.Fault.VALIDATION_FAILED, EXCEPTION_NO_RECORDS));
 
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/totalRandom.txt");
     boolean exceptionThrown = false;
@@ -99,8 +99,8 @@ public class ReceiptServiceImplTest {
       receiptService.acknowledgeFile(inputStream);
     } catch (CTPException e){
       exceptionThrown = true;
-      assertEquals(CTPException.Fault.SYSTEM_ERROR, e.getFault());
-      assertEquals(EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT, e.getMessage());
+      assertEquals(CTPException.Fault.VALIDATION_FAILED, e.getFault());
+      assertEquals(EXCEPTION_NO_RECORDS, e.getMessage());
     }
     assertTrue(exceptionThrown);
 

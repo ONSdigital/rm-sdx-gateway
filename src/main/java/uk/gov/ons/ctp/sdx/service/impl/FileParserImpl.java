@@ -33,9 +33,7 @@ public class FileParserImpl implements FileParser {
   private static final String CASE_REF = "caseRef";
   private static final String RESPONSE_DATE_TIME = "responseDateTime";
 
-  public static final String EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT =
-          "An unexpected error occured while acknowledging your receipts file. ";
-  public static final String EXCEPTION_NO_RECORDS = "No receipt found for acknowledgment";
+  public static final String EXCEPTION_NO_RECORDS = "No record found.";
   private static final String EXCEPTION_PARSING_RECORD =
           "An unexpected error occured while parsing a paper receipt record.";
 
@@ -54,8 +52,7 @@ public class FileParserImpl implements FileParser {
               CSVFormat.EXCEL.withHeader(CASE_REF, RESPONSE_DATE_TIME).withSkipHeaderRecord(true));
       List<CSVRecord> csvRecords = parser.getRecords();
       if (csvRecords == null || csvRecords.isEmpty()) {
-        throw new CTPException(CTPException.Fault.VALIDATION_FAILED,
-                String.format("%s%s", EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT, EXCEPTION_NO_RECORDS));
+        throw new CTPException(CTPException.Fault.VALIDATION_FAILED, EXCEPTION_NO_RECORDS);
       }
       for (CSVRecord csvRecord: csvRecords) {
         log.debug("dealing with csvRecord {}", csvRecord);
@@ -67,12 +64,15 @@ public class FileParserImpl implements FileParser {
       String error = String.format(
               "IOException thrown while parsing file contents with msg = %s", e.getMessage());
       log.error(error);
-      throw new CTPException(CTPException.Fault.SYSTEM_ERROR,
-              String.format("%s%s", EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT, error));
+      // TODO
+//      throw new CTPException(CTPException.Fault.SYSTEM_ERROR,
+//              String.format("%s%s", EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT, error));
     } catch (ParseException e) {
       log.error(String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage()));
+      // TODO
     } catch (DatatypeConfigurationException e) {
       log.error(String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage()));
+      // TODO
     }
 
     return result;

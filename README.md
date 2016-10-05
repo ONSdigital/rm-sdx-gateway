@@ -90,7 +90,7 @@ curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F
 ## To post an invalid daily .csv file
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@totalRandom.txt
-400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161005110825620","message":"An unexpected error occured while acknowledging your receipts file. No receipt found for acknowledgment"}}
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161005112119919","message":"No record found."}}
 
 
 ## Copyright

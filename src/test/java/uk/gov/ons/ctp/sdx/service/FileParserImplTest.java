@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static uk.gov.ons.ctp.common.error.CTPException.Fault.VALIDATION_FAILED;
-import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT;
 import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.EXCEPTION_NO_RECORDS;
 import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.stringToXMLGregorianCalendar;
 
@@ -70,7 +69,7 @@ public class FileParserImplTest {
     } catch (CTPException e) {
       exceptionThrown = true;
       assertEquals(VALIDATION_FAILED, e.getFault());
-      assertEquals(String.format("%s%s", EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT, EXCEPTION_NO_RECORDS), e.getMessage());
+      assertEquals(EXCEPTION_NO_RECORDS, e.getMessage());
     }
     assertTrue(exceptionThrown);
   }
