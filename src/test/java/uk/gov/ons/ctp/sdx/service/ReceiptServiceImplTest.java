@@ -13,6 +13,8 @@ import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.message.CaseFeedbackPublisher;
 import uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl;
 
+import java.io.InputStream;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -60,6 +62,13 @@ public class ReceiptServiceImplTest {
     assertTrue(exceptionThrown);
 
     verify(caseFeedbackPublisher, times(0)).send(any(CaseFeedback.class));
+  }
+
+  @Test
+  public void testValidFile() throws CTPException {
+    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleAllThreeValidReceipts.csv");
+    receiptService.acknowledgeFile(inputStream);
+    verify(caseFeedbackPublisher, times(3)).send(any(CaseFeedback.class));
   }
 
 }
