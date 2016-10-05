@@ -41,6 +41,7 @@ public class ReceiptServiceImplTest {
   ReceiptServiceImpl receiptService;
 
   public static final String CASE_REF = "abc";
+  private static final String CASE_REF_1 = "def";
 
   @Test
   public void testValidReceipt() throws CTPException {
@@ -75,13 +76,17 @@ public class ReceiptServiceImplTest {
   public void testValidFileReceipt() throws CTPException{
     List<CaseFeedback> caseFeedbacks = new ArrayList<>();
     CaseFeedback caseFeedback = new CaseFeedback();
+    caseFeedback.setCaseRef(CASE_REF);
+    caseFeedbacks.add(caseFeedback);
+    caseFeedback = new CaseFeedback();
+    caseFeedback.setCaseRef(CASE_REF_1);
     caseFeedbacks.add(caseFeedback);
     when(fileParser.parseIt(any(InputStream.class))).thenReturn(caseFeedbacks);
 
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleAllThreeValidReceipts.csv");
     receiptService.acknowledgeFile(inputStream);
 
-    verify(caseFeedbackPublisher, times(1)).send(any(CaseFeedback.class));
+    verify(caseFeedbackPublisher, times(2)).send(any(CaseFeedback.class));
   }
 
   @Test
