@@ -29,10 +29,13 @@ import java.util.List;
 @Slf4j
 @Named
 public class FileParserImpl implements FileParser {
+  // TODO Make these props
   private static final String CASE_REF = "caseRef";
   private static final String RESPONSE_DATE_TIME = "responseDateTime";
+
   public static final String EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT =
           "An unexpected error occured while acknowledging your receipts file. ";
+  public static final String EXCEPTION_NO_RECORDS = "No receipt found for acknowledgment";
   private static final String EXCEPTION_PARSING_RECORD =
           "An unexpected error occured while parsing a paper receipt record.";
 
@@ -50,6 +53,10 @@ public class FileParserImpl implements FileParser {
       CSVParser parser = new CSVParser(reader,
               CSVFormat.EXCEL.withHeader(CASE_REF, RESPONSE_DATE_TIME).withSkipHeaderRecord(true));
       List<CSVRecord> csvRecords = parser.getRecords();
+      if (csvRecords == null || csvRecords.isEmpty()) {
+        throw new CTPException(CTPException.Fault.VALIDATION_FAILED,
+                String.format("%s%s", EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT, EXCEPTION_NO_RECORDS));
+      }
       for (CSVRecord csvRecord: csvRecords) {
         log.debug("dealing with csvRecord {}", csvRecord);
         if (validate(csvRecord)) {
