@@ -12,14 +12,18 @@ import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.message.CaseFeedbackPublisher;
 import uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl;
+import uk.gov.ons.ctp.sdx.utility.FileParser;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl.EXCEPTION_INVALID_RECEIPT;
 
 /**
@@ -29,6 +33,9 @@ import static uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl.EXCEPTION_INVAL
 public class ReceiptServiceImplTest {
   @Mock
   CaseFeedbackPublisher caseFeedbackPublisher;
+
+  @Mock
+  FileParser fileParser;
 
   @InjectMocks
   ReceiptServiceImpl receiptService;
@@ -65,10 +72,15 @@ public class ReceiptServiceImplTest {
   }
 
   @Test
-  public void testValidFile() throws CTPException {
+  public void testValidFileReceipt() throws CTPException{
+    List<CaseFeedback> caseFeedbacks = new ArrayList<>();
+    CaseFeedback caseFeedback = new CaseFeedback();
+    caseFeedbacks.add(caseFeedback);
+    when(fileParser.parseIt(any(InputStream.class))).thenReturn(caseFeedbacks);
+
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleAllThreeValidReceipts.csv");
     receiptService.acknowledgeFile(inputStream);
-    verify(caseFeedbackPublisher, times(3)).send(any(CaseFeedback.class));
-  }
 
+    verify(caseFeedbackPublisher, times(1)).send(any(CaseFeedback.class));
+  }
 }

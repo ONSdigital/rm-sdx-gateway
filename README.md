@@ -78,13 +78,13 @@ curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/js
 
 ## To post a valid receipt
 curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"abc\"}"
-201 {"caseRef":"abc"} and header Location: http://localhost:8191/questionnairereceipts/abc
+201 {"caseRef":"abc"} and header Location: http://localhost:8191/questionnairereceipts/abc and verify +1 on queue Case.Responses at http://localhost:8161/admin/queues.jsp
 
 
 ## To post a valid daily .csv file
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
-curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sample.csv
-201
+curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleAllThreeValidReceipts.csv
+201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp
 
 
 ## Copyright
