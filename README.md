@@ -87,5 +87,11 @@ curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F
 201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp
 
 
+## To post an invalid daily .csv file
+cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
+curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleInvalidReceipts.csv
+TODO Should not give back a 201
+
+
 ## Copyright
 Copyright (C) 2016 Crown Copyright (Office for National Statistics)

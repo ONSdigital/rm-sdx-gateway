@@ -33,7 +33,7 @@ public class ReceiptEndpoint {
   private MapperFacade mapperFacade;
 
   @Context
-  UriInfo uriInfo;
+  private UriInfo uriInfo;
 
   /**
    * This receives a receipt and forwards it to the ReceiptService for acknowledgment.

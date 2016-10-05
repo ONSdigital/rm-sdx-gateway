@@ -23,6 +23,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+/**
+ *  The service implementation to parse csf files
+ */
 @Slf4j
 @Named
 public class FileParserImpl implements FileParser {
@@ -33,6 +36,12 @@ public class FileParserImpl implements FileParser {
   private static final String EXCEPTION_PARSING_RECORD =
           "An unexpected error occured while parsing a paper receipt record.";
 
+  /**
+   * This method will parse the received InputStream and build a list of CaseFeedbacks.
+   * @param fileContents to parse for CaseFeedbacks
+   * @return a list of CaseFeedbacks
+   * @throws CTPException if invalid file provided
+   */
   public List<CaseFeedback> parseIt(InputStream fileContents) throws CTPException {
     log.debug("parseIt {}", fileContents);
     List<CaseFeedback> result = new ArrayList<>();
@@ -62,6 +71,11 @@ public class FileParserImpl implements FileParser {
     return result;
   }
 
+  /**
+   * To validate a CSVRecord
+   * @param csvRecord to be validated
+   * @return true if csvRecord is valid
+   */
   private static boolean validate(CSVRecord csvRecord) {
     boolean result = false;
     if (csvRecord.isConsistent() && csvRecord.isSet(CASE_REF) && csvRecord.isSet(RESPONSE_DATE_TIME)) {
@@ -70,7 +84,13 @@ public class FileParserImpl implements FileParser {
     return result;
   }
 
-
+  /**
+   * To build a CaseFeedback from a CSVRecord
+   * @param csvRecord the CSVRecord
+   * @return the corresponding CaseFeedback
+   * @throws ParseException when the dateResponseTime can't be defined
+   * @throws DatatypeConfigurationException when the dateResponseTime can't be defined
+   */
   private static CaseFeedback buildCaseFeedback(CSVRecord csvRecord) throws ParseException,
           DatatypeConfigurationException {
     CaseFeedback caseFeedback = new CaseFeedback();
@@ -81,17 +101,23 @@ public class FileParserImpl implements FileParser {
     return caseFeedback;
   }
 
-  public static XMLGregorianCalendar stringToXMLGregorianCalendar(String s)
+  /**
+   * To transform a string into XMLGregorianCalendar
+   * @param string the string to transform
+   * @return the XMLGregorianCalendar
+   * @throws ParseException when a XMLGregorianCalendar cannot be built
+   * @throws DatatypeConfigurationException when a XMLGregorianCalendar cannot be built
+   */
+  public static XMLGregorianCalendar stringToXMLGregorianCalendar(String string)
           throws ParseException,
-          DatatypeConfigurationException
-  {
+          DatatypeConfigurationException {
     XMLGregorianCalendar result = null;
     Date date;
     SimpleDateFormat simpleDateFormat;
     GregorianCalendar gregorianCalendar;
 
     simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    date = simpleDateFormat.parse(s);
+    date = simpleDateFormat.parse(string);
     gregorianCalendar =
             (GregorianCalendar)GregorianCalendar.getInstance();
     gregorianCalendar.setTime(date);

@@ -34,7 +34,7 @@ public class PaperReceiptEndpoint {
   private MapperFacade mapperFacade;
 
   @Context
-  UriInfo uriInfo;
+  private UriInfo uriInfo;
 
   /**
    * This receives a file containing paper responses.
