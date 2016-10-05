@@ -64,15 +64,15 @@ public class FileParserImpl implements FileParser {
       String error = String.format(
               "IOException thrown while parsing file contents with msg = %s", e.getMessage());
       log.error(error);
-      // TODO
-//      throw new CTPException(CTPException.Fault.SYSTEM_ERROR,
-//              String.format("%s%s", EXCEPTION_ACKNOWLEGDING_FILE_RECEIPT, error));
+      throw new CTPException(CTPException.Fault.SYSTEM_ERROR, error);
     } catch (ParseException e) {
-      log.error(String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage()));
-      // TODO
+      String error = String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage());
+      log.error(error);
+      throw new CTPException(CTPException.Fault.SYSTEM_ERROR, error);
     } catch (DatatypeConfigurationException e) {
-      log.error(String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage()));
-      // TODO
+      String error = String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage());
+      log.error(error);
+      throw new CTPException(CTPException.Fault.SYSTEM_ERROR, error);
     }
 
     return result;
