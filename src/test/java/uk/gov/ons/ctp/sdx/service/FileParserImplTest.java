@@ -1,4 +1,4 @@
-package uk.gov.ons.ctp.sdx.utility;
+package uk.gov.ons.ctp.sdx.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +7,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseFeedback;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
+import uk.gov.ons.ctp.sdx.service.impl.FileParserImpl;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -17,16 +18,16 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static uk.gov.ons.ctp.sdx.utility.FileParser.stringToXMLGregorianCalendar;
+import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.stringToXMLGregorianCalendar;
 
 /**
  * To unit test FileParser
  */
 @RunWith(MockitoJUnitRunner.class)
-public class FileParserTest {
+public class FileParserImplTest {
 
   @InjectMocks
-  private FileParser fileParser;
+  private FileParserImpl fileParser;
 
   @Test
   public void testValidFile() throws CTPException, DatatypeConfigurationException, ParseException {

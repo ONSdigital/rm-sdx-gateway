@@ -1,4 +1,4 @@
-package uk.gov.ons.ctp.sdx.utility;
+package uk.gov.ons.ctp.sdx.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
@@ -7,6 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseFeedback;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
+import uk.gov.ons.ctp.sdx.service.FileParser;
 
 import javax.inject.Named;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -24,8 +25,7 @@ import java.util.List;
 
 @Slf4j
 @Named
-public class FileParser {
-
+public class FileParserImpl implements FileParser {
   private static final String CASE_REF = "caseRef";
   private static final String RESPONSE_DATE_TIME = "responseDateTime";
   private static final String EXCEPTION_ACKNOWLEGDING_RECEIPT =
@@ -33,11 +33,6 @@ public class FileParser {
   private static final String EXCEPTION_PARSING_RECORD =
           "An unexpected error occured while parsing a paper receipt record.";
 
-  /**
-   * This method will parse the received InputStream and build a list of CaseFeedbacks
-   * @param fileContents to parse for CaseFeedbacks
-   * @return a list of CaseFeedbacks
-   */
   public List<CaseFeedback> parseIt(InputStream fileContents) throws CTPException {
     log.debug("parseIt {}", fileContents);
     List<CaseFeedback> result = new ArrayList<>();

@@ -12,7 +12,6 @@ import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.message.CaseFeedbackPublisher;
 import uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl;
-import uk.gov.ons.ctp.sdx.utility.FileParser;
 
 import java.io.InputStream;
 import java.util.ArrayList;

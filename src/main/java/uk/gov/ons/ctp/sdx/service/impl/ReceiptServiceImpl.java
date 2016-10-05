@@ -7,7 +7,7 @@ import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.message.CaseFeedbackPublisher;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
-import uk.gov.ons.ctp.sdx.utility.FileParser;
+import uk.gov.ons.ctp.sdx.service.FileParser;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -50,7 +50,7 @@ public class ReceiptServiceImpl implements ReceiptService {
   public void acknowledgeFile(InputStream fileContents) throws CTPException {
     log.debug("acknowledgeFile {}", fileContents);
     List<CaseFeedback> caseFeedbacks = fileParser.parseIt(fileContents);
-    caseFeedbacks.forEach(caseFeedback ->  caseFeedbackPublisher.send(caseFeedback));
+    caseFeedbacks.forEach(caseFeedback -> caseFeedbackPublisher.send(caseFeedback));
   }
 
   /**

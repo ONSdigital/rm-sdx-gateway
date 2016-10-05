@@ -49,7 +49,7 @@ public class PaperReceiptEndpoint {
     log.debug("Entering acknowledgeFile");
     receiptService.acknowledgeFile(fileContents);
 
-    URI receiptUri = null;
+    URI receiptUri = null;  // TODO see ReceiptEndpoint
     return Response.created(receiptUri).build();
   }
 }
