@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.beans.factory.annotation.Value;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseFeedback;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
@@ -29,13 +30,15 @@ import java.util.List;
 @Slf4j
 @Named
 public class FileParserImpl implements FileParser {
-  // TODO Make these props
-  private static final String CASE_REF = "caseRef";
-  private static final String RESPONSE_DATE_TIME = "responseDateTime";
 
   public static final String EXCEPTION_NO_RECORDS = "No record found.";
   private static final String EXCEPTION_PARSING_RECORD =
           "An unexpected error occured while parsing a paper receipt record.";
+
+  @Value("${CASE_REF_COL_NAME}")
+  private String caseRefColName = "caseRef";
+  @Value("${RESPONSE_DATE_TIME_COL_NAME}")
+  private String responseDateTimeColName = "responseDateTime";
 
   /**
    * This method will parse the received InputStream and build a list of CaseFeedbacks.
@@ -49,7 +52,7 @@ public class FileParserImpl implements FileParser {
     InputStreamReader reader = new InputStreamReader(fileContents);
     try {
       CSVParser parser = new CSVParser(reader,
-              CSVFormat.EXCEL.withHeader(CASE_REF, RESPONSE_DATE_TIME).withSkipHeaderRecord(true));
+              CSVFormat.EXCEL.withHeader(caseRefColName, responseDateTimeColName).withSkipHeaderRecord(true));
       List<CSVRecord> csvRecords = parser.getRecords();
       if (csvRecords == null || csvRecords.isEmpty()) {
         throw new CTPException(CTPException.Fault.VALIDATION_FAILED, EXCEPTION_NO_RECORDS);
@@ -79,9 +82,9 @@ public class FileParserImpl implements FileParser {
    * @param csvRecord to be validated
    * @return true if csvRecord is valid
    */
-  private static boolean validate(CSVRecord csvRecord) {
+  private boolean validate(CSVRecord csvRecord) {
     boolean result = false;
-    if (csvRecord.isConsistent() && csvRecord.isSet(CASE_REF) && csvRecord.isSet(RESPONSE_DATE_TIME)) {
+    if (csvRecord.isConsistent() && csvRecord.isSet(caseRefColName) && csvRecord.isSet(responseDateTimeColName)) {
       result = true;
     }
     return result;
@@ -94,12 +97,12 @@ public class FileParserImpl implements FileParser {
    * @throws ParseException when the dateResponseTime can't be defined
    * @throws DatatypeConfigurationException when the dateResponseTime can't be defined
    */
-  private static CaseFeedback buildCaseFeedback(CSVRecord csvRecord) throws ParseException,
+  private CaseFeedback buildCaseFeedback(CSVRecord csvRecord) throws ParseException,
           DatatypeConfigurationException {
     CaseFeedback caseFeedback = new CaseFeedback();
-    caseFeedback.setCaseRef(csvRecord.get(CASE_REF));
+    caseFeedback.setCaseRef(csvRecord.get(caseRefColName));
     caseFeedback.setInboundChannel(InboundChannel.PAPER);
-    String dateTimeStr = csvRecord.get(RESPONSE_DATE_TIME);
+    String dateTimeStr = csvRecord.get(responseDateTimeColName);
     caseFeedback.setResponseDateTime(stringToXMLGregorianCalendar(dateTimeStr));
     return caseFeedback;
   }

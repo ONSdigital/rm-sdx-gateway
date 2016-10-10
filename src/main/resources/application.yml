@@ -34,3 +34,6 @@ server:
 endpoints:
   enabled: true
   sensitive: true
+
+CASE_REF_COL_NAME: caseRef
+RESPONSE_DATE_TIME_COL_NAME: responseDateTime
