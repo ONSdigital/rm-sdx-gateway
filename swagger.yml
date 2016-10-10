@@ -59,8 +59,9 @@ paths:
             description: Response type, application/json
             required: false
             type: string
-          - in: formData
-            name: file
+          - name: file
+            in: formData
+            type: file
             description: File containing paper questionnaire receipts to acknowledge
             required: true
         tags:
