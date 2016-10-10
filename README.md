@@ -96,14 +96,13 @@ curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F
 ## To post an invalid daily .csv file (all records are invalid)
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleInvalidReceipts.csv
-500 {"error":{"code":"SYSTEM_ERROR","timestamp":"20161005113542278","message":"An unexpected error occured while parsing a paper receipt record.Unparseable date: \"a\""}}
+201 and verify +0 on queue Case.Responses at http://localhost:8161/admin/queues.jsp
 
 
-## To post a partially vlid daily .csv file (some records are invalid)
+## To post a partially valid daily .csv file (two records are valid - one record is invalid)
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleTwoValidReceiptsOneInvalidReceiptMissingData.csv
-TODO 500 {"error":{"code":"SYSTEM_ERROR","timestamp":"20161005113647643","message":"An unexpected error occured while parsing a paper receipt record.Unparseable date: \"\""}}
-TODO we want to ignore invalid receipts and process the correct ones
+201 and verify +2 on queue Case.Responses at http://localhost:8161/admin/queues.jsp
 
 
 ## Copyright
