@@ -19,7 +19,6 @@ import java.net.URI;
  * The endpoint to receive paper responses from Newport
  */
 @Slf4j
-@Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
 @Path("/paperquestionnairereceipts")
 public class PaperReceiptEndpoint {
