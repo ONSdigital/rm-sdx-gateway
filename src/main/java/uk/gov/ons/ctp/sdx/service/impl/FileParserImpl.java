@@ -57,20 +57,16 @@ public class FileParserImpl implements FileParser {
       for (CSVRecord csvRecord: csvRecords) {
         log.debug("dealing with csvRecord {}", csvRecord);
         if (validate(csvRecord)) {
-          result.add(buildCaseFeedback(csvRecord));
+          try {
+            result.add(buildCaseFeedback(csvRecord));
+          } catch (Exception e) {
+            log.error(String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage()));
+          }
         }
       }
     } catch (IOException e) {
       String error = String.format(
               "IOException thrown while parsing file contents with msg = %s", e.getMessage());
-      log.error(error);
-      throw new CTPException(CTPException.Fault.SYSTEM_ERROR, error);
-    } catch (ParseException e) {
-      String error = String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage());
-      log.error(error);
-      throw new CTPException(CTPException.Fault.SYSTEM_ERROR, error);
-    } catch (DatatypeConfigurationException e) {
-      String error = String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage());
       log.error(error);
       throw new CTPException(CTPException.Fault.SYSTEM_ERROR, error);
     }

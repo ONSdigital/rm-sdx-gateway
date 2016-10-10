@@ -33,7 +33,7 @@ public class FileParserImplTest {
   private FileParserImpl fileParser;
 
   @Test
-  public void testValidFile() throws CTPException, DatatypeConfigurationException, ParseException {
+  public void testValidFile() throws CTPException, ParseException, DatatypeConfigurationException {
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleAllThreeValidReceipts.csv");
     List<CaseFeedback> result = fileParser.parseIt(inputStream);
 
@@ -72,6 +72,40 @@ public class FileParserImplTest {
       assertEquals(EXCEPTION_NO_RECORDS, e.getMessage());
     }
     assertTrue(exceptionThrown);
+  }
+
+  @Test
+  public void testAllInvalidReceiptsFile() throws CTPException {
+    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleInvalidReceipts.csv");
+    List<CaseFeedback> result = fileParser.parseIt(inputStream);
+    assertNotNull(result);
+    assertEquals(0, result.size());
+  }
+
+  @Test
+  public void testTwoValidReceiptsAndOneInvalidFile() throws CTPException, ParseException, DatatypeConfigurationException {
+    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleTwoValidReceiptsOneInvalidReceiptMissingData.csv");
+    List<CaseFeedback> result = fileParser.parseIt(inputStream);
+
+    assertNotNull(result);
+    assertEquals(2, result.size());
+    List<String> caseRefs = new ArrayList<>();
+    List<XMLGregorianCalendar> responseDateTimes = new ArrayList<>();
+    for (CaseFeedback caseFeedback: result) {
+      assertEquals(InboundChannel.PAPER, caseFeedback.getInboundChannel());
+      caseRefs.add(caseFeedback.getCaseRef());
+      responseDateTimes.add(caseFeedback.getResponseDateTime());
+    }
+
+    List<String> expectedCaseRefs = new ArrayList<>();
+    expectedCaseRefs.add("123");
+    expectedCaseRefs.add("125");
+    assertEquals(expectedCaseRefs, caseRefs);
+
+    List<XMLGregorianCalendar> exepectedResponseDateTimes = new ArrayList<>();
+    exepectedResponseDateTimes.add(stringToXMLGregorianCalendar("2016-08-04T21:37:01.537Z"));
+    exepectedResponseDateTimes.add(stringToXMLGregorianCalendar("2016-10-04T21:37:01.537Z"));
+    assertEquals(exepectedResponseDateTimes, responseDateTimes);
   }
 
 }
