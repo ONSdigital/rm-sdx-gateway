@@ -11,10 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.io.InputStream;
 import java.net.URI;
 
@@ -49,7 +46,8 @@ public class PaperReceiptEndpoint {
     log.debug("Entering acknowledgeFile");
     receiptService.acknowledgeFile(fileContents);
 
-    URI receiptUri = null;  // TODO see ReceiptEndpoint
+    UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+    URI receiptUri = ub.build();
     return Response.created(receiptUri).build();
   }
 }

@@ -84,25 +84,25 @@ curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/js
 ## To post a valid daily .csv file
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleAllThreeValidReceipts.csv
-201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp
+201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
 
 
 ## To post a daily NON .csv file
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@totalRandom.txt
-400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161005112119919","message":"No record found."}}
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161005112119919","message":"No record found."}} and header Location: http://localhost:8191/paperquestionnairereceipts
 
 
 ## To post an invalid daily .csv file (all records are invalid)
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleInvalidReceipts.csv
-201 and verify +0 on queue Case.Responses at http://localhost:8161/admin/queues.jsp
+201 and verify +0 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
 
 
 ## To post a partially valid daily .csv file (two records are valid - one record is invalid)
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleTwoValidReceiptsOneInvalidReceiptMissingData.csv
-201 and verify +2 on queue Case.Responses at http://localhost:8161/admin/queues.jsp
+201 and verify +2 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
 
 
 ## Copyright
