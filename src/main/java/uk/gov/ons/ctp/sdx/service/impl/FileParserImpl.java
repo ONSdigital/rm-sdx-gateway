@@ -36,9 +36,11 @@ public class FileParserImpl implements FileParser {
           "An unexpected error occured while parsing a paper receipt record.";
 
   @Value("${CASE_REF_COL_NAME}")
-  private String caseRefColName = "caseRef";
+  private String caseRefColName;
   @Value("${RESPONSE_DATE_TIME_COL_NAME}")
-  private String responseDateTimeColName = "responseDateTime";
+  private String responseDateTimeColName;
+  @Value("${RESPONSE_DATE_TIME_COL_FORMAT}")
+  private String responseDateTimeColFormat;
 
   /**
    * This method will parse the received InputStream and build a list of CaseFeedbacks.
@@ -114,7 +116,7 @@ public class FileParserImpl implements FileParser {
    * @throws ParseException when a XMLGregorianCalendar cannot be built
    * @throws DatatypeConfigurationException when a XMLGregorianCalendar cannot be built
    */
-  public static XMLGregorianCalendar stringToXMLGregorianCalendar(String string)
+  public XMLGregorianCalendar stringToXMLGregorianCalendar(String string)
           throws ParseException,
           DatatypeConfigurationException {
     XMLGregorianCalendar result = null;
@@ -122,7 +124,7 @@ public class FileParserImpl implements FileParser {
     SimpleDateFormat simpleDateFormat;
     GregorianCalendar gregorianCalendar;
 
-    simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    simpleDateFormat = new SimpleDateFormat(responseDateTimeColFormat);
     date = simpleDateFormat.parse(string);
     gregorianCalendar =
             (GregorianCalendar)GregorianCalendar.getInstance();

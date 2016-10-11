@@ -2,8 +2,9 @@ package uk.gov.ons.ctp.sdx.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseFeedback;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
@@ -21,15 +22,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static uk.gov.ons.ctp.common.error.CTPException.Fault.VALIDATION_FAILED;
 import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.EXCEPTION_NO_RECORDS;
-import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.stringToXMLGregorianCalendar;
 
 /**
  * To unit test FileParser
  */
-@RunWith(MockitoJUnitRunner.class)
+@SpringBootTest(classes = FileParserImplTestConfig.class)
+@RunWith(SpringRunner.class)
 public class FileParserImplTest {
 
-  @InjectMocks
+  @Autowired
   private FileParserImpl fileParser;
 
   @Test
@@ -54,9 +55,9 @@ public class FileParserImplTest {
     assertEquals(expectedCaseRefs, caseRefs);
 
     List<XMLGregorianCalendar> exepectedResponseDateTimes = new ArrayList<>();
-    exepectedResponseDateTimes.add(stringToXMLGregorianCalendar("2016-08-04T21:37:01.537Z"));
-    exepectedResponseDateTimes.add(stringToXMLGregorianCalendar("2016-09-04T21:37:01.537Z"));
-    exepectedResponseDateTimes.add(stringToXMLGregorianCalendar("2016-10-04T21:37:01.537Z"));
+    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar("2016-08-04T21:37:01.537Z"));
+    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar("2016-09-04T21:37:01.537Z"));
+    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar("2016-10-04T21:37:01.537Z"));
     assertEquals(exepectedResponseDateTimes, responseDateTimes);
   }
 
@@ -103,8 +104,8 @@ public class FileParserImplTest {
     assertEquals(expectedCaseRefs, caseRefs);
 
     List<XMLGregorianCalendar> exepectedResponseDateTimes = new ArrayList<>();
-    exepectedResponseDateTimes.add(stringToXMLGregorianCalendar("2016-08-04T21:37:01.537Z"));
-    exepectedResponseDateTimes.add(stringToXMLGregorianCalendar("2016-10-04T21:37:01.537Z"));
+    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar("2016-08-04T21:37:01.537Z"));
+    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar("2016-10-04T21:37:01.537Z"));
     assertEquals(exepectedResponseDateTimes, responseDateTimes);
   }
 

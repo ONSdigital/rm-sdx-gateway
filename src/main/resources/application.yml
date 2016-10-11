@@ -37,3 +37,4 @@ endpoints:
 
 CASE_REF_COL_NAME: caseRef
 RESPONSE_DATE_TIME_COL_NAME: responseDateTime
+RESPONSE_DATE_TIME_COL_FORMAT: yyyy-MM-dd'T'HH:mm:ss
