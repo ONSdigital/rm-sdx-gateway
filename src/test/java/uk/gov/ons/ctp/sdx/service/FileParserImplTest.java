@@ -9,8 +9,10 @@ import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseFeedback;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.service.impl.FileParserImpl;
+import uk.gov.ons.ctp.sdx.utility.DateUtils;
 
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -30,11 +32,21 @@ import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.EXCEPTION_NO_RECORD
 @RunWith(SpringRunner.class)
 public class FileParserImplTest {
 
+  private static final long THREE_SECONDS = 3000L;
+
+  private static final String CASE_REF_1 = "123";
+  private static final String CASE_REF_2 = "124";
+  private static final String CASE_REF_3 = "125";
+
+  private static final String CASE_RESPONSE_TIME_1 = "2016-08-04T21:37:01.537Z";
+  private static final String CASE_RESPONSE_TIME_2 = "2016-09-04T21:37:01.537Z";
+  private static final String CASE_RESPONSE_TIME_3 = "2016-10-04T21:37:01.537Z";
+
   @Autowired
   private FileParserImpl fileParser;
 
   @Test
-  public void testValidFile() throws CTPException, ParseException, DatatypeConfigurationException {
+  public void testValidFile() throws CTPException, DatatypeConfigurationException {
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleAllThreeValidReceipts.csv");
     List<CaseFeedback> result = fileParser.parseIt(inputStream);
 
@@ -49,15 +61,15 @@ public class FileParserImplTest {
     }
 
     List<String> expectedCaseRefs = new ArrayList<>();
-    expectedCaseRefs.add("123");
-    expectedCaseRefs.add("124");
-    expectedCaseRefs.add("125");
+    expectedCaseRefs.add(CASE_REF_1);
+    expectedCaseRefs.add(CASE_REF_2);
+    expectedCaseRefs.add(CASE_REF_3);
     assertEquals(expectedCaseRefs, caseRefs);
 
     List<XMLGregorianCalendar> exepectedResponseDateTimes = new ArrayList<>();
-    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar("2016-08-04T21:37:01.537Z"));
-    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar("2016-09-04T21:37:01.537Z"));
-    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar("2016-10-04T21:37:01.537Z"));
+    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_1));
+    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_2));
+    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_3));
     assertEquals(exepectedResponseDateTimes, responseDateTimes);
   }
 
@@ -76,20 +88,14 @@ public class FileParserImplTest {
   }
 
   @Test
-  public void testAllInvalidReceiptsFile() throws CTPException {
-    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleInvalidReceipts.csv");
-    List<CaseFeedback> result = fileParser.parseIt(inputStream);
-    assertNotNull(result);
-    assertEquals(0, result.size());
-  }
+  public void testReceiptsWithInvalidDatesFile() throws CTPException, DatatypeConfigurationException {
+    XMLGregorianCalendar now = DateUtils.giveMeCalendarForNow();
 
-  @Test
-  public void testTwoValidReceiptsAndOneInvalidFile() throws CTPException, ParseException, DatatypeConfigurationException {
-    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleTwoValidReceiptsOneInvalidReceiptMissingData.csv");
+    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleReceiptsWithInvalidResponseTimes.csv");
     List<CaseFeedback> result = fileParser.parseIt(inputStream);
 
     assertNotNull(result);
-    assertEquals(2, result.size());
+    assertEquals(3, result.size());
     List<String> caseRefs = new ArrayList<>();
     List<XMLGregorianCalendar> responseDateTimes = new ArrayList<>();
     for (CaseFeedback caseFeedback: result) {
@@ -99,14 +105,51 @@ public class FileParserImplTest {
     }
 
     List<String> expectedCaseRefs = new ArrayList<>();
-    expectedCaseRefs.add("123");
-    expectedCaseRefs.add("125");
+    expectedCaseRefs.add(CASE_REF_1);
+    expectedCaseRefs.add(CASE_REF_2);
+    expectedCaseRefs.add(CASE_REF_3);
     assertEquals(expectedCaseRefs, caseRefs);
 
-    List<XMLGregorianCalendar> exepectedResponseDateTimes = new ArrayList<>();
-    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar("2016-08-04T21:37:01.537Z"));
-    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar("2016-10-04T21:37:01.537Z"));
-    assertEquals(exepectedResponseDateTimes, responseDateTimes);
+    for (XMLGregorianCalendar aCalendar: responseDateTimes) {
+      assertTrue(aCalendar.toGregorianCalendar().getTimeInMillis() - now.toGregorianCalendar().getTimeInMillis() < THREE_SECONDS);
+    }
+  }
+
+  @Test
+  public void testTwoValidReceiptsAndOneInvalidFile() throws CTPException, DatatypeConfigurationException {
+    XMLGregorianCalendar now = DateUtils.giveMeCalendarForNow();
+
+    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleTwoValidReceiptsOneInvalidReceiptMissingResponseTime.csv");
+    List<CaseFeedback> result = fileParser.parseIt(inputStream);
+
+    assertNotNull(result);
+    assertEquals(3, result.size());
+    List<String> caseRefs = new ArrayList<>();
+    List<XMLGregorianCalendar> responseDateTimes = new ArrayList<>();
+    for (CaseFeedback caseFeedback: result) {
+      assertEquals(InboundChannel.PAPER, caseFeedback.getInboundChannel());
+      caseRefs.add(caseFeedback.getCaseRef());
+      responseDateTimes.add(caseFeedback.getResponseDateTime());
+    }
+
+    List<String> expectedCaseRefs = new ArrayList<>();
+    expectedCaseRefs.add(CASE_REF_1);
+    expectedCaseRefs.add(CASE_REF_2);
+    expectedCaseRefs.add(CASE_REF_3);
+    assertEquals(expectedCaseRefs, caseRefs);
+
+    boolean foundResponseTime1 = false; boolean foundResponseTime3 = false;
+    for (XMLGregorianCalendar aCalendar: responseDateTimes) {
+      if (aCalendar.compare(fileParser.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_1)) == DatatypeConstants.EQUAL) {
+        foundResponseTime1 = true;
+      } else if (aCalendar.compare(fileParser.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_3)) == DatatypeConstants.EQUAL) {
+        foundResponseTime3 = true;
+      } else {
+        assertTrue(aCalendar.toGregorianCalendar().getTimeInMillis() - now.toGregorianCalendar().getTimeInMillis() < THREE_SECONDS);
+      }
+    }
+    assertTrue(foundResponseTime1);
+    assertTrue(foundResponseTime3);
   }
 
 }

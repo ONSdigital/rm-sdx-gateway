@@ -9,6 +9,7 @@ import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseFeedback;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.service.FileParser;
+import uk.gov.ons.ctp.sdx.utility.DateUtils;
 
 import javax.inject.Named;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -17,7 +18,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -96,11 +96,9 @@ public class FileParserImpl implements FileParser {
    * To build a CaseFeedback from a CSVRecord
    * @param csvRecord the CSVRecord
    * @return the corresponding CaseFeedback
-   * @throws ParseException when the dateResponseTime can't be defined
-   * @throws DatatypeConfigurationException when the dateResponseTime can't be defined
+   * @throws DatatypeConfigurationException when a CaseFeedback cannot be built
    */
-  private CaseFeedback buildCaseFeedback(CSVRecord csvRecord) throws ParseException,
-          DatatypeConfigurationException {
+  private CaseFeedback buildCaseFeedback(CSVRecord csvRecord) throws DatatypeConfigurationException {
     CaseFeedback caseFeedback = new CaseFeedback();
     caseFeedback.setCaseRef(csvRecord.get(caseRefColName));
     caseFeedback.setInboundChannel(InboundChannel.PAPER);
@@ -113,23 +111,26 @@ public class FileParserImpl implements FileParser {
    * To transform a string into XMLGregorianCalendar
    * @param string the string to transform
    * @return the XMLGregorianCalendar
-   * @throws ParseException when a XMLGregorianCalendar cannot be built
-   * @throws DatatypeConfigurationException when a XMLGregorianCalendar cannot be built
+   * @throws DatatypeConfigurationException when a XMLGregorianCalendar for now cannot be built
    */
-  public XMLGregorianCalendar stringToXMLGregorianCalendar(String string)
-          throws ParseException,
-          DatatypeConfigurationException {
+  public XMLGregorianCalendar stringToXMLGregorianCalendar(String string) throws DatatypeConfigurationException {
     XMLGregorianCalendar result = null;
     Date date;
     SimpleDateFormat simpleDateFormat;
     GregorianCalendar gregorianCalendar;
 
     simpleDateFormat = new SimpleDateFormat(responseDateTimeColFormat);
-    date = simpleDateFormat.parse(string);
-    gregorianCalendar =
-            (GregorianCalendar)GregorianCalendar.getInstance();
-    gregorianCalendar.setTime(date);
-    result = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
+    try {
+      date = simpleDateFormat.parse(string);
+      gregorianCalendar =
+              (GregorianCalendar)GregorianCalendar.getInstance();
+      gregorianCalendar.setTime(date);
+      result = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
+    } catch (Exception e) {
+      log.error(String.format("%s - %s - %s", EXCEPTION_PARSING_RECORD, e.getCause(), e.getMessage()));
+      result = DateUtils.giveMeCalendarForNow();
+    }
+
     return result;
   }
 }
