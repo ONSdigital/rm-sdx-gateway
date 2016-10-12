@@ -1,6 +1,10 @@
 package uk.gov.ons.ctp.sdx.utility;
 
-import javax.jms.*;
+import javax.jms.Connection;
+import javax.jms.JMSException;
+import javax.jms.Queue;
+import javax.jms.QueueBrowser;
+import javax.jms.Session;
 import java.util.Enumeration;
 
 /**
