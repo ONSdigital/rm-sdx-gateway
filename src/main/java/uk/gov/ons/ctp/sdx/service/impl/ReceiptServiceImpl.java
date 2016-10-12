@@ -2,10 +2,10 @@ package uk.gov.ons.ctp.sdx.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.ctp.common.error.CTPException;
-import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseFeedback;
+import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
-import uk.gov.ons.ctp.sdx.message.CaseFeedbackPublisher;
+import uk.gov.ons.ctp.sdx.message.CaseReceiptPublisher;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 import uk.gov.ons.ctp.sdx.service.FileParser;
 
@@ -29,7 +29,7 @@ public class ReceiptServiceImpl implements ReceiptService {
   public static final String EXCEPTION_INVALID_RECEIPT = "Invalid receipt. It can't be acknowledged.";
 
   @Inject
-  private CaseFeedbackPublisher caseFeedbackPublisher;
+  private CaseReceiptPublisher caseReceiptPublisher;
 
   @Inject
   private FileParser fileParser;
@@ -39,11 +39,11 @@ public class ReceiptServiceImpl implements ReceiptService {
     log.debug("acknowledging receipt {}", receipt);
     validate(receipt);
 
-    CaseFeedback caseFeedback = new CaseFeedback();
-    caseFeedback.setCaseRef(receipt.getCaseRef());
-    caseFeedback.setInboundChannel(receipt.getInboundChannel());
+    CaseReceipt caseReceipt = new CaseReceipt();
+    caseReceipt.setCaseRef(receipt.getCaseRef());
+    caseReceipt.setInboundChannel(receipt.getInboundChannel());
     try {
-      caseFeedback.setResponseDateTime(giveMeCalendarForNow());
+      caseReceipt.setResponseDateTime(giveMeCalendarForNow());
     } catch (DatatypeConfigurationException e) {
       String error = String.format(
               "DatatypeConfigurationException thrown while building dateTime for now with msg = %s", e.getMessage());
@@ -52,14 +52,14 @@ public class ReceiptServiceImpl implements ReceiptService {
               String.format("%s%s", EXCEPTION_ACKNOWLEGDING_RECEIPT, error));
     }
 
-    caseFeedbackPublisher.send(caseFeedback);
+    caseReceiptPublisher.send(caseReceipt);
   }
 
   @Override
   public void acknowledgeFile(InputStream fileContents) throws CTPException {
     log.debug("acknowledgeFile {}", fileContents);
-    List<CaseFeedback> caseFeedbacks = fileParser.parseIt(fileContents);
-    caseFeedbacks.forEach(caseFeedback -> caseFeedbackPublisher.send(caseFeedback));
+    List<CaseReceipt> caseReceipts = fileParser.parseIt(fileContents);
+    caseReceipts.forEach(caseFeedback -> caseReceiptPublisher.send(caseFeedback));
   }
 
   /**

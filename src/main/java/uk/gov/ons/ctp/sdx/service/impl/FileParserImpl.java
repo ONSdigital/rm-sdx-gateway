@@ -6,7 +6,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.ons.ctp.common.error.CTPException;
-import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseFeedback;
+import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.service.FileParser;
 import uk.gov.ons.ctp.sdx.utility.DateUtils;
@@ -38,14 +38,14 @@ public class FileParserImpl implements FileParser {
   private String responseDateTimeColFormat;
 
   /**
-   * This method will parse the received InputStream and build a list of CaseFeedbacks.
-   * @param fileContents to parse for CaseFeedbacks
-   * @return a list of CaseFeedbacks
+   * This method will parse the received InputStream and build a list of CaseReceipts.
+   * @param fileContents to parse for CaseReceipts
+   * @return a list of CaseReceipts
    * @throws CTPException if invalid file provided
    */
-  public List<CaseFeedback> parseIt(InputStream fileContents) throws CTPException {
+  public List<CaseReceipt> parseIt(InputStream fileContents) throws CTPException {
     log.debug("parseIt {}", fileContents);
-    List<CaseFeedback> result = new ArrayList<>();
+    List<CaseReceipt> result = new ArrayList<>();
     InputStreamReader reader = new InputStreamReader(fileContents);
     try {
       CSVParser parser = new CSVParser(reader,
@@ -58,7 +58,7 @@ public class FileParserImpl implements FileParser {
         log.debug("dealing with csvRecord {}", csvRecord);
         if (validate(csvRecord)) {
           try {
-            result.add(buildCaseFeedback(csvRecord));
+            result.add(buildCaseReceipt(csvRecord));
           } catch (Exception e) {
             log.error(String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage()));
           }
@@ -88,17 +88,17 @@ public class FileParserImpl implements FileParser {
   }
 
   /**
-   * To build a CaseFeedback from a CSVRecord
+   * To build a CaseReceipt from a CSVRecord
    * @param csvRecord the CSVRecord
-   * @return the corresponding CaseFeedback
-   * @throws DatatypeConfigurationException when a CaseFeedback cannot be built
+   * @return the corresponding CaseReceipt
+   * @throws DatatypeConfigurationException when a CaseReceipt cannot be built
    */
-  private CaseFeedback buildCaseFeedback(CSVRecord csvRecord) throws DatatypeConfigurationException {
-    CaseFeedback caseFeedback = new CaseFeedback();
-    caseFeedback.setCaseRef(csvRecord.get(caseRefColName));
-    caseFeedback.setInboundChannel(InboundChannel.PAPER);
+  private CaseReceipt buildCaseReceipt(CSVRecord csvRecord) throws DatatypeConfigurationException {
+    CaseReceipt caseReceipt = new CaseReceipt();
+    caseReceipt.setCaseRef(csvRecord.get(caseRefColName));
+    caseReceipt.setInboundChannel(InboundChannel.PAPER);
     String dateTimeStr = csvRecord.get(responseDateTimeColName);
-    caseFeedback.setResponseDateTime(DateUtils.stringToXMLGregorianCalendar(dateTimeStr, responseDateTimeColFormat));
-    return caseFeedback;
+    caseReceipt.setResponseDateTime(DateUtils.stringToXMLGregorianCalendar(dateTimeStr, responseDateTimeColFormat));
+    return caseReceipt;
   }
 }

@@ -7,10 +7,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import uk.gov.ons.ctp.common.error.CTPException;
-import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseFeedback;
+import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
-import uk.gov.ons.ctp.sdx.message.CaseFeedbackPublisher;
+import uk.gov.ons.ctp.sdx.message.CaseReceiptPublisher;
 import uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl;
 
 import java.io.InputStream;
@@ -32,7 +32,7 @@ import static uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl.EXCEPTION_INVAL
 @RunWith(MockitoJUnitRunner.class)
 public class ReceiptServiceImplTest {
   @Mock
-  CaseFeedbackPublisher caseFeedbackPublisher;
+  CaseReceiptPublisher caseReceiptPublisher;
 
   @Mock
   FileParser fileParser;
@@ -51,7 +51,7 @@ public class ReceiptServiceImplTest {
 
     receiptService.acknowledge(receipt);
 
-    verify(caseFeedbackPublisher, times(1)).send(any(CaseFeedback.class));
+    verify(caseReceiptPublisher, times(1)).send(any(CaseReceipt.class));
   }
 
   @Test
@@ -69,24 +69,24 @@ public class ReceiptServiceImplTest {
     }
     assertTrue(exceptionThrown);
 
-    verify(caseFeedbackPublisher, times(0)).send(any(CaseFeedback.class));
+    verify(caseReceiptPublisher, times(0)).send(any(CaseReceipt.class));
   }
 
   @Test
   public void testValidFileReceipt() throws CTPException{
-    List<CaseFeedback> caseFeedbacks = new ArrayList<>();
-    CaseFeedback caseFeedback = new CaseFeedback();
+    List<CaseReceipt> caseReceipts = new ArrayList<>();
+    CaseReceipt caseFeedback = new CaseReceipt();
     caseFeedback.setCaseRef(CASE_REF);
-    caseFeedbacks.add(caseFeedback);
-    caseFeedback = new CaseFeedback();
+    caseReceipts.add(caseFeedback);
+    caseFeedback = new CaseReceipt();
     caseFeedback.setCaseRef(CASE_REF_1);
-    caseFeedbacks.add(caseFeedback);
-    when(fileParser.parseIt(any(InputStream.class))).thenReturn(caseFeedbacks);
+    caseReceipts.add(caseFeedback);
+    when(fileParser.parseIt(any(InputStream.class))).thenReturn(caseReceipts);
 
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleAllThreeValidReceipts.csv");
     receiptService.acknowledgeFile(inputStream);
 
-    verify(caseFeedbackPublisher, times(2)).send(any(CaseFeedback.class));
+    verify(caseReceiptPublisher, times(2)).send(any(CaseReceipt.class));
   }
 
   @Test
@@ -104,6 +104,6 @@ public class ReceiptServiceImplTest {
     }
     assertTrue(exceptionThrown);
 
-    verify(caseFeedbackPublisher, times(0)).send(any(CaseFeedback.class));
+    verify(caseReceiptPublisher, times(0)).send(any(CaseReceipt.class));
   }
 }

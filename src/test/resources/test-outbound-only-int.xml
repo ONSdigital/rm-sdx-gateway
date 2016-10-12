@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 
-    <bean id="caseFeedbackPublisher" class="uk.gov.ons.ctp.sdx.message.impl.CaseFeedbackPublisherImpl"/>
+    <bean id="caseFeedbackPublisher" class="uk.gov.ons.ctp.sdx.message.impl.CaseReceiptPublisherImpl"/>
 
     <bean id="caseFeedbackMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="connectionFactory"/>

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.ons.ctp.common.error.CTPException;
-import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseFeedback;
+import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.service.impl.FileParserImpl;
 import uk.gov.ons.ctp.sdx.utility.DateUtils;
@@ -52,16 +52,16 @@ public class FileParserImplTest {
   @Test
   public void testValidFile() throws CTPException, DatatypeConfigurationException {
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleAllThreeValidReceipts.csv");
-    List<CaseFeedback> result = fileParser.parseIt(inputStream);
+    List<CaseReceipt> result = fileParser.parseIt(inputStream);
 
     assertNotNull(result);
     assertEquals(3, result.size());
     List<String> caseRefs = new ArrayList<>();
     List<XMLGregorianCalendar> responseDateTimes = new ArrayList<>();
-    for (CaseFeedback caseFeedback: result) {
-      assertEquals(InboundChannel.PAPER, caseFeedback.getInboundChannel());
-      caseRefs.add(caseFeedback.getCaseRef());
-      responseDateTimes.add(caseFeedback.getResponseDateTime());
+    for (CaseReceipt caseReceipt: result) {
+      assertEquals(InboundChannel.PAPER, caseReceipt.getInboundChannel());
+      caseRefs.add(caseReceipt.getCaseRef());
+      responseDateTimes.add(caseReceipt.getResponseDateTime());
     }
 
     List<String> expectedCaseRefs = new ArrayList<>();
@@ -96,16 +96,16 @@ public class FileParserImplTest {
     XMLGregorianCalendar now = DateUtils.giveMeCalendarForNow();
 
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleReceiptsWithInvalidResponseTimes.csv");
-    List<CaseFeedback> result = fileParser.parseIt(inputStream);
+    List<CaseReceipt> result = fileParser.parseIt(inputStream);
 
     assertNotNull(result);
     assertEquals(3, result.size());
     List<String> caseRefs = new ArrayList<>();
     List<XMLGregorianCalendar> responseDateTimes = new ArrayList<>();
-    for (CaseFeedback caseFeedback: result) {
-      assertEquals(InboundChannel.PAPER, caseFeedback.getInboundChannel());
-      caseRefs.add(caseFeedback.getCaseRef());
-      responseDateTimes.add(caseFeedback.getResponseDateTime());
+    for (CaseReceipt caseReceipt: result) {
+      assertEquals(InboundChannel.PAPER, caseReceipt.getInboundChannel());
+      caseRefs.add(caseReceipt.getCaseRef());
+      responseDateTimes.add(caseReceipt.getResponseDateTime());
     }
 
     List<String> expectedCaseRefs = new ArrayList<>();
@@ -124,16 +124,16 @@ public class FileParserImplTest {
     XMLGregorianCalendar now = DateUtils.giveMeCalendarForNow();
 
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleTwoValidReceiptsOneInvalidReceiptMissingResponseTime.csv");
-    List<CaseFeedback> result = fileParser.parseIt(inputStream);
+    List<CaseReceipt> result = fileParser.parseIt(inputStream);
 
     assertNotNull(result);
     assertEquals(3, result.size());
     List<String> caseRefs = new ArrayList<>();
     List<XMLGregorianCalendar> responseDateTimes = new ArrayList<>();
-    for (CaseFeedback caseFeedback: result) {
-      assertEquals(InboundChannel.PAPER, caseFeedback.getInboundChannel());
-      caseRefs.add(caseFeedback.getCaseRef());
-      responseDateTimes.add(caseFeedback.getResponseDateTime());
+    for (CaseReceipt caseReceipt: result) {
+      assertEquals(InboundChannel.PAPER, caseReceipt.getInboundChannel());
+      caseRefs.add(caseReceipt.getCaseRef());
+      responseDateTimes.add(caseReceipt.getResponseDateTime());
     }
 
     List<String> expectedCaseRefs = new ArrayList<>();
