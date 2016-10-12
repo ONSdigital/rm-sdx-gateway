@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static uk.gov.ons.ctp.sdx.service.ReceiptServiceImplTest.CASE_REF;
 import static uk.gov.ons.ctp.sdx.utility.DateUtils.giveMeCalendarForNow;
 
@@ -100,4 +101,27 @@ public class CaseReceiptPublisherImplITCase {
     assertEquals(caseReceipt.getResponseDateTime(), retrievedCaseReceipt.getResponseDateTime());
     //}
   }
+
+  @Test
+  public void testSendInvalidCaseReceiptWithCaseReceiptPublisher() throws Exception {
+    CaseReceipt caseReceipt = new CaseReceipt();
+    caseReceiptPublisher.send(caseReceipt);
+
+    Thread.sleep(10000L);
+
+    /**
+     * We check that the xml invalid queue contains 1 additional message.
+     */
+    int finalCounter = JmsHelper.numberOfMessagesOnQueue(connection, INVALID_CASE_RECEIPTS_QUEUE);
+    assertEquals(1, finalCounter - initialCounter);
+
+    /**
+     * The section below verifies that no CaseReceipt ends up on the queue
+     */
+    CaseBoundMessageListener listener = (CaseBoundMessageListener) caseReceiptMessageListenerContainer.getMessageListener();
+    TimeUnit.SECONDS.sleep(10);
+    String listenerPayload = listener.getPayload();
+    assertNull(listenerPayload);
+  }
+
 }

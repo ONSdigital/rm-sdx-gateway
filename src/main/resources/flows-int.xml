@@ -11,10 +11,10 @@
   http://www.springframework.org/schema/integration/xml
   http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
 
-    <!-- anything sent to this channel is put on the queue Case.InvalidcaseReceipts -->
+    <!-- anything sent to this channel is put on the queue Case.InvalidCaseReceipts -->
     <int:channel id="caseReceiptXmlInvalid" />
     <bean id="invalidCaseReceiptQueue" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="Case.InvalidcaseReceipts"/>
+        <constructor-arg value="Case.InvalidCaseReceipts"/>
     </bean>
     <int-jms:outbound-channel-adapter id="invalidCaseReceiptJmsOut" destination="invalidCaseReceiptQueue" channel="caseReceiptXmlInvalid"/>
 
