@@ -80,11 +80,7 @@ public class FileParserImpl implements FileParser {
    * @return true if csvRecord is valid
    */
   private boolean validate(CSVRecord csvRecord) {
-    boolean result = false;
-    if (csvRecord.isConsistent() && csvRecord.isSet(caseRefColName) && csvRecord.isSet(responseDateTimeColName)) {
-      result = true;
-    }
-    return result;
+    return csvRecord.isConsistent() && csvRecord.isSet(caseRefColName) && csvRecord.isSet(responseDateTimeColName);
   }
 
   /**
