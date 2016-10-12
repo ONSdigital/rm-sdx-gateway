@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -59,7 +60,7 @@ public class DateUtils {
       gregorianCalendar = (GregorianCalendar) GregorianCalendar.getInstance();
       gregorianCalendar.setTime(date);
       result = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
-    } catch (Exception e) {
+    } catch (ParseException e) {
       log.error(String.format("%s - %s", e.getCause(), e.getMessage()));
       result = DateUtils.giveMeCalendarForNow();
     }

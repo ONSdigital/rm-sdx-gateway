@@ -59,7 +59,7 @@ public class FileParserImpl implements FileParser {
         if (validate(csvRecord)) {
           try {
             result.add(buildCaseReceipt(csvRecord));
-          } catch (Exception e) {
+          } catch (DatatypeConfigurationException e) {
             log.error(String.format("%s%s", EXCEPTION_PARSING_RECORD, e.getMessage()));
           }
         }
