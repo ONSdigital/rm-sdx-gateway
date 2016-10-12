@@ -1,0 +1,60 @@
+##################################################
+# To test
+##################################################
+## To test the info endpoint WITHOUT credentials
+401 {"timestamp":1475607716095,"status":401,"error":"Unauthorized","message":"Full authentication is required to access this resource","path":"/mgmt/health"}
+
+
+## To test the info endpoint
+curl http://localhost:8291/mgmt/info -v -X GET -u admin:ctp
+200 {"contactEmail":"philippe.brossier@ons.gov.uk","version":"9.26.0-SNAPSHOT","commit":"162cf42","branch":"master","buildTime":"16:10:00 BST on 04 October 2016"}
+
+
+## To test the health endpoint
+curl http://localhost:8291/mgmt/health -v -X GET -u admin:ctp
+200 {"status":"UP"}
+
+
+## To test the env endpoint
+curl http://localhost:8291/mgmt/env -v -X GET -u admin:ctp
+200 long json
+
+
+## To post an invalid receipt (missing caseRef)
+curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161004212343106","message":"Provided json is incorrect."}}
+
+
+## To post an invalid receipt (empty caseRef)
+curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"\"}"
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161004212425903","message":"Provided json fails validation."}}
+
+
+## To post a valid receipt
+curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"abc\"}"
+201 {"caseRef":"abc"} and header Location: http://localhost:8191/questionnairereceipts/abc and verify +1 on queue Case.Responses at http://localhost:8161/admin/queues.jsp
+
+
+## To post a valid daily .csv file
+cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
+curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleAllThreeValidReceipts.csv
+201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
+
+
+## To post a daily NON .csv file
+cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
+curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@totalRandom.txt
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161005112119919","message":"No record found."}} and header Location: http://localhost:8191/paperquestionnairereceipts
+
+
+## To post an invalid daily .csv file (all records are invalid)
+cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
+curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleReceiptsWithInvalidResponseTimes.csv
+201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
+
+
+## To post a partially valid daily .csv file (two records are valid - one record is invalid)
+cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
+curl -u admin:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleTwoValidReceiptsOneInvalidReceiptMissingResponseTime.csv
+201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
+
