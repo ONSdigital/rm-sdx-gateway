@@ -3,6 +3,7 @@ package uk.gov.ons.ctp.sdx.service;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.ons.ctp.common.error.CTPException;
@@ -45,6 +46,9 @@ public class FileParserImplTest {
   @Autowired
   private FileParserImpl fileParser;
 
+  @Value("${RESPONSE_DATE_TIME_COL_FORMAT}")
+  private String responseDateTimeColFormat;
+
   @Test
   public void testValidFile() throws CTPException, DatatypeConfigurationException {
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleAllThreeValidReceipts.csv");
@@ -67,9 +71,9 @@ public class FileParserImplTest {
     assertEquals(expectedCaseRefs, caseRefs);
 
     List<XMLGregorianCalendar> exepectedResponseDateTimes = new ArrayList<>();
-    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_1));
-    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_2));
-    exepectedResponseDateTimes.add(fileParser.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_3));
+    exepectedResponseDateTimes.add(DateUtils.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_1, responseDateTimeColFormat));
+    exepectedResponseDateTimes.add(DateUtils.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_2, responseDateTimeColFormat));
+    exepectedResponseDateTimes.add(DateUtils.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_3, responseDateTimeColFormat));
     assertEquals(exepectedResponseDateTimes, responseDateTimes);
   }
 
@@ -140,9 +144,9 @@ public class FileParserImplTest {
 
     boolean foundResponseTime1 = false; boolean foundResponseTime3 = false;
     for (XMLGregorianCalendar aCalendar: responseDateTimes) {
-      if (aCalendar.compare(fileParser.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_1)) == DatatypeConstants.EQUAL) {
+      if (aCalendar.compare(DateUtils.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_1, responseDateTimeColFormat)) == DatatypeConstants.EQUAL) {
         foundResponseTime1 = true;
-      } else if (aCalendar.compare(fileParser.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_3)) == DatatypeConstants.EQUAL) {
+      } else if (aCalendar.compare(DateUtils.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_3, responseDateTimeColFormat)) == DatatypeConstants.EQUAL) {
         foundResponseTime3 = true;
       } else {
         assertTrue(aCalendar.toGregorianCalendar().getTimeInMillis() - now.toGregorianCalendar().getTimeInMillis() < THREE_SECONDS);
