@@ -6,10 +6,10 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.ons.ctp.common.error.CTPException;
+import uk.gov.ons.ctp.common.util.DateUtils;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.service.FileParser;
-import uk.gov.ons.ctp.sdx.utility.DateUtils;
 
 import javax.inject.Named;
 import javax.xml.datatype.DatatypeConfigurationException;

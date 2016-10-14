@@ -15,7 +15,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.InputStream;
 import java.util.List;
 
-import static uk.gov.ons.ctp.sdx.utility.DateUtils.giveMeCalendarForNow;
+import static uk.gov.ons.ctp.common.util.DateUtils.giveMeCalendarForNow;
 
 /**
  * The service to acknowlegde receipts
