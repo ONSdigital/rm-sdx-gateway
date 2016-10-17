@@ -10,10 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.test.context.junit4.SpringRunner;
+import uk.gov.ons.ctp.common.message.JmsHelper;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.utility.CaseBoundMessageListener;
-import uk.gov.ons.ctp.sdx.utility.JmsHelper;
 
 import javax.jms.Connection;
 import javax.jms.JMSException;
