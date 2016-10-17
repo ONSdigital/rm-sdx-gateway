@@ -44,5 +44,9 @@ Default is for the DEV environment
     ./mvnw spring-boot:run -Dsecurity.user.name=tiptop -Dsecurity.user.password=override
 
 
+## To test
+See curlTests.txt under /test/resources
+
+
 ## Copyright
 Copyright (C) 2016 Crown Copyright (Office for National Statistics)
