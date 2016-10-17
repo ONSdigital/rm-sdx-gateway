@@ -6,7 +6,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.ons.ctp.common.error.CTPException;
-import uk.gov.ons.ctp.common.util.DateUtils;
+import uk.gov.ons.ctp.common.time.DateUtil;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.service.FileParser;
@@ -94,7 +94,7 @@ public class FileParserImpl implements FileParser {
     caseReceipt.setCaseRef(csvRecord.get(caseRefColName));
     caseReceipt.setInboundChannel(InboundChannel.PAPER);
     String dateTimeStr = csvRecord.get(responseDateTimeColName);
-    caseReceipt.setResponseDateTime(DateUtils.stringToXMLGregorianCalendar(dateTimeStr, responseDateTimeColFormat));
+    caseReceipt.setResponseDateTime(DateUtil.stringToXMLGregorianCalendar(dateTimeStr, responseDateTimeColFormat));
     return caseReceipt;
   }
 }

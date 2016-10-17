@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static uk.gov.ons.ctp.common.util.DateUtils.giveMeCalendarForNow;
+import static uk.gov.ons.ctp.common.time.DateUtil.giveMeCalendarForNow;
 import static uk.gov.ons.ctp.sdx.service.ReceiptServiceImplTest.CASE_REF;
 
 /**
