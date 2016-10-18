@@ -28,8 +28,8 @@ Default is for the DEV environment
 - Prerequisites:
     - for logging:
         - cd /var/log/ctp/responsemanagement
-        - mkdir sdxgateway
-        - chmod 777 sdxgateway
+        - mkdir sdxgatewaysvc
+        - chmod 777 sdxgatewaysvc
     - Stop RabbitMQ if running: sudo /sbin/service rabbitmq-server stop
     - Install ActiveMQ:
         - Install Apache ActiveMQ 5.13.3: download and unzip under /opt
