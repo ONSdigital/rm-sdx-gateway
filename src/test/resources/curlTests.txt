@@ -7,7 +7,7 @@
 
 ## To test the info endpoint
 curl http://localhost:8291/mgmt/info -v -X GET -u admin:ctp
-200 {"contactEmail":"philippe.brossier@ons.gov.uk","version":"9.26.0-SNAPSHOT","commit":"162cf42","branch":"master","buildTime":"16:10:00 BST on 04 October 2016"}
+200 {"contactEmail":"philippe.brossier@ons.gov.uk","version":"9.27.0-SNAPSHOT","commit":"162cf42","branch":"master","buildTime":"16:10:00 BST on 04 October 2016"}
 
 
 ## To test the health endpoint
