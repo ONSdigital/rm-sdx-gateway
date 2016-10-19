@@ -1,6 +1,17 @@
 package uk.gov.ons.ctp.sdx.message;
 
-import lombok.extern.slf4j.Slf4j;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static uk.gov.ons.ctp.sdx.service.ReceiptServiceImplTest.CASE_REF;
+
+import java.io.ByteArrayInputStream;
+import java.util.concurrent.TimeUnit;
+
+import javax.jms.Connection;
+import javax.jms.JMSException;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,27 +21,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import uk.gov.ons.ctp.common.message.JmsHelper;
+import uk.gov.ons.ctp.common.time.DateTimeUtil;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.utility.CaseBoundMessageListener;
 
-import javax.jms.Connection;
-import javax.jms.JMSException;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
-import java.io.ByteArrayInputStream;
-import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static uk.gov.ons.ctp.common.time.DateUtil.giveMeCalendarForNow;
-import static uk.gov.ons.ctp.sdx.service.ReceiptServiceImplTest.CASE_REF;
-
 /**
  * Test focusing on Spring Integration
  */
-@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CaseReceiptPublisherImplITCaseConfig.class)
 public class CaseReceiptPublisherImplITCase {
@@ -73,7 +73,7 @@ public class CaseReceiptPublisherImplITCase {
     CaseReceipt caseReceipt = new CaseReceipt();
     caseReceipt.setCaseRef(CASE_REF);
     caseReceipt.setInboundChannel(InboundChannel.ONLINE);
-    caseReceipt.setResponseDateTime(giveMeCalendarForNow());
+    caseReceipt.setResponseDateTime(DateTimeUtil.giveMeCalendarForNow());
     caseReceiptPublisher.send(caseReceipt);
 
     Thread.sleep(10000L);

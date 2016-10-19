@@ -1,21 +1,21 @@
 package uk.gov.ons.ctp.sdx.service.impl;
 
-import lombok.extern.slf4j.Slf4j;
-import uk.gov.ons.ctp.common.error.CTPException;
-import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
-import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
-import uk.gov.ons.ctp.sdx.domain.Receipt;
-import uk.gov.ons.ctp.sdx.message.CaseReceiptPublisher;
-import uk.gov.ons.ctp.sdx.service.ReceiptService;
-import uk.gov.ons.ctp.sdx.service.FileParser;
+import java.io.InputStream;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.datatype.DatatypeConfigurationException;
-import java.io.InputStream;
-import java.util.List;
 
-import static uk.gov.ons.ctp.common.time.DateUtil.giveMeCalendarForNow;
+import lombok.extern.slf4j.Slf4j;
+import uk.gov.ons.ctp.common.error.CTPException;
+import uk.gov.ons.ctp.common.time.DateTimeUtil;
+import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
+import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
+import uk.gov.ons.ctp.sdx.domain.Receipt;
+import uk.gov.ons.ctp.sdx.message.CaseReceiptPublisher;
+import uk.gov.ons.ctp.sdx.service.FileParser;
+import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
 /**
  * The service to acknowlegde receipts
@@ -43,7 +43,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     caseReceipt.setCaseRef(receipt.getCaseRef());
     caseReceipt.setInboundChannel(receipt.getInboundChannel());
     try {
-      caseReceipt.setResponseDateTime(giveMeCalendarForNow());
+      caseReceipt.setResponseDateTime(DateTimeUtil.giveMeCalendarForNow());
     } catch (DatatypeConfigurationException e) {
       String error = String.format(
               "DatatypeConfigurationException thrown while building dateTime for now with msg = %s", e.getMessage());

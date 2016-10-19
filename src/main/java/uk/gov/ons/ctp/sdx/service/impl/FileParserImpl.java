@@ -1,23 +1,25 @@
 package uk.gov.ons.ctp.sdx.service.impl;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
-import org.springframework.beans.factory.annotation.Value;
-import uk.gov.ons.ctp.common.error.CTPException;
-import uk.gov.ons.ctp.common.time.DateUtil;
-import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
-import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
-import uk.gov.ons.ctp.sdx.service.FileParser;
-
-import javax.inject.Named;
-import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Named;
+import javax.xml.datatype.DatatypeConfigurationException;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.springframework.beans.factory.annotation.Value;
+
+import lombok.extern.slf4j.Slf4j;
+import uk.gov.ons.ctp.common.error.CTPException;
+import uk.gov.ons.ctp.common.time.DateTimeUtil;
+import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
+import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
+import uk.gov.ons.ctp.sdx.service.FileParser;
 
 /**
  *  The service implementation to parse csf files
@@ -94,7 +96,7 @@ public class FileParserImpl implements FileParser {
     caseReceipt.setCaseRef(csvRecord.get(caseRefColName));
     caseReceipt.setInboundChannel(InboundChannel.PAPER);
     String dateTimeStr = csvRecord.get(responseDateTimeColName);
-    caseReceipt.setResponseDateTime(DateUtil.stringToXMLGregorianCalendar(dateTimeStr, responseDateTimeColFormat));
+    caseReceipt.setResponseDateTime(DateTimeUtil.stringToXMLGregorianCalendar(dateTimeStr, responseDateTimeColFormat));
     return caseReceipt;
   }
 }
