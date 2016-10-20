@@ -31,7 +31,7 @@ curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/js
 
 
 ## To post a valid receipt
-curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"abc\"}"
+curl -u admin:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"1000000000000397\"}"
 201 {"caseRef":"abc"} and header Location: http://localhost:8191/questionnairereceipts/abc and verify +1 on queue Case.Responses at http://localhost:8161/admin/queues.jsp
 
 

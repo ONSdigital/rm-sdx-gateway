@@ -1,7 +1,6 @@
 package uk.gov.ons.ctp.sdx.endpoint;
 
 import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.MapperFacade;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
@@ -29,9 +28,6 @@ public class PaperReceiptEndpoint {
 
   @Inject
   private ReceiptService receiptService;
-
-  @Inject
-  private MapperFacade mapperFacade;
 
   @Context
   private UriInfo uriInfo;
