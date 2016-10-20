@@ -49,8 +49,9 @@ public class FileParserImpl implements FileParser {
     log.debug("parseIt {}", fileContents);
     List<CaseReceipt> result = new ArrayList<>();
     InputStreamReader reader = new InputStreamReader(fileContents);
+    CSVParser parser = null;
     try {
-      CSVParser parser = new CSVParser(reader,
+      parser = new CSVParser(reader,
               CSVFormat.EXCEL.withHeader(caseRefColName, responseDateTimeColName).withSkipHeaderRecord(true));
       List<CSVRecord> csvRecords = parser.getRecords();
       if (csvRecords == null || csvRecords.isEmpty()) {
@@ -71,6 +72,16 @@ public class FileParserImpl implements FileParser {
               "IOException thrown while parsing file contents with msg = %s", e.getMessage());
       log.error(error);
       throw new CTPException(CTPException.Fault.SYSTEM_ERROR, error);
+    } finally {
+      if (parser != null) {
+        try {
+          parser.close();
+        } catch (IOException e) {
+          String error = String.format(
+                  "IOException thrown while closing the parser with msg = %s", e.getMessage());
+          log.error(error);
+        }
+      }
     }
 
     return result;
