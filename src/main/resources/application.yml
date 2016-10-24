@@ -9,7 +9,7 @@ security:
   basic:
     enabled: true
   user:
-    name: admin
+    name: gateway
     password: ctp
 
 spring:
