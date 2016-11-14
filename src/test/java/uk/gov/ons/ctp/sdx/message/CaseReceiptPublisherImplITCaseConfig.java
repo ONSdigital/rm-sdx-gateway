@@ -5,6 +5,6 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootConfiguration
-@ImportResource(locations = { "classpath:CaseReceiptPublisherImplITCase-context.xml" })
+@ImportResource(locations = { "classpath:springintegration/CaseReceiptPublisherImplITCase-context.xml" })
 public class CaseReceiptPublisherImplITCaseConfig {
 }

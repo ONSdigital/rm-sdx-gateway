@@ -33,7 +33,7 @@ Default is for the DEV environment
     - Stop RabbitMQ if running: sudo /sbin/service rabbitmq-server stop
     - Install ActiveMQ:
         - Install Apache ActiveMQ 5.13.3: download and unzip under /opt
-        - Edit /conf/activemq.xml: replace 61616 with 53445 (port defined in broker-int.xml)
+        - Edit /conf/activemq.xml: replace 61616 with 53445 (port defined in broker.xml)
         - Start it by going to /bin and typing: ./activemq console
         - console accessed at http://localhost:8161/ with user = admin - pwd = admin
 

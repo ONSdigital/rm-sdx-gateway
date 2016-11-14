@@ -66,7 +66,7 @@ public class CaseReceiptPublisherImplITCase {
 
   /**
    * This test sends a valid CaseReceipt using CaseReceiptPublisher. It then verifies that the correct message is
-   * received on the queue Case.Responses. See the definition of the jmsContainer in test-outbound-only-int.xml
+   * received on the queue Case.Responses. See the definition of the jmsContainer in test-case-receipt.xml
    */
   @Test
   public void testSendValidCaseReceiptWithCaseReceiptPublisher() throws Exception {

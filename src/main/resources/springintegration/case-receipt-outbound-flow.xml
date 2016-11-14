@@ -23,7 +23,6 @@
         <constructor-arg value="Case.Responses"/>
     </bean>
 
-    <int:annotation-config/>
     <!--  setup the outbound channels - note each queue needs a channel -->
     <int:channel id="caseReceiptOutbound" />
     <int:channel id="caseReceiptXml" />
@@ -51,6 +50,4 @@
 
     <!--  each channel adapter listens to one of our routed channels and adapts the SI message to a JMS message -->
     <int-jms:outbound-channel-adapter id="jmsout" channel="caseReceipt" destination="caseReceiptQueue"/>
-
 </beans>
-
