@@ -1,5 +1,6 @@
 package uk.gov.ons.ctp.sdx.service;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -11,6 +12,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -37,16 +39,16 @@ public class FileParserImplTest {
 
   private static final long THREE_SECONDS = 3000L;
 
-  private static final String CASE_REF_1 = "123";
-  private static final String CASE_REF_2 = "124";
-  private static final String CASE_REF_3 = "125";
+  private static final String CASE_REF_1 = "0199917831739169";
+  private static final String CASE_REF_2 = "0199917831739200";
+  private static final String CASE_REF_3 = "0199917831739042";
 
-  private static final String CASE_RESPONSE_TIME_1 = "2016-08-04T21:37:01.537Z";
-  private static final String CASE_RESPONSE_TIME_2 = "2016-09-04T21:37:01.537Z";
-  private static final String CASE_RESPONSE_TIME_3 = "2016-10-04T21:37:01.537Z";
+  private static final String CASE_RESPONSE_TIME_1 = "23/09/2016";
+  private static final String CASE_RESPONSE_TIME_2 = "24/09/2016";
+  private static final String CASE_RESPONSE_TIME_3 = "25/09/2016";
 
-  @Autowired
-  private FileParserImpl fileParser;
+  @Inject
+  private FileParser fileParser;
 
   @Value("${RESPONSE_DATE_TIME_COL_FORMAT}")
   private String responseDateTimeColFormat;
@@ -82,15 +84,9 @@ public class FileParserImplTest {
   @Test
   public void testRandomFile() throws CTPException, DatatypeConfigurationException, ParseException {
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/totalRandom.txt");
-    boolean exceptionThrown = false;
-    try {
-      fileParser.parseIt(inputStream);
-    } catch (CTPException e) {
-      exceptionThrown = true;
-      assertEquals(VALIDATION_FAILED, e.getFault());
-      assertEquals(EXCEPTION_NO_RECORDS, e.getMessage());
-    }
-    assertTrue(exceptionThrown);
+    List<CaseReceipt> result = fileParser.parseIt(inputStream);
+    assertNotNull(result);
+    assertTrue(result.isEmpty());
   }
 
   @Test

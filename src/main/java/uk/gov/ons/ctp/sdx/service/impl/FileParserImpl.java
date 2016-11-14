@@ -29,13 +29,11 @@ import uk.gov.ons.ctp.sdx.service.FileParser;
 public class FileParserImpl implements FileParser {
 
   public static final String EXCEPTION_NO_RECORDS = "No record found.";
+
+  private static final Integer NB_EXPECTED_COLUMNS = 2;
   private static final String EXCEPTION_PARSING_RECORD =
           "An unexpected error occured while parsing a paper receipt record.";
 
-  @Value("${CASE_REF_COL_NAME}")
-  private String caseRefColName;
-  @Value("${RESPONSE_DATE_TIME_COL_NAME}")
-  private String responseDateTimeColName;
   @Value("${RESPONSE_DATE_TIME_COL_FORMAT}")
   private String responseDateTimeColFormat;
 
@@ -51,8 +49,7 @@ public class FileParserImpl implements FileParser {
     InputStreamReader reader = new InputStreamReader(fileContents);
     CSVParser parser = null;
     try {
-      parser = new CSVParser(reader,
-              CSVFormat.EXCEL.withHeader(caseRefColName, responseDateTimeColName).withSkipHeaderRecord(true));
+      parser = new CSVParser(reader, CSVFormat.EXCEL);
       List<CSVRecord> csvRecords = parser.getRecords();
       if (csvRecords == null || csvRecords.isEmpty()) {
         throw new CTPException(CTPException.Fault.VALIDATION_FAILED, EXCEPTION_NO_RECORDS);
@@ -93,7 +90,7 @@ public class FileParserImpl implements FileParser {
    * @return true if csvRecord is valid
    */
   private boolean validate(CSVRecord csvRecord) {
-    return csvRecord.isConsistent() && csvRecord.isSet(caseRefColName) && csvRecord.isSet(responseDateTimeColName);
+    return csvRecord.isConsistent() && csvRecord.size() == NB_EXPECTED_COLUMNS;
   }
 
   /**
@@ -104,10 +101,10 @@ public class FileParserImpl implements FileParser {
    */
   private CaseReceipt buildCaseReceipt(CSVRecord csvRecord) throws DatatypeConfigurationException {
     CaseReceipt caseReceipt = new CaseReceipt();
-    caseReceipt.setCaseRef(csvRecord.get(caseRefColName));
     caseReceipt.setInboundChannel(InboundChannel.PAPER);
-    String dateTimeStr = csvRecord.get(responseDateTimeColName);
+    String dateTimeStr = csvRecord.get(0);
     caseReceipt.setResponseDateTime(DateTimeUtil.stringToXMLGregorianCalendar(dateTimeStr, responseDateTimeColFormat));
+    caseReceipt.setCaseRef(csvRecord.get(1));
     return caseReceipt;
   }
 }

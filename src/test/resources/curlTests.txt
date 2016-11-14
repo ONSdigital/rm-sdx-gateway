@@ -44,7 +44,7 @@ curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST 
 ## To post a daily NON .csv file
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@totalRandom.txt
-400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161005112119919","message":"No record found."}} and header Location: http://localhost:8191/paperquestionnairereceipts
+201 and verify +0 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
 
 
 ## To post an invalid daily .csv file (all records are invalid)
