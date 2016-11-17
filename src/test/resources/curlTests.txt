@@ -63,3 +63,9 @@ curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST 
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleUnlikedCaseWithMore16Chars.csv
 201 and verify +1 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
+
+
+## To post an empty daily .csv file
+cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
+curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@emptyFile.csv
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161117155859796","message":"No record found."}}
