@@ -1,11 +1,9 @@
 package uk.gov.ons.ctp.sdx.message;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static uk.gov.ons.ctp.sdx.service.ReceiptServiceImplTest.CASE_REF;
 
 import java.io.ByteArrayInputStream;
-import java.util.concurrent.TimeUnit;
 
 import javax.jms.Connection;
 import javax.jms.JMSException;
@@ -47,6 +45,7 @@ public class CaseReceiptPublisherImplITCase {
   private Connection connection;
   private int initialCounter;
 
+  private static final int TIMEOUT = 5000;
   private static final String INVALID_CASE_RECEIPTS_QUEUE = "Case.InvalidCaseReceipts";
 
   @Before
@@ -76,7 +75,7 @@ public class CaseReceiptPublisherImplITCase {
     caseReceipt.setResponseDateTime(DateTimeUtil.giveMeCalendarForNow());
     caseReceiptPublisher.send(caseReceipt);
 
-    Thread.sleep(10000L);
+    Thread.sleep(TIMEOUT);
 
     /**
      * We check that no additional message has been put on the xml invalid queue
@@ -88,18 +87,14 @@ public class CaseReceiptPublisherImplITCase {
      * The section below verifies that a CaseReceipt ends up on the queue
      */
     CaseBoundMessageListener listener = (CaseBoundMessageListener) caseReceiptMessageListenerContainer.getMessageListener();
-    TimeUnit.SECONDS.sleep(10);
-    String listenerPayload = listener.getPayload();
+    String payload = listener.getPayload();
 
-    // TODO Unfortunately, when building via the command line, the test may fail with a nullpointer.
-    //if (listenerPayload != null) {
     JAXBContext jaxbContext = JAXBContext.newInstance(CaseReceipt.class);
     Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-    CaseReceipt retrievedCaseReceipt = (CaseReceipt) jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(listenerPayload.getBytes()));
+    CaseReceipt retrievedCaseReceipt = (CaseReceipt) jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(payload.getBytes()));
     assertEquals(caseReceipt.getCaseRef(), retrievedCaseReceipt.getCaseRef());
     assertEquals(caseReceipt.getInboundChannel(), retrievedCaseReceipt.getInboundChannel());
     assertEquals(caseReceipt.getResponseDateTime(), retrievedCaseReceipt.getResponseDateTime());
-    //}
   }
 
   @Test
@@ -107,21 +102,12 @@ public class CaseReceiptPublisherImplITCase {
     CaseReceipt caseReceipt = new CaseReceipt();
     caseReceiptPublisher.send(caseReceipt);
 
-    Thread.sleep(10000L);
+    Thread.sleep(TIMEOUT);
 
     /**
      * We check that the xml invalid queue contains 1 additional message.
      */
     int finalCounter = JmsHelper.numberOfMessagesOnQueue(connection, INVALID_CASE_RECEIPTS_QUEUE);
     assertEquals(1, finalCounter - initialCounter);
-
-    /**
-     * The section below verifies that no CaseReceipt ends up on the queue
-     */
-    CaseBoundMessageListener listener = (CaseBoundMessageListener) caseReceiptMessageListenerContainer.getMessageListener();
-    TimeUnit.SECONDS.sleep(10);
-    String listenerPayload = listener.getPayload();
-    assertNull(listenerPayload);
   }
-
 }
