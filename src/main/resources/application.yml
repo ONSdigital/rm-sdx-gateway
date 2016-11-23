@@ -36,3 +36,9 @@ endpoints:
   sensitive: true
 
 RESPONSE_DATE_TIME_COL_FORMAT: dd/MM/yyyy
+
+# logging config here as a reminder as to how to override logback from cmd line
+# ie -Dlogging.level.org.springframework=DEBUG
+logging:
+  level:
+    uk.gov.ons.ctp: debug
