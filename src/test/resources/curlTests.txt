@@ -41,18 +41,6 @@ curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST 
 201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
 
 
-## To post a daily NON .csv file
-cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
-curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@totalRandom.txt
-201 and verify +0 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
-
-
-## To post an invalid daily .csv file (all records are invalid)
-cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
-curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleReceiptsWithInvalidResponseTimes.csv
-201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
-
-
 ## To post a partially valid daily .csv file (two records are valid - one record is invalid)
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleTwoValidReceiptsOneInvalidReceiptMissingResponseTime.csv
@@ -65,13 +53,25 @@ curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST 
 201 and verify +1 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
 
 
+## To post an invalid daily .csv file (all records are invalid)
+cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
+curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleReceiptsWithInvalidResponseTimes.csv
+201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
+
+
 ## To post an empty daily .csv file
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@emptyFile.csv
 400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161117155859796","message":"No record found."}}
 
 
+## To post a daily NON .csv file
+cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
+curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@totalRandom.txt
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161125142839735","message":"No record found."}}
+
+
 ## To post a daily .csv file a single Carriage Return (defect CTPA-911)
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@defect911File.csv
-201 TODO It should be 400
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161125143357214","message":"No record found."}}

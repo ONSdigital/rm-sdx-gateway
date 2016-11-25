@@ -51,7 +51,7 @@ public class FileParserImpl implements FileParser {
     try {
       parser = new CSVParser(reader, CSVFormat.EXCEL);
       List<CSVRecord> csvRecords = parser.getRecords();
-      if (csvRecords == null || csvRecords.isEmpty()) {
+      if (!validate(csvRecords)) {
         throw new CTPException(CTPException.Fault.VALIDATION_FAILED, EXCEPTION_NO_RECORDS);
       }
       for (CSVRecord csvRecord: csvRecords) {
@@ -85,7 +85,30 @@ public class FileParserImpl implements FileParser {
   }
 
   /**
+   * To validate the list of csvRecords
+   *
+   * @param csvRecordList the list of csvRecords
+   * @return true if at least 1 csvRecord is valid
+   */
+  private boolean validate(List<CSVRecord> csvRecordList) {
+    boolean result;
+    if (csvRecordList == null || csvRecordList.isEmpty()) {
+      result = false;
+    } else {
+      int countValidCsvRecords = 0;
+      for (CSVRecord csvRecord : csvRecordList) {
+        if (validate(csvRecord)) {
+          countValidCsvRecords += 1;
+        }
+      }
+      result = countValidCsvRecords != 0;
+    }
+    return result;
+  }
+
+  /**
    * To validate a CSVRecord
+   *
    * @param csvRecord to be validated
    * @return true if csvRecord is valid
    */

@@ -1,10 +1,8 @@
 package uk.gov.ons.ctp.sdx.service;
 
-import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static uk.gov.ons.ctp.common.error.CTPException.Fault.VALIDATION_FAILED;
 import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.EXCEPTION_NO_RECORDS;
 
 import java.io.InputStream;
@@ -19,7 +17,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -28,7 +25,6 @@ import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.common.time.DateTimeUtil;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
-import uk.gov.ons.ctp.sdx.service.impl.FileParserImpl;
 
 /**
  * To unit test FileParser
@@ -83,10 +79,16 @@ public class FileParserImplTest {
 
   @Test
   public void testRandomFile() throws CTPException, DatatypeConfigurationException, ParseException {
+    boolean exceptionThrown = false;
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/totalRandom.txt");
-    List<CaseReceipt> result = fileParser.parseIt(inputStream);
-    assertNotNull(result);
-    assertTrue(result.isEmpty());
+    try {
+      fileParser.parseIt(inputStream);
+    } catch (CTPException e) {
+      assertEquals(CTPException.Fault.VALIDATION_FAILED, e.getFault());
+      assertEquals(EXCEPTION_NO_RECORDS, e.getMessage());
+      exceptionThrown = true;
+    }
+    assertTrue(exceptionThrown);
   }
 
   @Test
@@ -152,6 +154,34 @@ public class FileParserImplTest {
     }
     assertTrue(foundResponseTime1);
     assertTrue(foundResponseTime3);
+  }
+
+  @Test
+  public void testEmptyFile() throws CTPException, DatatypeConfigurationException, ParseException {
+    boolean exceptionThrown = false;
+    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/emptyFile.csv");
+    try {
+      fileParser.parseIt(inputStream);
+    } catch (CTPException e) {
+      assertEquals(CTPException.Fault.VALIDATION_FAILED, e.getFault());
+      assertEquals(EXCEPTION_NO_RECORDS, e.getMessage());
+      exceptionThrown = true;
+    }
+    assertTrue(exceptionThrown);
+  }
+
+  @Test
+  public void testDefect911File() throws CTPException, DatatypeConfigurationException, ParseException {
+    boolean exceptionThrown = false;
+    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/defect911File.csv");
+    try {
+      fileParser.parseIt(inputStream);
+    } catch (CTPException e) {
+      assertEquals(CTPException.Fault.VALIDATION_FAILED, e.getFault());
+      assertEquals(EXCEPTION_NO_RECORDS, e.getMessage());
+      exceptionThrown = true;
+    }
+    assertTrue(exceptionThrown);
   }
 
 }
