@@ -5,7 +5,7 @@
 
     <groupId>uk.gov.ons.ctp.product</groupId>
     <artifactId>sdxgatewaysvc</artifactId>
-    <version>9.29.0-SNAPSHOT</version>
+    <version>9.30.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>CTP : ResponseManagement : SDX Gateway</name>
@@ -15,8 +15,8 @@
         <java.version>1.8</java.version>
         <springboot.version>1.4.2.RELEASE</springboot.version>
         <jersey.version>2.22.2</jersey.version>
-        <common.version>9.28.0-SNAPSHOT</common.version>
-        <casesvcapi.version>9.28.0-SNAPSHOT</casesvcapi.version>
+        <common.version>9.30.1-SNAPSHOT</common.version>
+        <casesvcapi.version>9.30.0-SNAPSHOT</casesvcapi.version>
         <lombok.version>1.16.6</lombok.version>
         <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
 
