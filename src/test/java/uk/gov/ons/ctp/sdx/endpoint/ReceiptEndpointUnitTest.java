@@ -21,7 +21,7 @@ public class ReceiptEndpointUnitTest extends CTPJerseyTest {
   private static final String RECEIPT_INVALIDJSON_SCENARIO1 = "{\"random\":  \"abc\"}";
   private static final String RECEIPT_INVALIDJSON_SCENARIO2 = "{\"caseRef\":  \"\"}";
   private static final String RECEIPT_VALIDJSON = String.format("{\"caseRef\":  \"%s\"}", CASE_REF);
-  private static final String SERVER_URL = "http://localhost:9998/questionnairereceipts";
+  private static final String SERVER_URL = "/questionnairereceipts";
   /**
    * configure the test
    */
@@ -36,7 +36,7 @@ public class ReceiptEndpointUnitTest extends CTPJerseyTest {
     with(SERVER_URL).post(MediaType.APPLICATION_JSON_TYPE, RECEIPT_VALIDJSON)
             .assertResponseCodeIs(HttpStatus.CREATED)
             .assertStringInBody("$.caseRef", CASE_REF)
-            .assertHeader(LOCATION, String.format("%s/%s", SERVER_URL, CASE_REF))
+            .assertHeader(LOCATION, String.format("http://localhost:%d%s/%s", getPort(), SERVER_URL, CASE_REF))
             .andClose();
   }
 
