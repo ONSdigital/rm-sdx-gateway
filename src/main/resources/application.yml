@@ -60,3 +60,8 @@ data-grid:
   address: localhost:6379
   lock-time-to-live-seconds: 1800
 
+rabbitmq:
+  username: guest
+  password: guest
+  host: localhost
+  virtualhost: /
