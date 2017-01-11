@@ -67,11 +67,7 @@ sftp:
 data-grid:
   address: localhost:6379
   lock-time-to-live-seconds: 1800
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> CTPA-1019 rabbit
 rabbitmq:
   username: guest
   password: guest
