@@ -70,4 +70,3 @@ rabbitmq:
   password: guest
   host: localhost
   virtualhost: /
-

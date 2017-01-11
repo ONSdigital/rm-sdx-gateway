@@ -19,6 +19,7 @@
         <jersey.version>2.22.2</jersey.version>
         <common.version>9.33.0-SNAPSHOT</common.version>
         <casesvcapi.version>9.33.0-SNAPSHOT</casesvcapi.version>
+
         <lombok.version>1.16.6</lombok.version>
         <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
 
