@@ -42,3 +42,9 @@ RESPONSE_DATE_TIME_COL_FORMAT: dd/MM/yyyy
 logging:
   level:
     uk.gov.ons.ctp: debug
+
+rabbitmq:
+  username: guest
+  password: guest
+  host: localhost
+  virtualhost: /
