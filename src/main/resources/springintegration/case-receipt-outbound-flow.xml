@@ -13,16 +13,19 @@
 
     <!-- anything sent to this channel is put on the queue Case.InvalidCaseReceipts -->
     <int:channel id="caseReceiptXmlInvalid" />
-    <bean id="invalidCaseReceiptQueue" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="Case.InvalidCaseReceipts"/>
+    <bean id="invalidCaseReceiptQueue" class="com.rabbitmq.jms.admin.RMQDestination">
+        <constructor-arg name="destName" value="Case.InvalidCaseReceipts"/>
+        <constructor-arg name="isQueue" value="true"/>
+        <constructor-arg name="isTemporary" value="false"/>
     </bean>
     <int-jms:outbound-channel-adapter id="invalidCaseReceiptJmsOut" destination="invalidCaseReceiptQueue" channel="caseReceiptXmlInvalid"/>
 
     <!-- setup the outbound jms queue -->
-    <bean id="caseReceiptQueue" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="Case.Responses"/>
+    <bean id="caseReceiptQueue" class="com.rabbitmq.jms.admin.RMQDestination">
+        <constructor-arg name="destName" value="Case.Responses"/>
+        <constructor-arg name="isQueue" value="true"/>
+        <constructor-arg name="isTemporary" value="false"/>
     </bean>
-
     <!--  setup the outbound channels - note each queue needs a channel -->
     <int:channel id="caseReceiptOutbound" />
     <int:channel id="caseReceiptXml" />
