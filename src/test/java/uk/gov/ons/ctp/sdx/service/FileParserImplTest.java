@@ -205,8 +205,8 @@ public class FileParserImplTest {
     expectedCaseRefs.add(CASE_REF_DEFECT_1048);
     assertEquals(expectedCaseRefs, caseRefs);
 
-    List<XMLGregorianCalendar> exepectedResponseDateTimes = new ArrayList<>();
-    exepectedResponseDateTimes.add(DateTimeUtil.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_DEFECT_1048, responseDateTimeColFormat));
-    assertEquals(exepectedResponseDateTimes, responseDateTimes);
+    List<XMLGregorianCalendar> expectedResponseDateTimes = new ArrayList<>();
+    expectedResponseDateTimes.add(DateTimeUtil.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_DEFECT_1048, responseDateTimeColFormat));
+    assertEquals(expectedResponseDateTimes, responseDateTimes);
   }
 }
