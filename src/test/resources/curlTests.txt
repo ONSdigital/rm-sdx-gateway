@@ -75,10 +75,3 @@ curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST 
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@defect911File.csv
 400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161125143357214","message":"No record found."}}
-
-
-## To replicate defect CTPA-1048
-cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
-curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@defect1048File.csv
-201 and 1 more message appears on Case.Responses
-Msg content is: <?xml version="1.0" encoding="UTF-8" standalone="no"?><ns2:caseReceipt xmlns:ns2="http://ons.gov.uk/ctp/response/casesvc/message/feedback"><caseRef>1000000000004714</caseRef><inboundChannel>PAPER</inboundChannel><responseDateTime>2017-01-12T00:00:00.000Z</responseDateTime></ns2:caseReceipt>
