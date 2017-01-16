@@ -38,10 +38,12 @@ public class FileParserImplTest {
   private static final String CASE_REF_1 = "0199917831739169";
   private static final String CASE_REF_2 = "0199917831739200";
   private static final String CASE_REF_3 = "0199917831739042";
+  private static final String CASE_REF_DEFECT_1048 = "1000000000004714";
 
   private static final String CASE_RESPONSE_TIME_1 = "23/09/2016";
   private static final String CASE_RESPONSE_TIME_2 = "24/09/2016";
   private static final String CASE_RESPONSE_TIME_3 = "25/09/2016";
+  private static final String CASE_RESPONSE_TIME_DEFECT_1048 = "12/01/2017";
 
   @Inject
   private FileParser fileParser;
@@ -184,4 +186,27 @@ public class FileParserImplTest {
     assertTrue(exceptionThrown);
   }
 
+  @Test
+  public void testDefect1048File() throws CTPException, DatatypeConfigurationException, ParseException {
+    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/defect1048File.csv");
+    List<CaseReceipt> result = fileParser.parseIt(inputStream);
+    assertNotNull(result);
+
+    assertEquals(1, result.size());
+    List<String> caseRefs = new ArrayList<>();
+    List<XMLGregorianCalendar> responseDateTimes = new ArrayList<>();
+    for (CaseReceipt caseReceipt: result) {
+      assertEquals(InboundChannel.PAPER, caseReceipt.getInboundChannel());
+      caseRefs.add(caseReceipt.getCaseRef());
+      responseDateTimes.add(caseReceipt.getResponseDateTime());
+    }
+
+    List<String> expectedCaseRefs = new ArrayList<>();
+    expectedCaseRefs.add(CASE_REF_DEFECT_1048);
+    assertEquals(expectedCaseRefs, caseRefs);
+
+    List<XMLGregorianCalendar> exepectedResponseDateTimes = new ArrayList<>();
+    exepectedResponseDateTimes.add(DateTimeUtil.stringToXMLGregorianCalendar(CASE_RESPONSE_TIME_DEFECT_1048, responseDateTimeColFormat));
+    assertEquals(exepectedResponseDateTimes, responseDateTimes);
+  }
 }
