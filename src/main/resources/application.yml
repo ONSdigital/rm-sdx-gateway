@@ -13,6 +13,10 @@ security:
     password: ctp
 
 spring:
+  output:
+    ansi:
+      enabled: never
+
   application:
     name: Survey Data Exchange Gateway API
 
