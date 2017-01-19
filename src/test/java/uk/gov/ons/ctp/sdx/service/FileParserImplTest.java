@@ -38,10 +38,12 @@ public class FileParserImplTest {
   private static final String CASE_REF_1 = "0199917831739169";
   private static final String CASE_REF_2 = "0199917831739200";
   private static final String CASE_REF_3 = "0199917831739042";
+  private static final String CASE_REF_DEFECT_1048 = "1000000000004714";
 
   private static final String CASE_RESPONSE_TIME_1 = "23/09/2016";
   private static final String CASE_RESPONSE_TIME_2 = "24/09/2016";
   private static final String CASE_RESPONSE_TIME_3 = "25/09/2016";
+  private static final String CASE_RESPONSE_TIME_DEFECT_1048 = "12/01/2017";
 
   @Inject
   private FileParser fileParser;
@@ -183,5 +185,4 @@ public class FileParserImplTest {
     }
     assertTrue(exceptionThrown);
   }
-
 }

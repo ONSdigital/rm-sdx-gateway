@@ -59,7 +59,7 @@ public class ReceiptServiceImpl implements ReceiptService {
   public void acknowledgeFile(InputStream fileContents) throws CTPException {
     log.debug("acknowledgeFile {}", fileContents);
     List<CaseReceipt> caseReceipts = fileParser.parseIt(fileContents);
-    caseReceipts.forEach(caseFeedback -> caseReceiptPublisher.send(caseFeedback));
+    caseReceipts.forEach(caseReceipt -> caseReceiptPublisher.send(caseReceipt));
   }
 
   /**

@@ -12,6 +12,7 @@
     <description>CTP : ResponseManagement : SDX Gateway</description>
 
     <properties>
+        <skip.integration.tests>true</skip.integration.tests>
         <java.version>1.8</java.version>
         <springboot.version>1.4.2.RELEASE</springboot.version>
         <jersey.version>2.22.2</jersey.version>
@@ -207,6 +208,9 @@
                 <!-- IMPORTANT: old version used below because https://github.com/spring-projects/spring-boot/issues/6254
                 Once a newer version than 2.19.1 is developed, try to move to it. -->
                 <version>2.18.1</version>
+                <configuration>
+                    <skipTests>${skip.integration.tests}</skipTests>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
