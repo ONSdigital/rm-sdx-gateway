@@ -30,6 +30,9 @@ spring:
 management:
   port: 8291
   context-path: /mgmt
+  health:
+    rabbit:
+      enabled: false
 
 server:
   port: 8191

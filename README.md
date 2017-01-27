@@ -17,9 +17,7 @@ mvn -N io.takari:maven:wrapper
 ##################################################
 # To build
 ##################################################
-Default is for the DEV environment
 ./mvnw clean install
-./mvnw clean install -DskipITs (if you want to skip integration tests which are run by default with the dev profile)
 
 
 ##################################################
