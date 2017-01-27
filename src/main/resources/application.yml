@@ -26,10 +26,13 @@ spring:
 management:
   port: 8291
   context-path: /mgmt
+  security:
+    roles: SUPERUSER
+    enabled: true
 
 server:
   port: 8191
-  servlet-path: /mgmt
+  servlet-path: /
 
 endpoints:
   enabled: true
