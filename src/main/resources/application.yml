@@ -47,11 +47,11 @@ logging:
     uk.gov.ons.ctp: debug
     
 sftp:
-  host: fileons.sbl-online.co.uk
+  host: localhost
   port: 22
-  username: ctp.print.test
-  password: "w-ESpU8ey"
-  directory: /CTP/Print_Services_Test/sdxtest/
+  username: centos
+  password: "JLibV2&XD,"
+  directory: Documents
   cron: "0 0/1 * * * ?"
   
 data-grid:
