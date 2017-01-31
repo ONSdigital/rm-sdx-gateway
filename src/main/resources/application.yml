@@ -21,7 +21,7 @@ spring:
       percentage: 1
 
   zipkin:
-    enabled: true # true is the default to post to a Zipkin server at 9411
+    enabled: false # true is the default to post to a Zipkin server at 9411
 
 management:
   port: 8291
@@ -45,3 +45,15 @@ RESPONSE_DATE_TIME_COL_FORMAT: dd/MM/yyyy
 logging:
   level:
     uk.gov.ons.ctp: debug
+    
+sftp:
+  host: fileons.sbl-online.co.uk
+  port: 22
+  username: ctp.print.test
+  password: "w-ESpU8ey"
+  directory: /CTP/Print_Services_Test/sdxtest/
+  cron: "0 0/1 * * * ?"
+  
+data-grid:
+  address: localhost:6379
+  lock-time-to-live-seconds: 1800

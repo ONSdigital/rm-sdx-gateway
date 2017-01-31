@@ -9,5 +9,6 @@
     <int:annotation-config/>
 
     <import resource="case-receipt-outbound-flow.xml"/>
+    <import resource="sftp-inbound-flow.xml"/>
 </beans>
 
