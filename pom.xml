@@ -17,7 +17,15 @@
         <springboot.version>1.4.4.RELEASE</springboot.version>
         <jersey.version>2.22.2</jersey.version>
         <common.version>9.33.0-SNAPSHOT</common.version>
+<<<<<<< HEAD
         <casesvcapi.version>9.33.0-SNAPSHOT</casesvcapi.version>
+=======
+<<<<<<< HEAD
+        <casesvcapi.version>9.32.0-SNAPSHOT</casesvcapi.version>
+=======
+        <casesvcapi.version>9.33.0-SNAPSHOT</casesvcapi.version>
+>>>>>>> 1ea795f... CTPA-1092 warnings fix
+>>>>>>> CTPA-1092 warnings fix
         <lombok.version>1.16.6</lombok.version>
         <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
 
