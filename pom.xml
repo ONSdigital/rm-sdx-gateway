@@ -14,10 +14,14 @@
     <properties>
         <skip.integration.tests>true</skip.integration.tests>
         <java.version>1.8</java.version>
-        <springboot.version>1.4.2.RELEASE</springboot.version>
+        <springboot.version>1.4.4.RELEASE</springboot.version>
         <jersey.version>2.22.2</jersey.version>
         <common.version>9.33.0-SNAPSHOT</common.version>
+<<<<<<< HEAD
         <casesvcapi.version>9.32.0-SNAPSHOT</casesvcapi.version>
+=======
+        <casesvcapi.version>9.33.0-SNAPSHOT</casesvcapi.version>
+>>>>>>> 1ea795f... CTPA-1092 warnings fix
         <lombok.version>1.16.6</lombok.version>
         <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
 
@@ -43,7 +47,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Camden.RELEASE</version>
+                <version>Camden.SR4</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -71,7 +75,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
