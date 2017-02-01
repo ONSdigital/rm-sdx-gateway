@@ -25,7 +25,7 @@ spring:
       percentage: 1
 
   zipkin:
-    enabled: false # true is the default to post to a Zipkin server at 9411
+    enabled: false
 
 management:
   port: 8291
