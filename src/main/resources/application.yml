@@ -21,7 +21,7 @@ spring:
       percentage: 1
 
   zipkin:
-    enabled: true # true is the default to post to a Zipkin server at 9411
+    enabled: false # true is the default to post to a Zipkin server at 9411
 
 management:
   port: 8291
@@ -47,3 +47,16 @@ logging:
     uk.gov.ons.ctp: debug
     org.springframework.cloud.sleuth.instrument.messaging.MessagingSpanExtractor: ERROR
     org.springframework.context.annotation.ConfigurationClassPostProcessor: ERROR
+
+sftp:
+  host: localhost
+  port: 22
+  username: centos
+  password: "JLibV2&XD,"
+  directory: Documents
+  cron: "0 0/1 * * * ?"
+  
+data-grid:
+  address: localhost:6379
+  lock-time-to-live-seconds: 1800
+
