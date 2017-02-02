@@ -45,7 +45,9 @@ RESPONSE_DATE_TIME_COL_FORMAT: dd/MM/yyyy
 logging:
   level:
     uk.gov.ons.ctp: debug
-    
+    org.springframework.cloud.sleuth.instrument.messaging.MessagingSpanExtractor: ERROR
+    org.springframework.context.annotation.ConfigurationClassPostProcessor: ERROR
+
 sftp:
   host: localhost
   port: 22
@@ -57,3 +59,4 @@ sftp:
 data-grid:
   address: localhost:6379
   lock-time-to-live-seconds: 1800
+
