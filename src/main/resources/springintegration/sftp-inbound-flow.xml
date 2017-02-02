@@ -32,7 +32,8 @@
     </bean>
 
     <int:channel id="sftpInbound"/> <!--  To Java -->
-    <int:publish-subscribe-channel id="sftpOutbound"/>
+    <int:channel id="sftpOutbound"/>
+    <int:channel id="rename"/>
     
     <int-sftp:inbound-streaming-channel-adapter id="sftpInboundAdapter"
             channel="sftpInbound"
@@ -49,7 +50,9 @@
        </int:poller>
     </int-sftp:inbound-streaming-channel-adapter>
     
-    <int:stream-transformer input-channel="sftpInbound" output-channel="sftpOutbound"/>
+    
+    
+    <int:stream-transformer input-channel="rename" output-channel="sftpOutbound"/>
                                        
 	<int-sftp:outbound-gateway id="removeFile"
                               session-factory="sftpSessionFactory"
