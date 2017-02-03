@@ -24,16 +24,20 @@ public class SFTPFileReceiverImpl implements SFTPFileReceiver{
   @Inject
   private ReceiptService receiptService;
   
-  @ServiceActivator(inputChannel = "sftpInbound", outputChannel="rename")
-  public Message<InputStream> processFile(Message<InputStream> message) throws CTPException, IOException {
+  @Override
+  @ServiceActivator(inputChannel = "sftpInbound", outputChannel="sftpStreamTransformer")
+  public Message<InputStream> processFile(Message<InputStream> message) throws CTPException {
     log.debug("Entering acknowledgeFile");
     receiptService.acknowledgeFile(message.getPayload());
     
     Closeable closeable = new IntegrationMessageHeaderAccessor(message).getCloseableResource();
-    log.debug("closing");
     if (closeable != null) {
-      closeable.close();
-      log.debug("closed");
+      try {
+        closeable.close();
+      } catch (IOException e) {
+        log.error("IOException thrown while closing Message Stream...", e.getMessage());
+        throw new CTPException(CTPException.Fault.SYSTEM_ERROR, e.getMessage());
+      }
     }
     return message;
   }

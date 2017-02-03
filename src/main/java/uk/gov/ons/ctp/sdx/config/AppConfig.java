@@ -14,6 +14,5 @@ import lombok.Data;
 @ConfigurationProperties
 @Data
 public class AppConfig {
-  private ExportSchedule exportSchedule;
   private DataGrid dataGrid;
 }

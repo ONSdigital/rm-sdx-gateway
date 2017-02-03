@@ -54,7 +54,7 @@ sftp:
   username: centos
   password: "JLibV2&XD,"
   directory: Documents
-  cron: "0 0/1 * * * ?"
+  cron: "* * * * * ?"
   
 data-grid:
   address: localhost:6379

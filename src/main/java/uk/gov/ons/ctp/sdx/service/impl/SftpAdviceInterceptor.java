@@ -12,8 +12,10 @@ import uk.gov.ons.ctp.common.distributed.DistributedLockManager;
 @Slf4j
 public class SftpAdviceInterceptor implements MethodInterceptor {
 
+    private static final String LOCK_ID = "sftpReceiptLock";
+    
     @Inject
-    private DistributedLockManager sDXLockManager;
+    private DistributedLockManager sdxLockManager;
     
     /**
      * Clean up scheduler on bean destruction
@@ -21,21 +23,21 @@ public class SftpAdviceInterceptor implements MethodInterceptor {
      */
     @PreDestroy
     public void cleanUp() {
-      sDXLockManager.unlockInstanceLocks();
+      sdxLockManager.unlockInstanceLocks();
     }
     
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
       try {
-        if (!sDXLockManager.isLocked("sftpScheduler")) {
-          if (sDXLockManager.lock("sftpScheduler")) {
+        if (!sdxLockManager.isLocked(LOCK_ID)) {
+          if (sdxLockManager.lock(LOCK_ID)) {
             return invocation.proceed();
           } 
         }
       log.debug("No advice given");
       return new Boolean(false); 
       } finally { 
-        sDXLockManager.unlock("sftpScheduler");
+        sdxLockManager.unlock(LOCK_ID);
       }
     }
 }

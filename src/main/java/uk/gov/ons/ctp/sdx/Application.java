@@ -18,8 +18,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import lombok.extern.slf4j.Slf4j;
-import uk.gov.ons.ctp.common.distributed.DistributedInstanceManager;
-import uk.gov.ons.ctp.common.distributed.DistributedInstanceManagerRedissonImpl;
 import uk.gov.ons.ctp.common.distributed.DistributedLockManager;
 import uk.gov.ons.ctp.common.distributed.DistributedLockManagerRedissonImpl;
 import uk.gov.ons.ctp.common.jaxrs.CTPMessageBodyReader;
@@ -40,7 +38,6 @@ import uk.gov.ons.ctp.sdx.representation.ReceiptDTO;
 @ImportResource("springintegration/main.xml")
 @SpringBootApplication
 public class Application {
-  
   
   public static final String ACTION_EXECUTION_LOCK = "actionexport.request.execution";
 

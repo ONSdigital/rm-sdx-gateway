@@ -33,28 +33,25 @@
 
     <int:channel id="sftpInbound"/> <!--  To Java -->
     <int:channel id="sftpOutbound"/>
-    <int:channel id="rename"/>
+    <int:channel id="sftpStreamTransformer"/>
     
     <int-sftp:inbound-streaming-channel-adapter id="sftpInboundAdapter"
             channel="sftpInbound"
             session-factory="sftpSessionFactory"
-            filter="compositeFilter"
+            filename-pattern="Receipt*.txt"
             remote-file-separator="/"
             remote-directory="${sftp.directory}"
             >
-<!--   <int:poller cron="${sftp.cron}"> -->
-       <int:poller fixed-rate="5000" >
+		<int:poller cron="${sftp.cron}"> 
        	<int:advice-chain>
        		<bean class="uk.gov.ons.ctp.sdx.service.impl.SftpAdviceInterceptor" />
        	</int:advice-chain>
-       </int:poller>
+        </int:poller>
     </int-sftp:inbound-streaming-channel-adapter>
-    
-    
-    
-    <int:stream-transformer input-channel="rename" output-channel="sftpOutbound"/>
+      
+    <int:stream-transformer input-channel="sftpStreamTransformer" output-channel="sftpOutbound"/>
                                        
-	<int-sftp:outbound-gateway id="removeFile"
+	<int-sftp:outbound-gateway id="renameFile"
                               session-factory="sftpSessionFactory"
                               request-channel="sftpOutbound"
                               reply-channel="nullChannel"
@@ -62,23 +59,7 @@
                               remote-file-separator="/"
                               command="mv"
                               expression="headers['file_remoteDirectory'] + '/' + headers['file_remoteFile']"
-                              rename-expression="headers['file_remoteDirectory'] + '/' + headers['file_remoteFile'] + '.Processed'"
+                              rename-expression="headers['file_remoteDirectory'] + '/' + headers['file_remoteFile'] + '.processed'"
                               order="1">
     </int-sftp:outbound-gateway>
-
-	<bean id="compositeFilter"
-		class="org.springframework.integration.file.filters.CompositeFileListFilter">
-		<constructor-arg>
-			<list>
-				<bean
-					class="org.springframework.integration.sftp.filters.SftpSimplePatternFileListFilter">
-					<constructor-arg value="*.csv" />
-				</bean>
-				<bean id="acceptOnceFileListFilter" class="org.springframework.integration.file.filters.AcceptOnceFileListFilter"/>
-			</list>
-		</constructor-arg>
-	</bean>
-    
-
-    
 </beans>

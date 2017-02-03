@@ -1,6 +1,5 @@
 package uk.gov.ons.ctp.sdx.message;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.springframework.messaging.Message;
@@ -17,5 +16,5 @@ public interface SFTPFileReceiver {
    * @param message containing stream of file from SFTP.
    * @return message read in.
    */
-  Message<InputStream> processFile(Message<InputStream> message) throws CTPException, IOException;
+  Message<InputStream> processFile(Message<InputStream> message) throws CTPException;
 }
