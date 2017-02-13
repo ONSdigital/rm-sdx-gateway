@@ -18,5 +18,10 @@
 
     <bean id="myMessageListener" class="uk.gov.ons.ctp.sdx.utility.CaseBoundMessageListener"/>
 
+  <bean id="distributedLockManager" class="org.mockito.Mockito" factory-method="mock"  >
+    <constructor-arg value="uk.gov.ons.ctp.common.distributed.DistributedLockManager" />
+  </bean>
+
+
 </beans>
 

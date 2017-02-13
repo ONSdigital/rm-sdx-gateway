@@ -1,6 +1,7 @@
 package uk.gov.ons.ctp.sdx.message;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static uk.gov.ons.ctp.sdx.service.ReceiptServiceImplTest.CASE_REF;
 
 import java.io.ByteArrayInputStream;
@@ -14,12 +15,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import uk.gov.ons.ctp.common.distributed.DistributedLockManager;
 import uk.gov.ons.ctp.common.message.JmsHelper;
 import uk.gov.ons.ctp.common.time.DateTimeUtil;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
@@ -42,6 +46,9 @@ public class CaseReceiptPublisherImplITCase {
   @Autowired
   CachingConnectionFactory connectionFactory;
 
+  @Autowired
+  DistributedLockManager distributedLockManager;
+  
   private Connection connection;
   private int initialCounter;
 
@@ -54,6 +61,9 @@ public class CaseReceiptPublisherImplITCase {
     connection.start();
     initialCounter = JmsHelper.numberOfMessagesOnQueue(connection, INVALID_CASE_RECEIPTS_QUEUE);
 
+    MockitoAnnotations.initMocks(this);
+    Mockito.when(distributedLockManager.isLocked(any(String.class))).thenReturn(true);
+    
     CaseBoundMessageListener listener = (CaseBoundMessageListener) caseReceiptMessageListenerContainer.getMessageListener();
     listener.setPayload(null);
   }

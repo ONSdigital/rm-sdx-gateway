@@ -6,10 +6,8 @@ import javax.inject.Inject;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
-import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.ctp.common.distributed.DistributedLockManager;
 
-@Slf4j
 public class SftpAdviceInterceptor implements MethodInterceptor {
 
     private static final String LOCK_ID = "sftpReceiptLock";
@@ -34,7 +32,6 @@ public class SftpAdviceInterceptor implements MethodInterceptor {
             return invocation.proceed();
           } 
         }
-      log.debug("No advice given");
       return new Boolean(false); 
       } finally { 
         sdxLockManager.unlock(LOCK_ID);
