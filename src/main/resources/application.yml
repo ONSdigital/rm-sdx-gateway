@@ -55,6 +55,18 @@ logging:
     org.springframework.cloud.sleuth.instrument.messaging.MessagingSpanExtractor: ERROR
     org.springframework.context.annotation.ConfigurationClassPostProcessor: ERROR
 
+sftp:
+  host: localhost
+  port: 22
+  username: centos
+  password: "JLibV2&XD,"
+  directory: Documents
+  cron: "* * * * * ?"
+  
+data-grid:
+  address: localhost:6379
+  lock-time-to-live-seconds: 1800
+  
 rabbitmq:
   username: guest
   password: guest
