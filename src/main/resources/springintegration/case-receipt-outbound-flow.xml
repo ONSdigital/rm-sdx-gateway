@@ -1,56 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:int="http://www.springframework.org/schema/integration"
-       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
-       xmlns:int-xml="http://www.springframework.org/schema/integration/xml"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
   http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
-  http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
-  http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
-  http://www.springframework.org/schema/integration/xml
-  http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
+  http://www.springframework.org/schema/rabbit
+  http://www.springframework.org/schema/rabbit/spring-rabbit-1.6.xsd">
 
-    <!-- anything sent to this channel is put on the queue Case.InvalidCaseReceipts -->
-    <int:channel id="caseReceiptXmlInvalid" />
-    <bean id="invalidCaseReceiptQueue" class="com.rabbitmq.jms.admin.RMQDestination">
-        <constructor-arg name="destName" value="Case.InvalidCaseReceipts"/>
-        <constructor-arg name="isQueue" value="true"/>
-        <constructor-arg name="isTemporary" value="false"/>
-    </bean>
-    <int-jms:outbound-channel-adapter id="invalidCaseReceiptJmsOut" destination="invalidCaseReceiptQueue" channel="caseReceiptXmlInvalid"/>
-
-    <!-- setup the outbound jms queue -->
-    <bean id="caseReceiptQueue" class="com.rabbitmq.jms.admin.RMQDestination">
-        <constructor-arg name="destName" value="Case.Responses"/>
-        <constructor-arg name="isQueue" value="true"/>
-        <constructor-arg name="isTemporary" value="false"/>
-    </bean>
-    <!--  setup the outbound channels - note each queue needs a channel -->
-    <int:channel id="caseReceiptOutbound" />
-    <int:channel id="caseReceiptXml" />
-    <int:channel id="caseReceipt" />
-
-    <!--  the @Publisher sends to the marshalling-transformers input channel -->
-    <int-xml:marshalling-transformer
-            input-channel="caseReceiptOutbound" output-channel="caseReceiptXml"
-            marshaller="caseReceiptMarshaller"
-            result-transformer="caseReceiptTransformer"/>
-    <!--  the caseReceiptMarshaller turns java objects into xml dom -->
     <bean id="caseReceiptMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="contextPath" value="uk.gov.ons.ctp.response.casesvc.message.feedback" />
     </bean>
-    <!--  the caseReceiptTransformer turns the xml dom into a string -->
-    <bean id="caseReceiptTransformer" class="org.springframework.integration.xml.transformer.ResultToStringTransformer" />
 
-    <!-- we validate here that we post case receipts matching the outbound schema -->
-    <!-- Option to be used in Debug/Test: throw-exception-on-rejection="true" -->
-    <int-xml:validating-filter id="caseReceiptValidator" input-channel="caseReceiptXml"
-                               output-channel="caseReceiptXmlValid" schema-location="classpath:xsd/caseReceipt.xsd" discard-channel="caseReceiptXmlInvalid"/>
+    <bean id="caseReceiptMarshallingMessageConverter" class="org.springframework.amqp.support.converter.MarshallingMessageConverter">
+        <constructor-arg ref="caseReceiptMarshaller" />
+        <property name="contentType" value="text/xml" />
+    </bean>
 
-    <!-- define the channel name to send our xml string to -->
-    <int:router input-channel="caseReceiptXmlValid" expression="'caseReceipt'"/>
-
-    <!--  each channel adapter listens to one of our routed channels and adapts the SI message to a JMS message -->
-    <int-jms:outbound-channel-adapter id="jmsout" channel="caseReceipt" destination="caseReceiptQueue"/>
+    <rabbit:template id="caseReceiptRabbitTemplate" connection-factory="connectionFactory" exchange="case-outbound-exchange" routing-key="Case.Responses.binding"
+                     message-converter="caseReceiptMarshallingMessageConverter" channel-transacted="true"/>
 </beans>
