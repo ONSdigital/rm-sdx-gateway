@@ -32,31 +32,31 @@ curl -u gateway:ctp -H "Accept: application/json" -H "Content-Type: application/
 
 ## To post a valid receipt
 curl -u gateway:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"1000000000000001\"}"
-201 {"caseRef":"abc"} and header Location: http://localhost:8191/questionnairereceipts/abc and verify +1 on queue Case.Responses at http://localhost:8161/admin/queues.jsp
+201 {"caseRef":"1000000000000001"} and header http://localhost:8191/questionnairereceipts/1000000000000001 and verify +1 on queue Case.Responses
 
 
 ## To post a valid daily .csv file
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleAllThreeValidReceipts.csv
-201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
+201 and verify +3 on queue Case.Responses and header Location: http://localhost:8191/paperquestionnairereceipts
 
 
 ## To post a partially valid daily .csv file (two records are valid - one record is invalid)
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleTwoValidReceiptsOneInvalidReceiptMissingResponseTime.csv
-201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
+201 and verify +3 on queue Case.Responses and header Location: http://localhost:8191/paperquestionnairereceipts
 
 
 ## To post a valid daily .csv file with unlinked case with more than 16 characters for caseRef
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleUnlikedCaseWithMore16Chars.csv
-201 and verify +1 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
+201 and verify +1 on queue Case.Responses and header Location: http://localhost:8191/paperquestionnairereceipts
 
 
 ## To post an invalid daily .csv file (all records are invalid)
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@sampleReceiptsWithInvalidResponseTimes.csv
-201 and verify +3 on queue Case.Responses at http://localhost:8161/admin/queues.jsp and header Location: http://localhost:8191/paperquestionnairereceipts
+201 and verify +3 on queue Case.Responses and header Location: http://localhost:8191/paperquestionnairereceipts
 
 
 ## To post an empty daily .csv file
