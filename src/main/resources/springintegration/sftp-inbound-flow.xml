@@ -40,13 +40,8 @@
             session-factory="sftpSessionFactory"
             filename-pattern="Receipt*.txt"
             remote-file-separator="/"
-            remote-directory="${sftp.directory}"
-            >
-		<int:poller cron="${sftp.cron}"> 
-       	<int:advice-chain>
-       		<bean class="uk.gov.ons.ctp.sdx.service.impl.SftpAdviceInterceptor" />
-       	</int:advice-chain>
-        </int:poller>
+            remote-directory="${sftp.directory}">
+		<int:poller cron="${sftp.cron}"/>
     </int-sftp:inbound-streaming-channel-adapter>
       
     <int:stream-transformer input-channel="sftpStreamTransformer" output-channel="sftpOutbound"/>
@@ -60,6 +55,17 @@
                               command="mv"
                               expression="headers['file_remoteDirectory'] + '/' + headers['file_remoteFile']"
                               rename-expression="headers['file_remoteDirectory'] + '/' + headers['file_remoteFile'] + '.processed'"
-                              order="1">
+                              order="1"
+                              >
+    	<int-sftp:request-handler-advice-chain>
+    		<bean class="org.springframework.integration.handler.advice.ExpressionEvaluatingRequestHandlerAdvice">
+                <property name="onSuccessExpression" value="#root" />
+                <property name="successChannel" ref="sftpSuccessProcess" />
+                <property name="onFailureExpression" value="#root" />
+                <property name="failureChannel" ref="sftpFailedProcess" />
+            </bean>
+    	</int-sftp:request-handler-advice-chain>
     </int-sftp:outbound-gateway>
+    <int:channel id="sftpSuccessProcess"/>
+    <int:channel id="sftpFailedProcess"/>
 </beans>
