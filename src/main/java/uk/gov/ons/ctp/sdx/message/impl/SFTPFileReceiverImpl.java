@@ -3,7 +3,6 @@ package uk.gov.ons.ctp.sdx.message.impl;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -38,11 +37,6 @@ public class SFTPFileReceiverImpl implements SFTPFileReceiver {
       log.debug(filename + ": is not locked");
       receiptService.acknowledgeFile(message.getPayload());
       log.debug(filename + ": grabbed locked");
-      try {
-        Thread.sleep(4000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
     } else {
       log.debug(filename + ": was already locked");
       Closeable closeable = new IntegrationMessageHeaderAccessor(message).getCloseableResource();
