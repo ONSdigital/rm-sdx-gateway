@@ -17,7 +17,7 @@ mvn -N io.takari:maven:wrapper
 ##################################################
 # To build
 ##################################################
-./mvnw clean install
+./mvnw clean install -P artifactory-aws
 
 
 ##################################################
