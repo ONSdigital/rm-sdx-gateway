@@ -15,4 +15,5 @@ import lombok.Data;
 @Data
 public class AppConfig {
   private DataGrid dataGrid;
+  private Sftp sftp;
 }
