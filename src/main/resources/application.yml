@@ -62,6 +62,7 @@ sftp:
   password: "JLibV2&XD,"
   directory: Documents
   cron: "* * * * * ?"
+  filepattern: "Receipt*.txt"
   
 data-grid:
   address: localhost:6379
