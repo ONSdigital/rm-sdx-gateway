@@ -1,4 +1,3 @@
-
 <configuration>
   <include resource="org/springframework/boot/logging/logback/defaults.xml" />
   <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss" />
