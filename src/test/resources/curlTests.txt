@@ -77,11 +77,11 @@ curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST 
 400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161125143357214","message":"No record found."}}
 
 
-## TODO - To post a valid receipt but no or bad credentials - CTPA-1136
+## To post a valid receipt but no credentials provided
 curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"1000000000000001\"}"
-404 {"error":{"code":"RESOURCE_NOT_FOUND","timestamp":"20170222092024537","message":"HTTP 404 Not Found"}}
+401 {"error":{"code":"ACCESS_DENIED","timestamp":"20170222135210255","message":"Non Specific Error"}}
 
+
+## To post a valid receipt but bad credentials provided
 curl -u gateway:ctpo -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"1000000000000001\"}"
-404 {"error":{"code":"RESOURCE_NOT_FOUND","timestamp":"20170222092024537","message":"HTTP 404 Not Found"}}
-
-This should be a 401 {"timestamp":1487755128531,"status":401,"error":"Unauthorized","message":"Full authentication is required to access this resource","path":"/mgmt/health"} as with the health endpoint.
+401 {"error":{"code":"ACCESS_DENIED","timestamp":"20170222135303612","message":"Non Specific Error"}}
