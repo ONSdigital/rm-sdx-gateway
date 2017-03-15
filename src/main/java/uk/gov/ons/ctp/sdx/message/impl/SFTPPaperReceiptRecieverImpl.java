@@ -123,7 +123,7 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
       throws SftpException, CTPException, IOException {
     for (LsEntry lsEntry : fileList) {
       String file = lsEntry.getFilename();
-      String newPath = file + ".processed";
+      String newPath = file + ".processed" + System.currentTimeMillis();
 
       try (InputStream stream = sftp.get(file)) {
         receiptService.acknowledgeFile(stream);
