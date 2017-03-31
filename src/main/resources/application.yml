@@ -13,6 +13,10 @@ security:
     password: ctp
 
 spring:
+  output:
+    ansi:
+      enabled: never
+
   application:
     name: Survey Data Exchange Gateway API
 
@@ -21,7 +25,7 @@ spring:
       percentage: 1
 
   zipkin:
-    enabled: false # true is the default to post to a Zipkin server at 9411
+    enabled: false
 
 management:
   port: 8291
@@ -29,6 +33,9 @@ management:
   security:
     roles: SUPERUSER
     enabled: true
+  health:
+    rabbit:
+      enabled: false
 
 server:
   port: 8191
@@ -55,9 +62,14 @@ sftp:
   password: "JLibV2&XD,"
   directory: Documents
   cron: "* * * * * ?"
-  filepattern: "Receipt*.txt"
+  filepattern: "Receipt*.csv"
   
 data-grid:
   address: localhost:6379
   lock-time-to-live-seconds: 1800
-
+  
+rabbitmq:
+  username: guest
+  password: guest
+  host: localhost
+  virtualhost: /

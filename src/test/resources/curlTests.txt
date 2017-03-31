@@ -75,3 +75,13 @@ curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST 
 cd /home/centos/code/rm-sdx-gateway/src/test/resources/dailyPaperFiles
 curl -u gateway:ctp http://localhost:8191/paperquestionnairereceipts -v -X POST -F file=@defect911File.csv
 400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161125143357214","message":"No record found."}}
+
+
+## To post a valid receipt but no credentials provided
+curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"1000000000000001\"}"
+401 {"error":{"code":"ACCESS_DENIED","timestamp":"20170222135210255","message":"Non Specific Error"}}
+
+
+## To post a valid receipt but bad credentials provided
+curl -u gateway:ctpo -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"1000000000000001\"}"
+401 {"error":{"code":"ACCESS_DENIED","timestamp":"20170222135303612","message":"Non Specific Error"}}
