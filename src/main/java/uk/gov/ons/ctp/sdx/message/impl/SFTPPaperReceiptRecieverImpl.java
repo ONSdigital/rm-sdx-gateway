@@ -45,6 +45,14 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
 
   @Inject
   private DistributedLockManager sdxLockManager;
+ 
+  
+  
+  @Scheduled(cron = "0 0/1 * 1/1 * ?")
+  public void scheduledPoke() throws CTPException {
+	  log.debug("Scheduled poke");
+  }
+  
   
   /**
    * Ingest paper receipts placed in remote directory by fetching 
@@ -53,22 +61,32 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
    */
   @Scheduled(cron = "${sftp.cron}")
   public void consumePaperReceipt() throws CTPException {
+	  log.debug("Attempting to grab lock");
 
     if (!sdxLockManager.isLocked(SFTP_LOCK) && sdxLockManager.lock(SFTP_LOCK)) {
+  	  log.debug("Grabbed lock");
 
       try {
+      	log.debug("Get SFTP Session");    	  
         Session session = getSession();
-        ChannelSftp sftp = getSftp(session);
+
+      	log.debug("Get SFTP Channel");    	  
+      	ChannelSftp sftp = getSftp(session);
         
+      	log.debug("Get List of Files");    	        	
         Vector<LsEntry> fileList = sftp.ls(appConfig.getSftp().getFilepattern());
 
         processFiles(sftp, fileList);
+        
+        log.debug("SFTP disconnect");
         disconnectSession(session, sftp);
+        log.debug("SFTP disconnected");
 
       } catch (SftpException | JSchException | IOException e) {
         throw new CTPException(Fault.SYSTEM_ERROR, e);
       } finally {
         sdxLockManager.unlock(SFTP_LOCK);
+    	log.debug("Lock released");
       }
     }
   }
@@ -125,6 +143,7 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
       String file = lsEntry.getFilename();
       String newPath = file + ".processed" + System.currentTimeMillis();
 
+      log.debug("Process file: " + file);
       try (InputStream stream = sftp.get(file)) {
         receiptService.acknowledgeFile(stream);
         log.debug("Now processing file " + file);
