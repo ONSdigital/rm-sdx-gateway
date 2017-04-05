@@ -46,14 +46,6 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
   @Inject
   private DistributedLockManager sdxLockManager;
  
-  
-  
-  @Scheduled(cron = "0 0/1 * 1/1 * ?")
-  public void scheduledPoke() throws CTPException {
-	  log.debug("Scheduled poke");
-  }
-  
-  
   /**
    * Ingest paper receipts placed in remote directory by fetching 
    * them via SFTP and passing them to SDX gateway.
