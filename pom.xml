@@ -341,22 +341,22 @@
 
     <profiles>
         <profile>
-            <id>artifactory-aws</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <distributionManagement>
-                <repository>
-                    <id>central</id>
-                    <name>libs-release</name>
-                    <url>http://artifactory.ctpdev.local/artifactory/libs-release-local-aws</url>
-                </repository>
-                <snapshotRepository>
-                    <id>snapshots</id>
-                    <name>libs-snapshots</name>
-                    <url>http://artifactory.ctpdev.local/artifactory/libs-snapshot-local-aws</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
+	    	<id>artifactory</id>
+	        <activation>
+	        	<activeByDefault>true</activeByDefault>
+	        </activation>
+	        <distributionManagement>
+	        	<repository>
+	                <id>central</id>
+	                <name>libs-release</name>
+	            	<url>http://192.168.11.11:8081/artifactory/libs-release-local</url>
+	            </repository>
+	            <snapshotRepository>
+	                <id>snapshots</id>
+	                <name>libs-snapshots</name>
+	            	<url>http://192.168.11.11:8081/artifactory/libs-snapshot-local</url>
+	            </snapshotRepository>
+	        </distributionManagement>
+		</profile>
     </profiles>
 </project>
