@@ -17,12 +17,16 @@ mvn -N io.takari:maven:wrapper
 ##################################################
 # To build
 ##################################################
-./mvnw clean install
+mvn clean install
 
 
 ##################################################
 # To run the app
 ##################################################
+
+- Prerequisites:
+    - Start RabbitMQ: sudo /sbin/service rabbitmq-server start
+
 - To start with default credentials:
     ./mvnw spring-boot:run
 
@@ -30,7 +34,9 @@ mvn -N io.takari:maven:wrapper
     ./mvnw spring-boot:run -Dsecurity.user.name=tiptop -Dsecurity.user.password=override
 
 
+##################################################
 ## To test
+##################################################
 See curlTests.txt under /test/resources
 
 

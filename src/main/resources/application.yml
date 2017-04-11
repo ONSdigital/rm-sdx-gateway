@@ -73,3 +73,6 @@ rabbitmq:
   password: guest
   host: localhost
   virtualhost: /
+
+messaging:
+  pubMaxAttempts: 3

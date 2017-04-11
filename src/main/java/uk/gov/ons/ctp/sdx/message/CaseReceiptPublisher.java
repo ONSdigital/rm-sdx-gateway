@@ -9,7 +9,6 @@ public interface CaseReceiptPublisher {
   /**
    * To publish a caseReceipt to queue
    * @param caseReceipt to be published
-   * @return the published caseFeedback
    */
-  CaseReceipt send(CaseReceipt caseReceipt);
+  void send(CaseReceipt caseReceipt);
 }
