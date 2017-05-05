@@ -3,9 +3,10 @@ package uk.gov.ons.ctp.sdx.service.impl;
 import java.io.InputStream;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.xml.datatype.DatatypeConfigurationException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.ctp.common.error.CTPException;
@@ -21,17 +22,17 @@ import uk.gov.ons.ctp.sdx.service.ReceiptService;
  * The service to acknowlegde receipts
  */
 @Slf4j
-@Named
+@Component
 public class ReceiptServiceImpl implements ReceiptService {
 
   private static final String EXCEPTION_ACKNOWLEGDING_RECEIPT =
           "An unexpected error occured while acknowledging your receipt. ";
   public static final String EXCEPTION_INVALID_RECEIPT = "Invalid receipt. It can't be acknowledged.";
 
-  @Inject
+  @Autowired
   private CaseReceiptPublisher caseReceiptPublisher;
 
-  @Inject
+  @Autowired
   private FileParser fileParser;
 
   @Override

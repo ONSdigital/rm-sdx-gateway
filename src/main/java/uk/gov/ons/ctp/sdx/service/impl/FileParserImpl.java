@@ -6,13 +6,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Named;
 import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.ctp.common.error.CTPException;
@@ -25,7 +25,7 @@ import uk.gov.ons.ctp.sdx.service.FileParser;
  *  The service implementation to parse csf files
  */
 @Slf4j
-@Named
+@Component
 public class FileParserImpl implements FileParser {
 
   public static final String EXCEPTION_NO_RECORDS = "No record found.";

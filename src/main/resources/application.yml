@@ -7,7 +7,7 @@ info:
 
 security:
   basic:
-    enabled: true
+    enabled: false
   user:
     name: gateway
     password: ctp

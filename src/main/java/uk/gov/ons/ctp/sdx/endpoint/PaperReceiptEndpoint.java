@@ -1,36 +1,30 @@
 package uk.gov.ons.ctp.sdx.endpoint;
 
-import lombok.extern.slf4j.Slf4j;
-import org.glassfish.jersey.media.multipart.FormDataParam;
-import uk.gov.ons.ctp.common.error.CTPException;
-import uk.gov.ons.ctp.sdx.service.ReceiptService;
-
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
 import java.io.InputStream;
 import java.net.URI;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.extern.slf4j.Slf4j;
+import uk.gov.ons.ctp.common.error.CTPException;
+import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
 /**
  * The endpoint to receive paper responses from Newport
  */
 @Slf4j
-@Produces({ MediaType.APPLICATION_JSON })
-@Path("/paperquestionnairereceipts")
+@RestController
+@RequestMapping(value = "/questionnairereceipts", produces = "application/json")
 public class PaperReceiptEndpoint {
 
-  @Inject
+  @Autowired
   private ReceiptService receiptService;
-
-  @Context
-  private UriInfo uriInfo;
 
   /**
    * This receives a file containing paper responses.
@@ -39,14 +33,11 @@ public class PaperReceiptEndpoint {
    * @return 201 if successful
    * @throws CTPException if the file can't be ingested
    */
-  @POST
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public final Response acknowledgeFile(@FormDataParam("file") InputStream fileContents) throws CTPException {
+  @RequestMapping(method = RequestMethod.POST, consumes = "multipart/form-data")
+  public final ResponseEntity<?> acknowledgeFile(@RequestParam("file") @RequestBody InputStream fileContents) throws CTPException {
     log.debug("Entering acknowledgeFile");
     receiptService.acknowledgeFile(fileContents);
 
-    UriBuilder ub = uriInfo.getAbsolutePathBuilder();
-    URI receiptUri = ub.build();
-    return Response.created(receiptUri).build();
+    return ResponseEntity.created(URI.create("TODO")).build();
   }
 }

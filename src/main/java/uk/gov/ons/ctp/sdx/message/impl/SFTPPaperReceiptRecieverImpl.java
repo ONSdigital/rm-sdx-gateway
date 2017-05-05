@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
@@ -31,7 +29,7 @@ import uk.gov.ons.ctp.sdx.service.ReceiptService;
  * them via SFTP and passing them to SDX gateway.
  */
 @Slf4j
-@Named
+@Component
 @Configuration
 public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
 
@@ -40,10 +38,10 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
   @Autowired
   private AppConfig appConfig;
 
-  @Inject
+  @Autowired
   private ReceiptService receiptService;
 
-  @Inject
+  @Autowired
   private DistributedLockManager sdxLockManager;
   
   /**

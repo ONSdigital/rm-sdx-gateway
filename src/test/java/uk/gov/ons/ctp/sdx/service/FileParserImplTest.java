@@ -10,13 +10,13 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -29,7 +29,6 @@ import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 /**
  * To unit test FileParser
  */
-@SpringBootTest(classes = FileParserImplTestConfig.class)
 @RunWith(SpringRunner.class)
 public class FileParserImplTest {
 
@@ -45,7 +44,7 @@ public class FileParserImplTest {
   private static final String CASE_RESPONSE_TIME_3 = "25/09/2016";
   private static final String CASE_RESPONSE_TIME_DEFECT_1048 = "12/01/2017";
 
-  @Inject
+  @Autowired
   private FileParser fileParser;
 
   @Value("${RESPONSE_DATE_TIME_COL_FORMAT}")

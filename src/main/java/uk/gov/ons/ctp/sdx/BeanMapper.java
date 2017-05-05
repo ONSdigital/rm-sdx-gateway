@@ -1,5 +1,7 @@
 package uk.gov.ons.ctp.sdx;
 
+import org.springframework.stereotype.Component;
+
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -7,12 +9,10 @@ import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.representation.ReceiptDTO;
 
-import javax.inject.Named;
-
 /**
  * The bean mapper to go from Entity objects to Presentation objects.
  */
-@Named
+@Component
 public class BeanMapper extends ConfigurableMapper {
 
   @Override
