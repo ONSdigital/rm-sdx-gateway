@@ -35,6 +35,7 @@ public class ReceiptEndpointUnitTest {
   private static final String RECEIPT_INVALIDJSON_SCENARIO2 = "{\"caseRef\":  \"\"}";
   private static final String RECEIPT_VALIDJSON = String.format("{\"caseRef\":  \"%s\"}", CASE_REF);
   private static final String SERVER_URL = "/questionnairereceipts";
+
   /**
    * configure the test
    */
@@ -69,7 +70,6 @@ public class ReceiptEndpointUnitTest {
 
     actions.andExpect(status().isCreated()).andExpect(jsonPath("$.caseRef",
         is(CASE_REF))).andExpect(header().string(LOCATION, "TODO"));
-
   }
 
   @Test

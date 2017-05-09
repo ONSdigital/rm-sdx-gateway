@@ -45,7 +45,7 @@ public class ReceiptEndpoint {
    */
   @RequestMapping(method = RequestMethod.POST)
   public final ResponseEntity<?> acknowledge(final @RequestBody @Valid ReceiptDTO receiptDTO,
-      BindingResult bindingResult) throws CTPException {
+                                             BindingResult bindingResult) throws CTPException {
     log.debug("Entering acknowledge with receipt {}", receiptDTO);
     if (bindingResult.hasErrors()) {
       throw new InvalidRequestException("Binding errors for acknowledge file: ", bindingResult);

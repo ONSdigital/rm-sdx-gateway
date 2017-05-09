@@ -6,9 +6,8 @@ import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.common.time.DateTimeUtil;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
@@ -22,7 +21,7 @@ import uk.gov.ons.ctp.sdx.service.ReceiptService;
  * The service to acknowlegde receipts
  */
 @Slf4j
-@Component
+@Service
 public class ReceiptServiceImpl implements ReceiptService {
 
   private static final String EXCEPTION_ACKNOWLEGDING_RECEIPT =
@@ -75,7 +74,4 @@ public class ReceiptServiceImpl implements ReceiptService {
       throw new CTPException(CTPException.Fault.SYSTEM_ERROR, EXCEPTION_INVALID_RECEIPT);
     }
   }
-
-
-
 }

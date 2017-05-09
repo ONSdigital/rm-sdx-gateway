@@ -6,8 +6,8 @@ import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.annotation.MessageEndpoint;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
@@ -29,7 +29,7 @@ import uk.gov.ons.ctp.sdx.service.ReceiptService;
  * them via SFTP and passing them to SDX gateway.
  */
 @Slf4j
-@Component
+@MessageEndpoint
 @Configuration
 public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
 
@@ -51,9 +51,7 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
    */
   @Scheduled(cron = "${sftp.cron}")
   public void consumePaperReceipt() throws CTPException {
-
     if (!sdxLockManager.isLocked(SFTP_LOCK) && sdxLockManager.lock(SFTP_LOCK)) {
-
       try {
         Session session = getSession();
         ChannelSftp sftp = getSftp(session);
@@ -62,7 +60,6 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
 
         processFiles(sftp, fileList);
         disconnectSession(session, sftp);
-
       } catch (SftpException | JSchException | IOException e) {
         throw new CTPException(Fault.SYSTEM_ERROR, e);
       } finally {

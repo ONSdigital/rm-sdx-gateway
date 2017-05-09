@@ -29,8 +29,7 @@ public class PaperReceiptEndpoint {
   /**
    * This receives a file containing paper responses.
    *
-   * @param fileContents the daily file received from Newport for paper
-   *          responses
+   * @param file the daily file received from Newport for paper responses
    * @return 201 if successful
    * @throws CTPException if the file can't be ingested
    */

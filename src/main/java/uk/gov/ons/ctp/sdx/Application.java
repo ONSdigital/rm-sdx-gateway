@@ -33,10 +33,11 @@ import uk.gov.ons.ctp.sdx.config.AppConfig;
 @SpringBootApplication
 public class Application {
   
-  public static final String ACTION_EXECUTION_LOCK = "actionexport.request.execution";
+  private static final String ACTION_EXECUTION_LOCK = "actionexport.request.execution";
 
   @Autowired
   private AppConfig appConfig;
+
   /**
    * This method is the entry point to the Spring Boot application.
    * @param args These are the optional command line arguments
@@ -62,12 +63,12 @@ public class Application {
   }
   
   @Bean
-    public RestExceptionHandler restExceptionHandler() {
+  public RestExceptionHandler restExceptionHandler() {
       return new RestExceptionHandler();
     }
   
   @Bean @Primary
-    public CustomObjectMapper CustomObjectMapper() {
+  public CustomObjectMapper CustomObjectMapper() {
       return new CustomObjectMapper();
     }
 }
