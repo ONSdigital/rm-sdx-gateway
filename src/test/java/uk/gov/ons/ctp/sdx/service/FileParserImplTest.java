@@ -29,6 +29,7 @@ import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 /**
  * To unit test FileParser
  */
+@SpringBootTest(classes = FileParserImplTestConfig.class)
 @RunWith(SpringRunner.class)
 public class FileParserImplTest {
 
