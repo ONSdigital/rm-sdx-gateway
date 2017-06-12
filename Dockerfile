@@ -1,7 +1,8 @@
-FROM openjdk 
+FROM openjdk:jdk-8 
+MAINTAINER Kieran Wardle <kieran.wardle@ons.gov.uk>
 ARG jar
 VOLUME /tmp
-ADD $jar sdx-gateway.jar
+COPY $jar sdx-gateway.jar
 RUN sh -c 'touch /sdx-gateway.jar'
 ENV JAVA_OPTS=""
 ENTRYPOINT [ "sh", "-c", "java -jar /sdx-gateway.jar" ]
