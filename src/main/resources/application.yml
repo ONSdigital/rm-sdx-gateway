@@ -54,6 +54,7 @@ logging:
     uk.gov.ons.ctp: debug
     org.springframework.cloud.sleuth.instrument.messaging.MessagingSpanExtractor: ERROR
     org.springframework.context.annotation.ConfigurationClassPostProcessor: ERROR
+  profile: DEV
 
 sftp:
   host: localhost
