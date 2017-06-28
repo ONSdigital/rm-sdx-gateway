@@ -1,46 +1,23 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e62c6d31e0ec427e9e1c303d6c7dd744)](https://www.codacy.com/app/sdcplatform/rm-sdx-gateway?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ONSdigital/rm-sdx-gateway&amp;utm_campaign=Badge_Grade)
 
 # SDX Gateway
-The Survey Data Exchange (SDX) Gateway is a RESTful web service implemented using [Spring Boot](http://projects.spring.io/spring-boot/). It provides an interface for the Survey Data Exchange to notify Response Management when a questionnaire has been receipted.
+The Survey Data Exchange (SDX) Gateway is a RESTful web service implemented using [Spring Boot](http://projects.spring.io/spring-boot/). It provides an interface for the Survey Data Exchange to notify Response Management when a response has been receipted.
 
-[![Build Status](https://travis-ci.org/ONSdigital/rm-sdx-gateway.svg?branch=master)](https://travis-ci.org/ONSdigital/rm-sdx-gateway)
+## Running
+Ensure RabbitMQ is running.
 
-The [Swagger](http://swagger.io/) specification that documents the SDX Gateway's API can be found in `/swagger.yml`.
-
-
-##################################################
-# To add all the necessary Maven Wrapper files
-#
-# This is only run once and has already been run.
-##################################################
-mvn -N io.takari:maven:wrapper
-
-
-##################################################
-# To build
-##################################################
-mvn clean install
-
-
-##################################################
-# To run the app
-##################################################
-
-- Prerequisites:
-    - Start RabbitMQ: sudo /sbin/service rabbitmq-server start
-
-- To start with default credentials:
+    mvn clean install
     ./mvnw spring-boot:run
 
-- To start with specific credentials:
-    ./mvnw spring-boot:run -Dsecurity.user.name=tiptop -Dsecurity.user.password=override
+### Overriding Credentials
 
+    ./mvnw sprint-boot:run -Dsecurity.user.name=tiptop -Dsecurity.user.password=secret
 
-##################################################
-## To test
-##################################################
-See curlTests.txt under /test/resources
+## API
+See [API.md](https://github.com/ONSdigital/rm-sdx-gateway/blob/master/API.md) for API documentation.
 
+## Testing
+See `src/test/resources/curlTests.txt`
 
 ## Copyright
-Copyright (C) 2016 Crown Copyright (Office for National Statistics)
+Copyright (C) 2017 Crown Copyright (Office for National Statistics)
