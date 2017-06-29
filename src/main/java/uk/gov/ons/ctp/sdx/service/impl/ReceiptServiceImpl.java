@@ -40,7 +40,12 @@ public class ReceiptServiceImpl implements ReceiptService {
     validate(receipt);
 
     CaseReceipt caseReceipt = new CaseReceipt();
-    caseReceipt.setCaseRef(receipt.getCaseRef().trim());
+    if (receipt.getCaseRef() != null) {
+      caseReceipt.setCaseRef(receipt.getCaseRef().trim());
+    } else {
+      caseReceipt.setCaseRef(null);
+      caseReceipt.setCaseId((receipt.getCaseId()));
+    }
     caseReceipt.setInboundChannel(receipt.getInboundChannel());
     try {
       caseReceipt.setResponseDateTime(DateTimeUtil.giveMeCalendarForNow());

@@ -20,19 +20,26 @@ curl http://localhost:8291/mgmt/env -v -X GET -u gateway:ctp
 200 long json
 
 
-## To post an invalid receipt (missing caseRef)
-curl -u gateway:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
-400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161004212343106","message":"Provided json is incorrect."}}
-
-
-## To post an invalid receipt (empty caseRef)
-curl -u gateway:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"\"}"
-400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20161004212425903","message":"Provided json fails validation."}}
+## To post an invalid receipt (missing caseId)
+curl -u gateway:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/receipts -v -X POST -d "{\"firstName\":\"Lionel\",\"lastName\":\"Messi\"}"
+400 {"error":{"code":"VALIDATION_FAILED","timestamp":"20170629114900097","message":"Provided json is incorrect."}}
 
 
 ## To post a valid receipt
-curl -u gateway:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/questionnairereceipts -v -X POST -d "{\"caseRef\":\"1000000000000001\"}"
-201 {"caseRef":"1000000000000001"} and header http://localhost:8191/questionnairereceipts/1000000000000001 and verify +1 on queue Case.Responses
+curl -u gateway:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/receipts -v -X POST -d "{\"caseRef\":\"1000000000000001\",\"caseId\": \"fa622b71-f158-4d51-82dd-c3417e31e32d\"}"
+201 {"caseId":"fa622b71-f158-4d51-82dd-c3417e31e32d","caseRef":"1000000000000001"} and header http://localhost:8191/questionnairereceipts/1000000000000001 and verify +1 on queue Case.Responses inboundChannel = ONLINE
+
+## To post a valid  BRES receipt (null caseRef)
+curl -u gateway:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/receipts -v -X POST -d "{\"caseRef\": null,\"caseId\": \"fa622b71-f158-4d51-82dd-c3417e31e32d\"}"
+201 {"caseId":"fa622b71-f158-4d51-82dd-c3417e31e32d","caseRef":null} and header http://localhost:8191/questionnairereceipts/1000000000000001 and verify +1 on queue Case.Responses inboundChannel = OFFLINE
+
+## To post a valid BRES receipt (epmty caseRef)
+curl -u gateway:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/receipts -v -X POST -d "{\"caseRef\":\"\",\"caseId\": \"fa622b71-f158-4d51-82dd-c3417e31e32d\"}"
+201 {"caseId":"fa622b71-f158-4d51-82dd-c3417e31e32d","caseRef":""} and header http://localhost:8191/questionnairereceipts/1000000000000001 and verify +1 on queue Case.Responses inboundChannel = OFFLINE
+
+## To post a valid BRES receipt (missing caseref)
+curl -u gateway:ctp -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8191/receipts -v -X POST -d "{\"caseId\": \"fa622b71-f158-4d51-82dd-c3417e31e32d\"}"
+201 {"caseId":"fa622b71-f158-4d51-82dd-c3417e31e32d","caseRef":null} and header http://localhost:8191/questionnairereceipts/1000000000000001 and verify +1 on queue Case.Responses inboundChannel = OFFLINE
 
 
 ## To post a valid daily .csv file

@@ -25,7 +25,7 @@ import uk.gov.ons.ctp.sdx.service.ReceiptService;
  * The endpoint to receive notifications from SDX
  */
 @RestController
-@RequestMapping(value = "/questionnairereceipts", produces = "application/json")
+@RequestMapping(value = "/receipts", produces = "application/json")
 @Slf4j
 public class ReceiptEndpoint {
 
@@ -45,14 +45,17 @@ public class ReceiptEndpoint {
    */
   @RequestMapping(method = RequestMethod.POST)
   public final ResponseEntity<?> acknowledge(final @RequestBody @Valid ReceiptDTO receiptDTO,
-                                             BindingResult bindingResult) throws CTPException {
+                                             BindingResult bindingResult) throws CTPException, InvalidRequestException {
     log.debug("Entering acknowledge with receipt {}", receiptDTO);
     if (bindingResult.hasErrors()) {
       throw new InvalidRequestException("Binding errors for acknowledge file: ", bindingResult);
     }
-
     Receipt receipt = mapperFacade.map(receiptDTO, Receipt.class);
-    receipt.setInboundChannel(InboundChannel.ONLINE);
+    if (receipt.getCaseRef() == null || receipt.getCaseRef() == "") { //TODO Check wether receipts coming from census will have a null or blank caseRef
+      receipt.setInboundChannel(InboundChannel.OFFLINE);
+    } else {
+      receipt.setInboundChannel(InboundChannel.ONLINE);
+    }
 
     receiptService.acknowledge(receipt);
 

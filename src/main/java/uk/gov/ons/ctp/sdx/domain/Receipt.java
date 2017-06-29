@@ -15,6 +15,7 @@ import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 @Data
 public class Receipt {
   @NotBlank
+  private String caseId;
   private String caseRef;
   private InboundChannel inboundChannel;
 }
