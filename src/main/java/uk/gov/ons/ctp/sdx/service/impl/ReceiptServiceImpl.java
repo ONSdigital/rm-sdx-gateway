@@ -75,10 +75,9 @@ public class ReceiptServiceImpl implements ReceiptService {
    * @throws CTPException if the receipt does NOT have an inboundChannel.
    */
   private static void validate(Receipt receipt) throws CTPException {
-    // TODO Validate that the caseId is not null or empty + additional associated unit tests
 
     InboundChannel inboundChannel = receipt.getInboundChannel();
-    if (inboundChannel == null) {
+    if (inboundChannel == null || receipt.getCaseId().isEmpty()) {
       log.error(EXCEPTION_INVALID_RECEIPT);
       throw new CTPException(CTPException.Fault.SYSTEM_ERROR, EXCEPTION_INVALID_RECEIPT);
     }

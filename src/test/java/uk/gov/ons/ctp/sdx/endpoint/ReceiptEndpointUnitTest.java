@@ -35,6 +35,7 @@ public class ReceiptEndpointUnitTest {
   private static final String RECEIPT_INVALIDJSON_SCENARIO1 = "{\"random\":  \"abc\"}";
   private static final String RECEIPT_INVALIDJSON_SCENARIO2 = "{\"caseRef\":  \"123\", \"caseId\":\"\"}";
   private static final String BRES_RECEIPT_VALIDJSON = String.format("{\"caseRef\":  \"\", \"caseId\": \"%s\"}",  CASE_ID);
+  private static final String BRES_RECEIPT_VALIDJSON_NO_CASEREF = String.format("{\"caseId\": \"%s\"}",  CASE_ID);
   private static final String RECEIPT_VALIDJSON = String.format("{\"caseRef\":  \"%s\", \"caseId\": \"%s\"}", CASE_REF, CASE_ID);
   private static final String SERVER_URL = "/receipts";
 
@@ -74,7 +75,12 @@ public class ReceiptEndpointUnitTest {
         is(CASE_REF))).andExpect(jsonPath("$.caseId", is(CASE_ID))).andExpect(header().string(LOCATION, "TODO"));
   }
 
-  // TODO Write a test for BRES where they do not specify the caseRef at all
+  @Test
+  public void acknowledgeReceiptGoodBRESJsonProvidedNoCaseRef() throws Exception {
+    ResultActions actions = mockMvc.perform(postJson(SERVER_URL, BRES_RECEIPT_VALIDJSON_NO_CASEREF));
+
+    actions.andExpect(status().isCreated()).andExpect(jsonPath("$.caseRef").isEmpty()).andExpect(jsonPath("$.caseId", is(CASE_ID))).andExpect(header().string(LOCATION, "TODO"));
+  }
 
   @Test
   public void acknowledgeReceiptGoodBRESJsonProvided() throws Exception {
