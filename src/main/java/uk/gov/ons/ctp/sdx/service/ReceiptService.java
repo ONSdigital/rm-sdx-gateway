@@ -11,13 +11,15 @@ import java.io.InputStream;
 public interface ReceiptService {
   /**
    * To acknowledge individual receipts
+   *
    * @param receipt to be acknowledged
    * @throws CTPException if invalid receipt or if it can't be acknowledged
    */
   void acknowledge(Receipt receipt) throws CTPException;
 
   /**
-   * To acknowledge a file of receipts
+   * To acknowledge a file of receipts (only used in Census)
+   *
    * @param fileContents the file containing all receipts to be acknowledged
    * @throws CTPException if invalid file provided
    */

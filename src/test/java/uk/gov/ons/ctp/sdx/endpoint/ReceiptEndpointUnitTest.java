@@ -74,6 +74,8 @@ public class ReceiptEndpointUnitTest {
         is(CASE_REF))).andExpect(jsonPath("$.caseId", is(CASE_ID))).andExpect(header().string(LOCATION, "TODO"));
   }
 
+  // TODO Write a test for BRES where they do not specify the caseRef at all
+
   @Test
   public void acknowledgeReceiptGoodBRESJsonProvided() throws Exception {
     ResultActions actions = mockMvc.perform(postJson(SERVER_URL, BRES_RECEIPT_VALIDJSON));

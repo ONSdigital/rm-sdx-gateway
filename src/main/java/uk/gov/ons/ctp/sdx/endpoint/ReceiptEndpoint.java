@@ -4,6 +4,7 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -50,10 +51,13 @@ public class ReceiptEndpoint {
     if (bindingResult.hasErrors()) {
       throw new InvalidRequestException("Binding errors for acknowledge file: ", bindingResult);
     }
+
     Receipt receipt = mapperFacade.map(receiptDTO, Receipt.class);
-    if (receipt.getCaseRef() == null || receipt.getCaseRef() == "") { //TODO Check wether receipts coming from census will have a null or blank caseRef
+    String caseRef = receipt.getCaseRef();
+    if (StringUtils.isEmpty(caseRef)) {
       receipt.setInboundChannel(InboundChannel.OFFLINE);
     } else {
+      //TODO Check whether receipts coming from census will have a null or blank caseRef
       receipt.setInboundChannel(InboundChannel.ONLINE);
     }
 

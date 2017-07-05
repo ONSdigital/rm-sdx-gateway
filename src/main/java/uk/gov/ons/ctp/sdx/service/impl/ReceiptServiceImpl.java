@@ -40,13 +40,13 @@ public class ReceiptServiceImpl implements ReceiptService {
     validate(receipt);
 
     CaseReceipt caseReceipt = new CaseReceipt();
-    if (receipt.getCaseRef() != null) {
-      caseReceipt.setCaseRef(receipt.getCaseRef().trim());
-    } else {
-      caseReceipt.setCaseRef(null);
-      caseReceipt.setCaseId((receipt.getCaseId()));
+    String caseRef = receipt.getCaseRef();
+    if (caseRef != null) {
+      caseReceipt.setCaseRef(caseRef.trim());
     }
+    caseReceipt.setCaseId((receipt.getCaseId()));
     caseReceipt.setInboundChannel(receipt.getInboundChannel());
+
     try {
       caseReceipt.setResponseDateTime(DateTimeUtil.giveMeCalendarForNow());
     } catch (DatatypeConfigurationException e) {
@@ -63,6 +63,8 @@ public class ReceiptServiceImpl implements ReceiptService {
   @Override
   public void acknowledgeFile(InputStream fileContents) throws CTPException {
     log.debug("acknowledgeFile {}", fileContents);
+    // TODO Need to amend the fileParser as we will need a caseId for each caseReceipt.
+    // TODO At the moment, only caseRef is populated.
     List<CaseReceipt> caseReceipts = fileParser.parseIt(fileContents);
     caseReceipts.forEach(caseReceipt -> caseReceiptPublisher.send(caseReceipt));
   }
@@ -73,6 +75,8 @@ public class ReceiptServiceImpl implements ReceiptService {
    * @throws CTPException if the receipt does NOT have an inboundChannel.
    */
   private static void validate(Receipt receipt) throws CTPException {
+    // TODO Validate that the caseId is not null or empty + additional associated unit tests
+
     InboundChannel inboundChannel = receipt.getInboundChannel();
     if (inboundChannel == null) {
       log.error(EXCEPTION_INVALID_RECEIPT);

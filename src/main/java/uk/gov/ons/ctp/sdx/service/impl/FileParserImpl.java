@@ -22,7 +22,7 @@ import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.service.FileParser;
 
 /**
- *  The service implementation to parse csf files
+ *  The service implementation to parse csv files
  */
 @Slf4j
 @Component
@@ -39,6 +39,7 @@ public class FileParserImpl implements FileParser {
 
   /**
    * This method will parse the received InputStream and build a list of CaseReceipts.
+   *
    * @param fileContents to parse for CaseReceipts
    * @return a list of CaseReceipts
    * @throws CTPException if invalid file provided
