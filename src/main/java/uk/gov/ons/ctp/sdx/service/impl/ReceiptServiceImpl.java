@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
+import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -75,9 +76,9 @@ public class ReceiptServiceImpl implements ReceiptService {
    * @throws CTPException if the receipt does NOT have an inboundChannel.
    */
   private static void validate(Receipt receipt) throws CTPException {
-
+    String caseId = receipt.getCaseId();
     InboundChannel inboundChannel = receipt.getInboundChannel();
-    if (inboundChannel == null || receipt.getCaseId().isEmpty()) {
+    if (StringUtils.isEmpty(caseId) || inboundChannel == null) {
       log.error(EXCEPTION_INVALID_RECEIPT);
       throw new CTPException(CTPException.Fault.SYSTEM_ERROR, EXCEPTION_INVALID_RECEIPT);
     }
