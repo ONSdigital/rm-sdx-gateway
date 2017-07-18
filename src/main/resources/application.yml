@@ -58,7 +58,7 @@ logging:
 
 sftp:
   host: localhost
-  port: 22
+  port: 122
   username: centos
   password: "JLibV2&XD,"
   directory: Documents
@@ -66,14 +66,14 @@ sftp:
   filepattern: "Receipt*.csv"
   
 data-grid:
-  address: localhost:6379
+  address: localhost:7379
   lock-time-to-live-seconds: 1800
   
 rabbitmq:
   username: guest
   password: guest
   host: localhost
-  port: 5672
+  port: 6672
   virtualhost: /
 
 messaging:
