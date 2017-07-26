@@ -1,0 +1,67 @@
+info:
+  name: ${project.artifactId}
+  version: ${project.version}
+  origin: ${scm.url}
+  commit: ${buildNumber}
+  branch: ${scmBranch}
+  built: ${timestamp}
+
+security:
+  basic:
+    enabled: false
+    realm: onsctpiac
+  user:
+    name: admin
+    password: secret
+    
+management:
+  security:
+    roles: SUPERUSER
+    enabled: true
+  health:
+    rabbit:
+      enabled: false
+
+server:
+  port: 8191
+  servlet-path: /
+    
+spring:
+  output:
+    ansi:
+      enabled: never
+
+  application:
+    name: ONS SDX Gateway API
+
+  sleuth:
+    sampler:
+      percentage: 1
+
+  zipkin:
+    enabled: false
+    
+endpoints:
+  enabled: true
+  sensitive: true
+  
+sftp:
+  directory: Documents
+  cron: "0 0 12 25 7 ?" #Temporary Solution as SFTP will not be used for BRES
+  filepattern: "Receipt*.csv"
+  
+data-grid:
+  address: ${cloud.services.redis.connection.host}:${cloud.services.redis.connection.port}
+  lock-time-to-live-seconds: 1800
+  
+rabbitmq:
+  username: ${cloud.services.rabbitmq.connection.username}
+  password: ${cloud.services.rabbitmq.connection.password}
+  host: ${cloud.services.rabbitmq.connection.host}
+  port: ${cloud.services.rabbitmq.connection.port}
+  virtualhost: ${cloud.services.rabbitmq.connection.virtualhost}
+  
+messaging:
+  pubMaxAttempts: 3
+  
+  
