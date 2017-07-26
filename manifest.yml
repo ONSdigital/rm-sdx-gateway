@@ -4,7 +4,7 @@ applications:
   timeout: 180
   host: sdxgatewaysvc
   memory: 1024M
-  path: sdxgatewaysvc/target/sdxgatewaysvc.jar
+  path: sdxgatewaysvc.jar
   services:
     - rm-redis
     - rm-rabbitmq
