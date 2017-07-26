@@ -1,0 +1,10 @@
+applications:
+- name: sdxgatewaysvc-int
+  instances: 1
+  timeout: 180
+  host: sdxgatewaysvc-int
+  memory: 1024M
+  path: sdxgatewaysvc/target/sdxgatewaysvc.jar
+  services:
+    - rm-redis
+    - rm-rabbitmq
