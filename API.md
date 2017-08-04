@@ -7,12 +7,12 @@ This page documents the SDX Gateway API endpoints. All endpoints return an `HTTP
 ### Example JSON Response
 ```json
 {
-    "name": "sdxgatewaysvc",
-    "version": "10.43.0",
-    "origin": "git@github.com:ONSdigital/rm-sdx-gateway.git",
-    "commit": "5e5bd444c2e890de05feb7e564fe2d17345e258b",
-    "branch": "master",
-    "built": "2017-07-17T09:49:18Z"
+  "name": "sdxgatewaysvc",
+  "version": "10.43.0",
+  "origin": "git@github.com:ONSdigital/rm-sdx-gateway.git",
+  "commit": "5e5bd444c2e890de05feb7e564fe2d17345e258b",
+  "branch": "master",
+  "built": "2017-07-17T09:49:18Z"
 }
 ```
 
