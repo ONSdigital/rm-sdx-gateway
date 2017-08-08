@@ -33,13 +33,6 @@ spring:
 
   application:
     name: ONS SDX Gateway API
-
-  sleuth:
-    sampler:
-      percentage: 1
-
-  zipkin:
-    enabled: false
     
 endpoints:
   autoconfig:
