@@ -34,6 +34,13 @@ spring:
   application:
     name: ONS SDX Gateway API
     
+endpoints:
+  enabled: true
+  info:
+    enabled: true
+    sensitive: false
+
+  
 sftp:
   directory: Documents
   cron: "0 0 12 25 7 ?" #Temporary Solution as SFTP will not be used for BRES
@@ -52,7 +59,5 @@ rabbitmq:
   
 messaging:
   pubMaxAttempts: 3
-  
-#endpoints section removed as will be handled by manifest
   
   
