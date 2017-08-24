@@ -8,10 +8,11 @@ info:
 
 security:
   basic:
-    enabled: false
+    enabled: true
+    realm: sdc
   user:
-    name: gateway
-    password: ctp
+    name: admin
+    password: secret
 
 spring:
   output:
