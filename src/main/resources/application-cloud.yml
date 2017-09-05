@@ -33,13 +33,6 @@ spring:
 
   application:
     name: ONS SDX Gateway API
-    
-endpoints:
-  enabled: true
-  info:
-    enabled: true
-    sensitive: false
-
   
 sftp:
   directory: Documents
