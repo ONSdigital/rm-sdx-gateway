@@ -53,14 +53,7 @@ public class ReceiptEndpoint {
     }
 
     Receipt receipt = mapperFacade.map(receiptDTO, Receipt.class);
-    String caseRef = receipt.getCaseRef();
-    if (StringUtils.isEmpty(caseRef)) {
-      receipt.setInboundChannel(InboundChannel.OFFLINE);
-    } else {
-      //TODO Check whether receipts coming from census will have a null or blank caseRef
-      receipt.setInboundChannel(InboundChannel.ONLINE);
-    }
-
+    receipt.setInboundChannel(InboundChannel.OFFLINE);  // TODO Hardcoded for BRES. What next for Census?
     receiptService.acknowledge(receipt);
 
     return ResponseEntity.created(URI.create("TODO")).body(receiptDTO);

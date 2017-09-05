@@ -8,8 +8,8 @@ info:
 
 security:
   basic:
-    enabled: false
-    realm: onsctpiac
+    enabled: true
+    realm: sdc
   user:
     name: admin
     password: secret
