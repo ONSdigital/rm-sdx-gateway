@@ -1,10 +1,7 @@
 package uk.gov.ons.ctp.sdx.endpoint;
 
-import java.net.URI;
-
-import javax.validation.Valid;
-
-import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
+import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -12,15 +9,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.MapperFacade;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.common.error.InvalidRequestException;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.representation.ReceiptDTO;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
+
+import javax.validation.Valid;
+import java.net.URI;
 
 /**
  * The endpoint to receive notifications from SDX
@@ -56,7 +54,11 @@ public class ReceiptEndpoint {
     receipt.setInboundChannel(InboundChannel.OFFLINE);  // TODO Hardcoded for BRES. What next for Census?
     receiptService.acknowledge(receipt);
 
-    return ResponseEntity.created(URI.create("TODO")).body(receiptDTO);
+    String newResourceUrl = ServletUriComponentsBuilder
+        .fromCurrentRequest().path("/{id}")
+        .buildAndExpand(receipt.getCaseId()).toUri().toString();
+
+    return ResponseEntity.created(URI.create(newResourceUrl)).body(receiptDTO);
   }
 
 }
