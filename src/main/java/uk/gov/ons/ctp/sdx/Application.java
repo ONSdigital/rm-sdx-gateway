@@ -32,7 +32,7 @@ import uk.gov.ons.ctp.sdx.config.AppConfig;
 @ImportResource("springintegration/main.xml")
 @SpringBootApplication
 public class Application {
-  
+
   private static final String ACTION_EXECUTION_LOCK = "actionexport.request.execution";
 
   @Autowired
@@ -66,9 +66,13 @@ public class Application {
   public RestExceptionHandler restExceptionHandler() {
       return new RestExceptionHandler();
     }
-  
+
+  /**
+   * Custom Object Mapper
+   * @return CustomObjectMapper
+   */
   @Bean @Primary
-  public CustomObjectMapper CustomObjectMapper() {
+  public CustomObjectMapper customObjectMapper() {
       return new CustomObjectMapper();
     }
 }

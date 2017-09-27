@@ -39,6 +39,7 @@ public class ReceiptEndpoint {
    * acknowledgment.
    *
    * @param receiptDTO the receipt to be acknowledged
+   * @param bindingResult binds result
    * @return 201 if successful
    * @throws CTPException if invalid receipt or if it can't be acknowledged
    */

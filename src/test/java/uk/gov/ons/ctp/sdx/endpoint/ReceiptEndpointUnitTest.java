@@ -26,6 +26,9 @@ import static uk.gov.ons.ctp.common.MvcHelper.postJson;
 import static uk.gov.ons.ctp.common.utility.MockMvcControllerAdviceHelper.mockAdviceFor;
 import static uk.gov.ons.ctp.sdx.service.ReceiptServiceImplTest.CASE_REF;
 
+/**
+ * Test for Receipt Endpoint Test
+ */
 public class ReceiptEndpointUnitTest {
 
   private static final String LOCATION = "Location";
@@ -67,6 +70,10 @@ public class ReceiptEndpointUnitTest {
         .build();
   }
 
+  /**
+   * Acknowledges receipt successfully.
+   * @throws Exception exception
+   */
   @Test
   public void acknowledgeReceiptGoodJsonProvided() throws Exception {
     ResultActions actions = mockMvc.perform(postJson(SERVER_URL, RECEIPT_VALIDJSON));

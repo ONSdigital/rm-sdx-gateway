@@ -32,19 +32,23 @@ import static uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl.EXCEPTION_INVAL
 @RunWith(MockitoJUnitRunner.class)
 public class ReceiptServiceImplTest {
   @Mock
-  CaseReceiptPublisher caseReceiptPublisher;
+  private CaseReceiptPublisher caseReceiptPublisher;
 
   @Mock
-  FileParser fileParser;
+  private FileParser fileParser;
 
   @InjectMocks
-  ReceiptServiceImpl receiptService;
+  private ReceiptServiceImpl receiptService;
 
   public static final String CASE_REF = "abc";
   private static final String CASE_REF_1 = "def";
   private static final String CASE_ID = "fa622b71-f158-4d51-82dd-c3417e31e32d";
   private static final String EMPTY_CASE_ID = "";
 
+  /**
+   * Tests valid receipt
+   * @throws CTPException ctpexception
+   */
   @Test
   public void testValidReceipt() throws CTPException {
     Receipt receipt = new Receipt();
@@ -95,7 +99,7 @@ public class ReceiptServiceImplTest {
   }
 
   @Test
-  public void testValidFileReceipt() throws CTPException{
+  public void testValidFileReceipt() throws CTPException {
     List<CaseReceipt> caseReceipts = new ArrayList<>();
     CaseReceipt caseFeedback = new CaseReceipt();
     caseFeedback.setCaseRef(CASE_REF);
@@ -112,14 +116,15 @@ public class ReceiptServiceImplTest {
   }
 
   @Test
-  public void testInvalidFileReceipt() throws CTPException{
-    when(fileParser.parseIt(any(InputStream.class))).thenThrow(new CTPException(CTPException.Fault.VALIDATION_FAILED, EXCEPTION_NO_RECORDS));
+  public void testInvalidFileReceipt() throws CTPException {
+    when(fileParser.parseIt(any(InputStream.class))).thenThrow(new CTPException(CTPException.Fault.VALIDATION_FAILED,
+        EXCEPTION_NO_RECORDS));
 
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/totalRandom.txt");
     boolean exceptionThrown = false;
-    try{
+    try {
       receiptService.acknowledgeFile(inputStream);
-    } catch (CTPException e){
+    } catch (CTPException e) {
       exceptionThrown = true;
       assertEquals(CTPException.Fault.VALIDATION_FAILED, e.getFault());
       assertEquals(EXCEPTION_NO_RECORDS, e.getMessage());
