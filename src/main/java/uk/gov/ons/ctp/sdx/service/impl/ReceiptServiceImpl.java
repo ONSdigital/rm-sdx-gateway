@@ -1,13 +1,8 @@
 package uk.gov.ons.ctp.sdx.service.impl;
 
-import java.io.InputStream;
-import java.util.List;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-
+import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.common.time.DateTimeUtil;
@@ -17,6 +12,10 @@ import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.message.CaseReceiptPublisher;
 import uk.gov.ons.ctp.sdx.service.FileParser;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * The service to acknowlegde receipts
@@ -54,6 +53,7 @@ public class ReceiptServiceImpl implements ReceiptService {
       String error = String.format(
               "DatatypeConfigurationException thrown while building dateTime for now with msg = %s", e.getMessage());
       log.error(error);
+      log.error("Stack trace: " + e);
       throw new CTPException(CTPException.Fault.SYSTEM_ERROR,
               String.format("%s%s", EXCEPTION_ACKNOWLEGDING_RECEIPT, error));
     }
