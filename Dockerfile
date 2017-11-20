@@ -1,9 +1,6 @@
-FROM openjdk:8u121-jre
-MAINTAINER Kieran Wardle <kieran.wardle@ons.gov.uk>
-ARG jar
-VOLUME /tmp
-COPY $jar sdx-gateway.jar
-RUN sh -c 'touch /sdx-gateway.jar'
-ENV JAVA_OPTS=""
-ENTRYPOINT [ "sh", "-c", "java -jar /sdx-gateway.jar" ]
+FROM openjdk:8-jre
+
+COPY target/sdxgatewaysvc*.jar /opt/sdx-gateway.jar
+
+ENTRYPOINT [ "java", "-jar", "/opt/sdx-gateway.jar" ]
 
