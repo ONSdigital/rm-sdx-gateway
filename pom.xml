@@ -217,7 +217,7 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
-                            <repository>sdcplatform/${project.artifactId}</repository>
+                            <repository>sdcplatform/sdx-gateway</repository>
                         </configuration>
                     </execution>
                 </executions>
