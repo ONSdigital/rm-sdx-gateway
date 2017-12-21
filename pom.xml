@@ -3,9 +3,8 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>uk.gov.ons.ctp.product</groupId>
     <artifactId>sdxgatewaysvc</artifactId>
-    <version>10.49.1-SNAPSHOT</version>
+    <version>10.49.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>CTP : ResponseManagement : SDX Gateway</name>
@@ -17,16 +16,15 @@
     </properties>
 
     <scm>
-        <connection>scm:git:git@github.com:ONSdigital/rm-sdx-gateway.git</connection>
-        <developerConnection>scm:git:git@github.com:ONSdigital/rm-sdx-gateway.git</developerConnection>
-        <url>git@github.com:ONSdigital/rm-sdx-gateway.git</url>
+        <connection>scm:git:https://github.com/ONSdigital/rm-sdx-gateway</connection>
+        <developerConnection>scm:git:https://github.com/ONSdigital/rm-sdx-gateway</developerConnection>
+        <url>https://github.com/ONSdigital/rm-sdx-gateway</url>
     </scm>
 
-    <!-- Inherit parent BOM to control versions of dependencies and plugin version & config -->
     <parent>
         <groupId>uk.gov.ons.ctp.product</groupId>
         <artifactId>rm-common-config</artifactId>
-        <version>10.49.2</version>
+        <version>10.49.8</version>
     </parent>
 
     <dependencies>
@@ -218,6 +216,9 @@
                         <phase>package</phase>
                         <configuration>
                             <repository>sdcplatform/sdx-gateway</repository>
+                            <buildArgs>
+                                <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                            </buildArgs>
                         </configuration>
                     </execution>
                 </executions>
