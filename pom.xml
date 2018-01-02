@@ -215,6 +215,7 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
+                            <finalName>docker-info-${project.artifactId}</finalName>
                             <repository>sdcplatform/sdx-gateway</repository>
                             <buildArgs>
                                 <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
