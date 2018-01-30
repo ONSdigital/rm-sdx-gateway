@@ -101,6 +101,8 @@ public class ReceiptEndpointUnitTest {
             //.andExpect(header().string(LOCATION, "TODO"));
   }
 
+  // This test used to check that an 'incorrect JSON' error was thrown if there are any unknown fields in the incoming
+  // JSON.  As we positively encourage unknown fields now, this test is functionally identical to the one below
   @Test
   public void acknowledgeReceiptBadJsonProvidedScenario1() throws Exception {
     ResultActions actions = mockMvc.perform(postJson(SERVER_URL, RECEIPT_INVALIDJSON_SCENARIO1));
@@ -108,7 +110,7 @@ public class ReceiptEndpointUnitTest {
     actions.andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.error.code", is(CTPException.Fault.VALIDATION_FAILED.name())))
         .andExpect(jsonPath("$.error.timestamp", isA(String.class)))
-        .andExpect(jsonPath("$.error.message", is("Provided json is incorrect.")));
+        .andExpect(jsonPath("$.error.message", is("Provided json fails validation.")));
   }
 
   @Test
