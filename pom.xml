@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sdxgatewaysvc</artifactId>
-    <version>10.49.3-SNAPSHOT</version>
+    <version>10.49.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>CTP : ResponseManagement : SDX Gateway</name>
