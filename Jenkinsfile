@@ -50,7 +50,9 @@ pipeline {
                 CF_USER = credentials('CF_USER')
             }
             steps {
+                sh "ls target;"
                 sh "find . -type f -name '*sdxgatewaysvc*.jar' -not -name '*docker-info*' -exec mv {} target/sdxgatewaysvc.jar \\;"
+                sh "ls target;"
                 sh "sed -i -- 's/SPACE/dev/g' *template.yml"
                 sh "sed -i -- 's/INSTANCES/1/g' *template.yml"
                 sh "sed -i -- 's/ENDPOINT_ENABLED/'false'/g' *template.yml"
