@@ -5,10 +5,16 @@
 The Survey Data Exchange (SDX) Gateway is a RESTful web service implemented using [Spring Boot](http://projects.spring.io/spring-boot/). It provides an interface for the Survey Data Exchange to notify Response Management when a response has been receipted.
 
 ## Running
-Ensure RabbitMQ is running.
 
+There are two ways of running this service
+
+* The easiest way is via docker (https://github.com/ONSdigital/ras-rm-docker-dev)
+* Alternatively running the service up in isolation
+    ```bash
+    cp .maven.settings.xml ~/.m2/settings.xml  # This only needs to be done once to set up mavens settings file
     mvn clean install
-    ./mvnw spring-boot:run
+    mvn spring-boot:run
+    ```
 
 ### Overriding Credentials
 
