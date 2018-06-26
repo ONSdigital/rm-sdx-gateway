@@ -6,14 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
 
-/**
- * The representation receipt object to acknowledge responses
- */
+/** The representation receipt object to acknowledge responses */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class ReceiptDTO {
-  @NotBlank
-  private String caseId;
+  @NotBlank private String caseId;
   private String caseRef;
 }

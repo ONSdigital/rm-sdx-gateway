@@ -1,5 +1,11 @@
 package uk.gov.ons.ctp.sdx.service.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import javax.xml.datatype.DatatypeConfigurationException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -12,16 +18,7 @@ import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.service.FileParser;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- *  The service implementation to parse csv files
- */
+/** The service implementation to parse csv files */
 @Slf4j
 @Component
 public class FileParserImpl implements FileParser {
@@ -30,7 +27,7 @@ public class FileParserImpl implements FileParser {
 
   private static final Integer NB_EXPECTED_COLUMNS = 2;
   private static final String EXCEPTION_PARSING_RECORD =
-          "An unexpected error occured while parsing a paper receipt record.";
+      "An unexpected error occured while parsing a paper receipt record.";
 
   @Value("${RESPONSE_DATE_TIME_COL_FORMAT}")
   private String responseDateTimeColFormat;
@@ -53,7 +50,7 @@ public class FileParserImpl implements FileParser {
       if (!validate(csvRecords)) {
         throw new CTPException(CTPException.Fault.VALIDATION_FAILED, EXCEPTION_NO_RECORDS);
       }
-      for (CSVRecord csvRecord: csvRecords) {
+      for (CSVRecord csvRecord : csvRecords) {
         log.debug("dealing with csvRecord {}", csvRecord);
         if (validate(csvRecord)) {
           try {
@@ -65,7 +62,8 @@ public class FileParserImpl implements FileParser {
         }
       }
     } catch (IOException e) {
-      String error = String.format(
+      String error =
+          String.format(
               "IOException thrown while parsing file contents with msg = %s", e.getMessage());
       log.error(error);
       log.error("Stack trace: " + e);
@@ -75,7 +73,8 @@ public class FileParserImpl implements FileParser {
         try {
           parser.close();
         } catch (IOException e) {
-          String error = String.format(
+          String error =
+              String.format(
                   "IOException thrown while closing the parser with msg = %s", e.getMessage());
           log.error(error);
           log.error("Stack trace: " + e);
@@ -120,6 +119,7 @@ public class FileParserImpl implements FileParser {
 
   /**
    * To build a CaseReceipt from a CSVRecord
+   *
    * @param csvRecord the CSVRecord
    * @return the corresponding CaseReceipt
    * @throws DatatypeConfigurationException when a CaseReceipt cannot be built
@@ -128,7 +128,8 @@ public class FileParserImpl implements FileParser {
     CaseReceipt caseReceipt = new CaseReceipt();
     caseReceipt.setInboundChannel(InboundChannel.PAPER);
     String dateTimeStr = csvRecord.get(0);
-    caseReceipt.setResponseDateTime(DateTimeUtil.stringToXMLGregorianCalendar(dateTimeStr, responseDateTimeColFormat));
+    caseReceipt.setResponseDateTime(
+        DateTimeUtil.stringToXMLGregorianCalendar(dateTimeStr, responseDateTimeColFormat));
     caseReceipt.setCaseRef(csvRecord.get(1));
     return caseReceipt;
   }

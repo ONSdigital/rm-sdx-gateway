@@ -1,6 +1,17 @@
 package uk.gov.ons.ctp.sdx.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.EXCEPTION_NO_RECORDS;
+import static uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl.EXCEPTION_INVALID_RECEIPT;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -13,32 +24,14 @@ import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.message.CaseReceiptPublisher;
 import uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static uk.gov.ons.ctp.sdx.service.impl.FileParserImpl.EXCEPTION_NO_RECORDS;
-import static uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl.EXCEPTION_INVALID_RECEIPT;
-
-/**
- * To unit test ReceiptServiceImpl
- */
+/** To unit test ReceiptServiceImpl */
 @RunWith(MockitoJUnitRunner.class)
 public class ReceiptServiceImplTest {
-  @Mock
-  private CaseReceiptPublisher caseReceiptPublisher;
+  @Mock private CaseReceiptPublisher caseReceiptPublisher;
 
-  @Mock
-  private FileParser fileParser;
+  @Mock private FileParser fileParser;
 
-  @InjectMocks
-  private ReceiptServiceImpl receiptService;
+  @InjectMocks private ReceiptServiceImpl receiptService;
 
   public static final String CASE_REF = "abc";
   private static final String CASE_REF_1 = "def";
@@ -47,6 +40,7 @@ public class ReceiptServiceImplTest {
 
   /**
    * Tests valid receipt
+   *
    * @throws CTPException ctpexception
    */
   @Test
@@ -109,7 +103,8 @@ public class ReceiptServiceImplTest {
     caseReceipts.add(caseFeedback);
     when(fileParser.parseIt(any(InputStream.class))).thenReturn(caseReceipts);
 
-    InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/sampleAllThreeValidReceipts.csv");
+    InputStream inputStream =
+        getClass().getResourceAsStream("/dailyPaperFiles/sampleAllThreeValidReceipts.csv");
     receiptService.acknowledgeFile(inputStream);
 
     verify(caseReceiptPublisher, times(2)).send(any(CaseReceipt.class));
@@ -117,8 +112,8 @@ public class ReceiptServiceImplTest {
 
   @Test
   public void testInvalidFileReceipt() throws CTPException {
-    when(fileParser.parseIt(any(InputStream.class))).thenThrow(new CTPException(CTPException.Fault.VALIDATION_FAILED,
-        EXCEPTION_NO_RECORDS));
+    when(fileParser.parseIt(any(InputStream.class)))
+        .thenThrow(new CTPException(CTPException.Fault.VALIDATION_FAILED, EXCEPTION_NO_RECORDS));
 
     InputStream inputStream = getClass().getResourceAsStream("/dailyPaperFiles/totalRandom.txt");
     boolean exceptionThrown = false;
