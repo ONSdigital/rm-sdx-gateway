@@ -1,5 +1,7 @@
 package uk.gov.ons.ctp.sdx.endpoint;
 
+import java.net.URI;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,26 +19,18 @@ import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.representation.ReceiptDTO;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
-import javax.validation.Valid;
-import java.net.URI;
-
-/**
- * The endpoint to receive notifications from SDX
- */
+/** The endpoint to receive notifications from SDX */
 @RestController
 @RequestMapping(value = "/receipts", produces = "application/json")
 @Slf4j
 public class ReceiptEndpoint {
 
-  @Autowired
-  private ReceiptService receiptService;
+  @Autowired private ReceiptService receiptService;
 
-  @Autowired
-  private MapperFacade mapperFacade;
+  @Autowired private MapperFacade mapperFacade;
 
   /**
-   * This receives a receipt and forwards it to the ReceiptService for
-   * acknowledgment.
+   * This receives a receipt and forwards it to the ReceiptService for acknowledgment.
    *
    * @param receiptDTO the receipt to be acknowledged
    * @param bindingResult binds result
@@ -44,22 +38,26 @@ public class ReceiptEndpoint {
    * @throws CTPException if invalid receipt or if it can't be acknowledged
    */
   @RequestMapping(method = RequestMethod.POST)
-  public final ResponseEntity<?> acknowledge(final @RequestBody @Valid ReceiptDTO receiptDTO,
-                                             BindingResult bindingResult) throws CTPException, InvalidRequestException {
+  public final ResponseEntity<?> acknowledge(
+      final @RequestBody @Valid ReceiptDTO receiptDTO, BindingResult bindingResult)
+      throws CTPException, InvalidRequestException {
     log.debug("Entering acknowledge with receipt {}", receiptDTO);
     if (bindingResult.hasErrors()) {
       throw new InvalidRequestException("Binding errors for acknowledge file: ", bindingResult);
     }
 
     Receipt receipt = mapperFacade.map(receiptDTO, Receipt.class);
-    receipt.setInboundChannel(InboundChannel.OFFLINE);  // TODO Hardcoded for BRES. What next for Census?
+    receipt.setInboundChannel(
+        InboundChannel.OFFLINE); // TODO Hardcoded for BRES. What next for Census?
     receiptService.acknowledge(receipt);
 
-    String newResourceUrl = ServletUriComponentsBuilder
-        .fromCurrentRequest().path("/{id}")
-        .buildAndExpand(receipt.getCaseId()).toUri().toString();
+    String newResourceUrl =
+        ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(receipt.getCaseId())
+            .toUri()
+            .toString();
 
     return ResponseEntity.created(URI.create(newResourceUrl)).body(receiptDTO);
   }
-
 }

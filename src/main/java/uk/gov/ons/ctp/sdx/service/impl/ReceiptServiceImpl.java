@@ -1,5 +1,8 @@
 package uk.gov.ons.ctp.sdx.service.impl;
 
+import java.io.InputStream;
+import java.util.List;
+import javax.xml.datatype.DatatypeConfigurationException;
 import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,26 +16,19 @@ import uk.gov.ons.ctp.sdx.message.CaseReceiptPublisher;
 import uk.gov.ons.ctp.sdx.service.FileParser;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.io.InputStream;
-import java.util.List;
-
-/**
- * The service to acknowlegde receipts
- */
+/** The service to acknowlegde receipts */
 @Slf4j
 @Service
 public class ReceiptServiceImpl implements ReceiptService {
 
   private static final String EXCEPTION_ACKNOWLEGDING_RECEIPT =
-          "An unexpected error occured while acknowledging your receipt. ";
-  public static final String EXCEPTION_INVALID_RECEIPT = "Invalid receipt. It can't be acknowledged.";
+      "An unexpected error occured while acknowledging your receipt. ";
+  public static final String EXCEPTION_INVALID_RECEIPT =
+      "Invalid receipt. It can't be acknowledged.";
 
-  @Autowired
-  private CaseReceiptPublisher caseReceiptPublisher;
+  @Autowired private CaseReceiptPublisher caseReceiptPublisher;
 
-  @Autowired
-  private FileParser fileParser;
+  @Autowired private FileParser fileParser;
 
   @Override
   public final void acknowledge(Receipt receipt) throws CTPException {
@@ -50,12 +46,15 @@ public class ReceiptServiceImpl implements ReceiptService {
     try {
       caseReceipt.setResponseDateTime(DateTimeUtil.giveMeCalendarForNow());
     } catch (DatatypeConfigurationException e) {
-      String error = String.format(
-              "DatatypeConfigurationException thrown while building dateTime for now with msg = %s", e.getMessage());
+      String error =
+          String.format(
+              "DatatypeConfigurationException thrown while building dateTime for now with msg = %s",
+              e.getMessage());
       log.error(error);
       log.error("Stack trace: " + e);
-      throw new CTPException(CTPException.Fault.SYSTEM_ERROR,
-              String.format("%s%s", EXCEPTION_ACKNOWLEGDING_RECEIPT, error));
+      throw new CTPException(
+          CTPException.Fault.SYSTEM_ERROR,
+          String.format("%s%s", EXCEPTION_ACKNOWLEGDING_RECEIPT, error));
     }
 
     caseReceiptPublisher.send(caseReceipt);
@@ -72,6 +71,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
   /**
    * To validate a receipt
+   *
    * @param receipt to be validated
    * @throws CTPException if the receipt does NOT have an inboundChannel.
    */

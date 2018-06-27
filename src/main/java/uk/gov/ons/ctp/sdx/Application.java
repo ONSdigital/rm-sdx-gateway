@@ -1,5 +1,6 @@
 package uk.gov.ons.ctp.sdx;
 
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -13,17 +14,13 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.ctp.common.distributed.DistributedLockManager;
 import uk.gov.ons.ctp.common.distributed.DistributedLockManagerRedissonImpl;
 import uk.gov.ons.ctp.common.error.RestExceptionHandler;
 import uk.gov.ons.ctp.common.jackson.CustomObjectMapper;
 import uk.gov.ons.ctp.sdx.config.AppConfig;
 
-/**
- * The main application class
- */
+/** The main application class */
 @Slf4j
 @IntegrationComponentScan
 @EnableAsync
@@ -35,11 +32,11 @@ public class Application {
 
   private static final String ACTION_EXECUTION_LOCK = "actionexport.request.execution";
 
-  @Autowired
-  private AppConfig appConfig;
+  @Autowired private AppConfig appConfig;
 
   /**
    * This method is the entry point to the Spring Boot application.
+   *
    * @param args These are the optional command line arguments
    */
   public static void main(String[] args) {
@@ -49,30 +46,33 @@ public class Application {
 
   @Bean
   public DistributedLockManager actionExportExecutionLockManager(RedissonClient redissonClient) {
-    return new DistributedLockManagerRedissonImpl(ACTION_EXECUTION_LOCK, redissonClient,
-        appConfig.getDataGrid().getLockTimeToLiveSeconds());
+    return new DistributedLockManagerRedissonImpl(
+        ACTION_EXECUTION_LOCK, redissonClient, appConfig.getDataGrid().getLockTimeToLiveSeconds());
   }
 
   @Bean
   public RedissonClient redissonClient() {
     Config config = new Config();
-    config.useSingleServer()
+    config
+        .useSingleServer()
         .setAddress(appConfig.getDataGrid().getAddress())
         .setPassword(appConfig.getDataGrid().getPassword());
     return Redisson.create(config);
   }
-  
+
   @Bean
   public RestExceptionHandler restExceptionHandler() {
-      return new RestExceptionHandler();
-    }
+    return new RestExceptionHandler();
+  }
 
   /**
    * Custom Object Mapper
+   *
    * @return CustomObjectMapper
    */
-  @Bean @Primary
+  @Bean
+  @Primary
   public CustomObjectMapper customObjectMapper() {
-      return new CustomObjectMapper();
-    }
+    return new CustomObjectMapper();
+  }
 }

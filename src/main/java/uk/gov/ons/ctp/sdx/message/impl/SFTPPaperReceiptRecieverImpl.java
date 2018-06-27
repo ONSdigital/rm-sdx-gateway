@@ -6,6 +6,9 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Vector;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +21,9 @@ import uk.gov.ons.ctp.sdx.config.AppConfig;
 import uk.gov.ons.ctp.sdx.message.SFTPPaperReceiptReciever;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Vector;
-
 /**
- * Ingest paper receipts placed in remote directory by fetching
- * them via SFTP and passing them to SDX gateway.
+ * Ingest paper receipts placed in remote directory by fetching them via SFTP and passing them to
+ * SDX gateway.
  */
 @Slf4j
 @MessageEndpoint
@@ -33,18 +32,16 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
 
   private static final String SFTP_LOCK = "sftpLock";
 
-  @Autowired
-  private AppConfig appConfig;
+  @Autowired private AppConfig appConfig;
 
-  @Autowired
-  private ReceiptService receiptService;
+  @Autowired private ReceiptService receiptService;
 
-  @Autowired
-  private DistributedLockManager sdxLockManager;
+  @Autowired private DistributedLockManager sdxLockManager;
 
   /**
-   * Ingest paper receipts placed in remote directory by fetching
-   * them via SFTP and passing them to SDX gateway.
+   * Ingest paper receipts placed in remote directory by fetching them via SFTP and passing them to
+   * SDX gateway.
+   *
    * @throws CTPException something went wrong
    */
   @Scheduled(cron = "${sftp.cron}")
@@ -53,7 +50,7 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
       try {
         Session session = getSession();
         ChannelSftp sftp = getSftp(session);
-        
+
         Vector<LsEntry> fileList = sftp.ls(appConfig.getSftp().getFilepattern());
 
         processFiles(sftp, fileList);
@@ -65,9 +62,10 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
       }
     }
   }
-  
+
   /**
    * Create and connect SFTP channel
+   *
    * @param session a Jsch session to connect to remote host
    * @return sftp sftp channel to transfer paper receipts
    * @throws JSchException jshexception
@@ -79,16 +77,20 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
     sftp.cd(appConfig.getSftp().getDirectory());
     return sftp;
   }
-  
+
   /**
    * Create and connect SFTP channel
+   *
    * @return session connection session to remote host
    * @throws JSchException jshexception
    */
   private Session getSession() throws JSchException {
     JSch jsch = new JSch();
-    Session session = jsch.getSession(appConfig.getSftp().getUsername(), appConfig.getSftp().getHost(),
-        appConfig.getSftp().getPort());
+    Session session =
+        jsch.getSession(
+            appConfig.getSftp().getUsername(),
+            appConfig.getSftp().getHost(),
+            appConfig.getSftp().getPort());
     session.setPassword(appConfig.getSftp().getPassword());
     JSch.setConfig("StrictHostKeyChecking", "no");
     session.connect();
@@ -97,6 +99,7 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
 
   /**
    * Dissconnect sftp channel and session
+   *
    * @param session session to dissconnect
    * @param sftp sftp to dissconnect
    */
@@ -107,6 +110,7 @@ public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
 
   /**
    * Create and connect SFTP channel
+   *
    * @throws JSchException jschexception
    * @throws IOException
    * @throws CTPException

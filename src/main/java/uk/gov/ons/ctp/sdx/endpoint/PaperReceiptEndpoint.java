@@ -1,5 +1,7 @@
 package uk.gov.ons.ctp.sdx.endpoint;
 
+import java.io.IOException;
+import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,19 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
-import java.io.IOException;
-import java.net.URI;
-
-/**
- * The endpoint to receive paper responses from Newport
- */
+/** The endpoint to receive paper responses from Newport */
 @Slf4j
 @RestController
 @RequestMapping(value = "/paperquestionnairereceipts", produces = "application/json")
 public class PaperReceiptEndpoint {
 
-  @Autowired
-  private ReceiptService receiptService;
+  @Autowired private ReceiptService receiptService;
 
   /**
    * This receives a file containing paper responses.
@@ -33,7 +29,8 @@ public class PaperReceiptEndpoint {
    * @throws CTPException if the file can't be ingested
    */
   @RequestMapping(method = RequestMethod.POST, consumes = "multipart/form-data")
-  public final ResponseEntity<?> acknowledgeFile(@RequestParam("file") MultipartFile file) throws CTPException {
+  public final ResponseEntity<?> acknowledgeFile(@RequestParam("file") MultipartFile file)
+      throws CTPException {
     log.debug("Entering acknowledgeFile");
     try {
       receiptService.acknowledgeFile(file.getInputStream());
