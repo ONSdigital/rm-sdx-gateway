@@ -41,6 +41,10 @@ public class ReceiptServiceImpl implements ReceiptService {
       caseReceipt.setCaseRef(caseRef.trim());
     }
     caseReceipt.setCaseId((receipt.getCaseId()));
+    String userId = receipt.getUserId();
+    if (userId != null) {
+      caseReceipt.setPartyId(receipt.getUserId());
+    }
     caseReceipt.setInboundChannel(receipt.getInboundChannel());
 
     try {
