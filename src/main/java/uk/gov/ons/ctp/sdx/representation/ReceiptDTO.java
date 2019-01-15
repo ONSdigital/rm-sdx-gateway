@@ -12,5 +12,6 @@ import org.hibernate.validator.constraints.NotBlank;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class ReceiptDTO {
   @NotBlank private String caseId;
+  @NotBlank private String userId;
   private String caseRef;
 }
