@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sdxgatewaysvc</artifactId>
-    <version>10.49.6-SNAPSHOT</version>
+    <version>10.49.6</version>
     <packaging>jar</packaging>
 
     <name>CTP : ResponseManagement : SDX Gateway</name>
@@ -18,7 +18,7 @@
         <connection>scm:git:https://github.com/ONSdigital/rm-sdx-gateway</connection>
         <developerConnection>scm:git:https://github.com/ONSdigital/rm-sdx-gateway</developerConnection>
         <url>https://github.com/ONSdigital/rm-sdx-gateway</url>
-      <tag>HEAD</tag>
+      <tag>sdxgatewaysvc-10.49.6</tag>
   </scm>
 
     <parent>
