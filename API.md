@@ -22,3 +22,10 @@ This page documents the SDX Gateway API endpoints. Apart from the Service Inform
 **Required parameters**: `caseId` as the ID of the case the response receipt is for.
 
 An `HTTP 201 Created` status code is returned if the response receipt creation was a success. An `HTTP 400 Bad Request` is returned if the required parameter is missing.
+
+## Acknowledge File
+* `POST /paperquestionnairereceipts` will acknowledge a paper response file.
+
+**Required parameters**: `file` as the paper response file received.
+
+An `HTTP 201 Created` status code is returned if the file was read.
