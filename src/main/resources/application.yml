@@ -60,7 +60,7 @@ sftp:
   username: centos
   password: "JLibV2&XD,"
   directory: Documents
-  cron: "* * * * * ?"
+  cron: "0 * * * * ?"
   filepattern: "Receipt*.csv"
   
 data-grid:
