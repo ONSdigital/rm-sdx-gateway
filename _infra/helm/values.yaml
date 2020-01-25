@@ -1,0 +1,18 @@
+replicaCount: 1
+
+env: "dev"
+
+service:
+  port: 8191
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "512Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1028Mi"
+
+sftp:
+  host: sftp
+  port: 22
