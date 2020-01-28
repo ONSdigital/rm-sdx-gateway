@@ -6,8 +6,8 @@ spec:
   replicas: 1
   strategy:
     rollingUpdate:
-      maxSurge:
-      maxUnavailable:
+      maxSurge: 1
+      maxUnavailable: 1
     type: RollingUpdate
   selector:
     matchLabels:
@@ -110,9 +110,4 @@ spec:
           - name: SPRING_ZIPKIN_BASEURL
             value: "http://$(ZIPKIN_SERVICE_HOST):$(ZIPKIN_SERVICE_PORT)/"
           resources:
-            limits:
-              cpu: 1000m
-              memory: 1028Mi
-            requests:
-              cpu: 500m
-              memory: 512Mi
+            {{ toYaml .Values.resources | nindent 12 }}
