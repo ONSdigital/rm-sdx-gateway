@@ -1,0 +1,21 @@
+{
+  "schema": "v2",
+  "application": "sdx-gateway",
+  "name": "sdx-gateway",
+  "template": {
+    "artifactAccount": "front50ArtifactCredentials",
+    "reference": "spinnaker://rasrmApplicationTemplate",
+    "type": "front50/pipelineTemplate"
+  },
+  "variables": {
+    "name": "sdx-gateway",
+    "defaultHelmChart": "sdx-gateway-0.1.0.tgz",
+    "helmChartMatcher": "sdx-gateway-.*\\.tgz"
+  },
+  "exclude": [],
+  "triggers": [],
+  "parameters": [],
+  "notifications": [],
+  "description": "",
+  "stages": []
+}
