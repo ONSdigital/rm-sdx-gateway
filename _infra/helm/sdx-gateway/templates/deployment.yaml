@@ -95,7 +95,7 @@ spec:
           - name: RABBITMQ_HOST
             value: "$(RABBITMQ_SERVICE_HOST)"
           - name: RABBITMQ_PORT
-            value: "5672"]
+            value: "5672"
           - name: REDIS_HOST
             {{- if .Values.database.managedRedis }}
             valueFrom:
