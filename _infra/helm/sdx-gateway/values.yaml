@@ -17,6 +17,9 @@ container:
   port: 8080
 service:
   port: 80
+  type: ClusterIP
+  loadBalancerIP: "1.2.3.4"
+  externalTrafficPolicy: Local
 
 resources:
   requests:
