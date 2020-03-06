@@ -11,12 +11,6 @@ image:
   pullPolicy: Always
 
 database:
-  managedPostgres: false
-  sqlProxyEnabled: false
-  secrets:
-    usernameKey: username
-    passwordKey: password
-    nameKey: db-name
   managedRedis: false
 
 container:
