@@ -29,5 +29,5 @@ resources:
     memory: "256Mi"
 
 sftp:
-  host: sftp
-  port: 22
+  test:
+    enabled: true
