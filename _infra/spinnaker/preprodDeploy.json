@@ -1,16 +1,16 @@
 {
   "schema": "v2",
   "application": "sdx-gateway",
-  "name": "sdx-gateway",
+  "name": "deploy preprod",
   "template": {
     "artifactAccount": "front50ArtifactCredentials",
-    "reference": "spinnaker://rasrmApplicationTemplate",
+    "reference": "spinnaker://individualDeploymentTemplate",
     "type": "front50/pipelineTemplate"
   },
   "variables": {
-    "name": "sdx-gateway",
-    "defaultHelmChart": "sdx-gateway-0.1.0.tgz",
-    "helmChartMatcher": "sdx-gateway-.*\\.tgz"
+    "namespace": "preprod",
+    "environment": "preprod",
+    "service": "sdx-gateway"
   },
   "exclude": [],
   "triggers": [],

@@ -1,0 +1,20 @@
+{
+  "schema": "v2",
+  "application": "sdx-gateway",
+  "name": "deployment",
+  "template": {
+    "artifactAccount": "front50ArtifactCredentials",
+    "reference": "spinnaker://fullDeploymentTemplate",
+    "type": "front50/pipelineTemplate"
+  },
+  "variables": {
+    "service": "sdx-gateway",
+    "defaultVersion": "1.0.0"
+  },
+  "exclude": [],
+  "triggers": [],
+  "parameters": [],
+  "notifications": [],
+  "description": "",
+  "stages": []
+}
