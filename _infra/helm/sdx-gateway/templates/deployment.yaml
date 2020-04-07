@@ -63,9 +63,33 @@ spec:
           - name: SECURITY_BASIC_ENABLED
             value: "true"
           - name: RABBITMQ_HOST
+            {{- if .Values.managedRabbitMQ.enabled }}
+            valueFrom:
+              configMapKeyRef:
+                name: rabbit-config
+                key: rabbit-mq-host
+            {{- else }}
             value: "$(RABBITMQ_SERVICE_HOST)"
+            {{- end }}
           - name: RABBITMQ_PORT
-            value: "5672"
+            {{- if .Values.managedRabbitMQ.enabled }}
+            valueFrom:
+              configMapKeyRef:
+                name: rabbit-config
+                key: rabbit-mq-port
+            {{- else }}
+            value: "$(RABBITMQ_SERVICE_PORT)"
+            {{- end }}
+          - name: RABBITMQ_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq
+                key: rabbitmq-username
+          - name: RABBITMQ_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq
+                key: rabbitmq-password
           - name: REDIS_HOST
             {{- if .Values.database.managedRedis }}
             valueFrom:
