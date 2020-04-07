@@ -15,6 +15,9 @@ image:
 database:
   managedRedis: false
 
+managedRabbitMQ:
+  enabled: false
+
 container:
   port: 8080
 service:
