@@ -5,8 +5,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.integration.annotation.MessageEndpoint;
-import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.sdx.message.CaseReceiptPublisher;
+import uk.gov.ons.ctp.sdx.quarantine.casesvc.CaseReceipt;
 
 /** The publisher to queues */
 @Slf4j

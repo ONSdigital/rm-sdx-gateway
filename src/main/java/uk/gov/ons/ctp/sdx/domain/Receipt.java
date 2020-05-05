@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
-import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
+import uk.gov.ons.ctp.sdx.quarantine.casesvc.InboundChannel;
 
 /** The domain receipt object to acknowledge responses */
 @AllArgsConstructor
