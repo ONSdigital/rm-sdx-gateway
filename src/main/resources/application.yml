@@ -22,10 +22,6 @@ spring:
   application:
     name: Survey Data Exchange Gateway API
 
-  zipkin:
-    baseUrl: http://localhost:9411
-    enabled: false
-
 management:
   security:
     roles: SUPERUSER
