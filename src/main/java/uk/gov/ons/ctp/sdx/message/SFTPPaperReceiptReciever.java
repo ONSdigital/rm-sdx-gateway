@@ -1,6 +1,6 @@
 package uk.gov.ons.ctp.sdx.message;
 
-import uk.gov.ons.ctp.common.error.CTPException;
+import uk.gov.ons.ctp.sdx.quarantine.common.CTPException;
 
 /** Service for receiving files from SFTP and then sending back to flow to rename */
 public interface SFTPPaperReceiptReciever {
