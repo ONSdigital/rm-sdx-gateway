@@ -131,7 +131,7 @@
         <dependency>
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-xml</artifactId>
-            <version>4.3.11.RELEASE</version>
+            <version>4.3.22.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -277,10 +277,6 @@
                         <version>${surefire.version}</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
