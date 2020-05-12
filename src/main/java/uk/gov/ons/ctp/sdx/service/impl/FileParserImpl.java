@@ -12,10 +12,10 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import uk.gov.ons.ctp.common.error.CTPException;
-import uk.gov.ons.ctp.common.time.DateTimeUtil;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
+import uk.gov.ons.ctp.sdx.quarantine.common.CTPException;
+import uk.gov.ons.ctp.sdx.quarantine.common.DateTimeUtil;
 import uk.gov.ons.ctp.sdx.service.FileParser;
 
 /** The service implementation to parse csv files */

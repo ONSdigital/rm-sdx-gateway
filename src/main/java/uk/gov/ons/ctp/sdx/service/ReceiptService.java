@@ -1,8 +1,8 @@
 package uk.gov.ons.ctp.sdx.service;
 
 import java.io.InputStream;
-import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
+import uk.gov.ons.ctp.sdx.quarantine.common.CTPException;
 
 /** The service to acknowledge receipts */
 public interface ReceiptService {
