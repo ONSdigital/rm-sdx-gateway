@@ -14,11 +14,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import uk.gov.ons.ctp.common.distributed.DistributedLockManager;
+import uk.gov.ons.ctp.common.distributed.DistributedLockManagerRedissonImpl;
+import uk.gov.ons.ctp.common.error.RestExceptionHandler;
+import uk.gov.ons.ctp.common.jackson.CustomObjectMapper;
 import uk.gov.ons.ctp.sdx.config.AppConfig;
-import uk.gov.ons.ctp.sdx.quarantine.common.CustomObjectMapper;
-import uk.gov.ons.ctp.sdx.quarantine.common.DistributedLockManager;
-import uk.gov.ons.ctp.sdx.quarantine.common.DistributedLockManagerRedissonImpl;
-import uk.gov.ons.ctp.sdx.quarantine.common.RestExceptionHandler;
 
 /** The main application class */
 @Slf4j

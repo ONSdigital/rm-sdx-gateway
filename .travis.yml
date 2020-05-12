@@ -6,7 +6,9 @@ services:
 language: java
 jdk: openjdk8
 
-script: "mvn verify"
+before_install: cp .maven.settings.xml $HOME/.m2/settings.xml
+
+script: "mvn fmt:check verify"
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then

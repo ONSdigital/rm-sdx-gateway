@@ -17,11 +17,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.CaseReceipt;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.message.CaseReceiptPublisher;
-import uk.gov.ons.ctp.sdx.quarantine.common.CTPException;
 import uk.gov.ons.ctp.sdx.service.impl.ReceiptServiceImpl;
 
 /** To unit test ReceiptServiceImpl */

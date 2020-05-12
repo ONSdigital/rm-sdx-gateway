@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.MessageEndpoint;
 import org.springframework.scheduling.annotation.Scheduled;
+import uk.gov.ons.ctp.common.distributed.DistributedLockManager;
+import uk.gov.ons.ctp.common.error.CTPException;
+import uk.gov.ons.ctp.common.error.CTPException.Fault;
 import uk.gov.ons.ctp.sdx.config.AppConfig;
 import uk.gov.ons.ctp.sdx.message.SFTPPaperReceiptReciever;
-import uk.gov.ons.ctp.sdx.quarantine.common.CTPException;
-import uk.gov.ons.ctp.sdx.quarantine.common.CTPException.Fault;
-import uk.gov.ons.ctp.sdx.quarantine.common.DistributedLockManager;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
 /**

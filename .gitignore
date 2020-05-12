@@ -57,5 +57,3 @@ target
 *.data
 *.redo
 *.backup
-
-.vscode/

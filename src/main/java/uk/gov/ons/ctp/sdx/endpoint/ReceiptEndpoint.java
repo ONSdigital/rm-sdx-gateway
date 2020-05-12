@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import uk.gov.ons.ctp.common.error.CTPException;
+import uk.gov.ons.ctp.common.error.InvalidRequestException;
 import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
-import uk.gov.ons.ctp.sdx.quarantine.common.CTPException;
-import uk.gov.ons.ctp.sdx.quarantine.common.InvalidRequestException;
 import uk.gov.ons.ctp.sdx.representation.ReceiptDTO;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
