@@ -4,8 +4,8 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.Is.isA;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.ons.ctp.common.MvcHelper.postJson;
-import static uk.gov.ons.ctp.common.utility.MockMvcControllerAdviceHelper.mockAdviceFor;
+import static uk.gov.ons.ctp.sdx.common.MockMvcControllerAdviceHelper.mockAdviceFor;
+import static uk.gov.ons.ctp.sdx.common.MvcHelper.postJson;
 import static uk.gov.ons.ctp.sdx.service.ReceiptServiceImplTest.CASE_REF;
 
 import ma.glasnost.orika.MapperFacade;
@@ -20,10 +20,10 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.gov.ons.ctp.common.error.CTPException;
-import uk.gov.ons.ctp.common.error.RestExceptionHandler;
-import uk.gov.ons.ctp.common.jackson.CustomObjectMapper;
 import uk.gov.ons.ctp.sdx.BeanMapper;
+import uk.gov.ons.ctp.sdx.quarantine.common.CTPException;
+import uk.gov.ons.ctp.sdx.quarantine.common.CustomObjectMapper;
+import uk.gov.ons.ctp.sdx.quarantine.common.RestExceptionHandler;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
 /** Test for Receipt Endpoint Test */

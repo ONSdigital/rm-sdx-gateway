@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import uk.gov.ons.ctp.common.error.CTPException;
+import uk.gov.ons.ctp.sdx.quarantine.common.CTPException;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
 /** The endpoint to receive paper responses from Newport */
