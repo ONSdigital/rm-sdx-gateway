@@ -128,10 +128,6 @@ spec:
               secretKeyRef:
                 name: sftp-secret
                 key: sftp-sdxgateway-password
-          - name: SPRING_ZIPKIN_ENABLED
-            value: "true"
-          - name: SPRING_ZIPKIN_BASEURL
-            value: "http://$(ZIPKIN_SERVICE_HOST):$(ZIPKIN_SERVICE_PORT)/"
           - name: SERVER_PORT
             value: "{{ .Values.container.port }}"
           resources:
