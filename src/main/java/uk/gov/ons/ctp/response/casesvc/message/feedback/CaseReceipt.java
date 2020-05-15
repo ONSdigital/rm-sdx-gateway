@@ -53,7 +53,7 @@ import com.kscs.util.jaxb.PropertyTreeUse;
     "responseDateTime",
     "partyId"
 })
-@XmlRootElement
+@XmlRootElement(name="caseReceipt")
 public class CaseReceipt {
 
     protected String caseRef;
