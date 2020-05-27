@@ -4,7 +4,7 @@
 
     <groupId>uk.gov.onsdigital</groupId>
     <artifactId>sdxgatewaysvc</artifactId>
-    <version>10.49.7-SNAPSHOT</version>
+    <version>unversioned</version>
     <packaging>jar</packaging>
 
     <name>CTP : ResponseManagement : SDX Gateway</name>
