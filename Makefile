@@ -1,3 +1,3 @@
 verify:
 	mvn clean verify
-	cp target/sdx-gateway-unversioned.jar ./sdx-gateway.jar
+	cp target/sdxgateway-unversioned.jar ./sdxgateway.jar
