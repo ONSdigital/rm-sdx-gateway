@@ -33,3 +33,8 @@ resources:
 sftp:
   test:
     enabled: true
+
+ingress:
+  enabled: false
+  host: sdx.example.com
+  cert: sdx-cert
