@@ -4,13 +4,11 @@ kind: Ingress
 metadata:
   name: {{ .Chart.Name }}-ingress
   annotations:
-    kubernetes.io/ingress.class: gce
-    networking.gke.io/managed-certificates: {{ .Values.ingress.cert }}
-    kubernetes.io/ingress.allow-http: "false"
+    kubernetes.io/ingress.global-static-ip-name: sdx-gateway-ip
+    kubernetes.io/ingress.class: "gce-internal"
 spec:
   rules:
-    - host: {{ .Values.ingress.host | quote }}
-      http:
+    - http:
         paths:
           - path: /*
             backend:

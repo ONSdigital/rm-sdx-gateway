@@ -6,6 +6,10 @@ metadata:
   annotations:
     cloud.google.com/load-balancer-type: Internal
   {{- end }}
+  {{- if .Values.ingress.enabled }}
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
   {{- if eq $.Values.service.type "LoadBalancer" }}
