@@ -31,11 +31,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http-server
-              containerPort: {{ .Values.container.port }}
+              containerPort: {{ .Values.container.http.port }}
+            - name: https-server
+              containerPort: {{ .Values.container.https.port }}
           readinessProbe:
             httpGet:
               path: /info
-              port: {{ .Values.container.port }}
+              port: {{ .Values.container.http.port }}
             periodSeconds: 5
             failureThreshold: 3
             successThreshold: 1
@@ -43,7 +45,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /info
-              port: {{ .Values.container.port }}
+              port: {{ .Values.container.http.port }}
             initialDelaySeconds: 300
             periodSeconds: 20
             failureThreshold: 5
@@ -129,6 +131,8 @@ spec:
                 name: sftp-secret
                 key: sftp-sdxgateway-password
           - name: SERVER_PORT
-            value: "{{ .Values.container.port }}"
+            value: "{{ .Values.container.https.port }}"
+          - name: SERVER_HTTP_PORT
+            value: "{{ .Values.container.http.port }}"
           resources:
             {{ toYaml .Values.resources | nindent 12 }}
