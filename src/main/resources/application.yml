@@ -68,7 +68,7 @@ sftp:
   filepattern: "Receipt*.csv"
   
 data-grid:
-  address: localhost:6379
+  address: localhost:7379
   lock-time-to-live-seconds: 1800
   
 rabbitmq:
