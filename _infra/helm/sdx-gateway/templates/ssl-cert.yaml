@@ -6,4 +6,4 @@ metadata:
     strategy.spinnaker.io/versioned: "false"
 type: Opaque
 data:
-  {{ (.Files.Glob "certs/*").AsSecrets | indent 2 }}
+  cert.p12: {{ .Values.ssl.cert }}

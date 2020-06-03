@@ -145,7 +145,7 @@ spec:
           - name: SERVER_HTTP_PORT
             value: "{{ .Values.container.http.port }}"
           - name: SERVER_SSL_KEY_STORE
-            value: {{ .Values.ssl.keystore }}
+            value: "/certs/cert.p12"
           - name: SERVER_SSL_KEY_STORE_PASSWORD
             valueFrom:
               secretKeyRef:
