@@ -1,5 +1,6 @@
 package uk.gov.ons.ctp.sdx.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.NetworkTrafficServerConnector;
 import org.eclipse.jetty.server.Server;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@Slf4j
 @Configuration
 public class HttpServerConfig {
 
@@ -29,6 +31,7 @@ public class HttpServerConfig {
                     @Override
                     public void customize(final Server server) {
                             final NetworkTrafficServerConnector connector = new NetworkTrafficServerConnector(server);
+                            log.info("Starting HTTP connector on port " + httpPort);
                             connector.setPort(httpPort);
                             server.addConnector(connector);
                     }

@@ -33,6 +33,11 @@ service:
   loadBalancerIP: "1.2.3.4"
   externalTrafficPolicy: Local
 
+ssl:
+  keystore: "/certs/ons.p12"
+  password: password
+  alias: ons
+
 resources:
   requests:
     memory: "256Mi"
