@@ -31,8 +31,16 @@ management:
       enabled: false
 
 server:
-  port: 8191
+  port: 8443
   servlet-path: /
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:keystore/ons.p12
+    key-store-password: password
+    key-alias: ons
+  http:
+    port:
+      8191
 
 endpoints:
   info:

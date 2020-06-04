@@ -6,10 +6,6 @@ metadata:
   annotations:
     cloud.google.com/load-balancer-type: Internal
   {{- end }}
-  {{- if .Values.ingress.enabled }}
-  annotations:
-    cloud.google.com/neg: '{"ingress": true}'
-  {{- end }}
 spec:
   type: {{ .Values.service.type }}
   {{- if eq $.Values.service.type "LoadBalancer" }}
@@ -17,8 +13,15 @@ spec:
   loadBalancerIP: {{ .Values.service.loadBalancerIP }}
   {{- end }}
   ports:
-  - port: {{ .Values.service.port }}
-    targetPort: {{ .Values.container.port }}
+  - name: http
+    port: {{ .Values.service.http.port }}
+    targetPort: {{ .Values.container.http.port }}
     protocol: TCP
+    {{- if eq $.Values.service.type "LoadBalancer" }}
+  - name: https
+    port: {{ .Values.service.https.port }}
+    targetPort: {{ .Values.container.https.port }}
+    protocol: TCP
+    {{- end }}
   selector:
     app: {{ .Chart.Name }}
