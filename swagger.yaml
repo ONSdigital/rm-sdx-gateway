@@ -1,0 +1,82 @@
+openapi: 3.0.2
+info:
+  title: RAS-RM Sample Service
+  description: A service for dealing with various parties (businesses, survey respondents etc and their enrolments)
+  version: "2.0"
+
+servers:
+  - url: https://localhost:8191/
+    description: The path used by Sample when port forwarded by kubectl (8191:8080)
+
+tags:
+  - name: receipts
+    description: Receipt endpoints
+
+paths:
+  /receipts:
+    post:
+      summary: acknowledges receipt
+      description: | 
+        Acknowledges receipt and sends it off to the case service
+      tags:
+        - receipts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+      responses:
+        '201':
+          description: The collection exercise as associated with a sample
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+        '400':
+          $ref: '#/components/responses/InvalidRequestBodyError'
+  /paperquestionnairereceipts:
+    post:
+      summary: Upload paper receipts
+      description: Upload paper receipts
+      tags:
+        - receipts
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: The file was sucessfule received.
+  
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  responses:
+    InvalidRequestBodyError:
+      description: One or more of the fields provided in the RequestBody wasn't part of the schema, wasn't set to a valid value, or the ID provided wasn't a proper UUID.
+  schemas:
+    Receipt:
+      type: object
+      properties:
+        caseId:
+          type: string
+          format: uuid
+          example: 34597808-ec88-4e93-af2f-228e33ff7946
+        userId:
+          type: string
+          format: uuid
+          example: 34597808-ec88-4e93-af2f-228e33ff7946
+        caseRef:
+          type: string
+          example: "12343543"
+security:
+  - basicAuth: []
