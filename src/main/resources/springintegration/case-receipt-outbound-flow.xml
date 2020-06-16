@@ -7,7 +7,11 @@
   http://www.springframework.org/schema/rabbit
   http://www.springframework.org/schema/rabbit/spring-rabbit-1.6.xsd">
 
+  <bean id="caseReceiptMarshallingMessageConverter"
+    class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter">
+  </bean>
+
   <rabbit:template id="caseReceiptRabbitTemplate" connection-factory="connectionFactory"
     exchange="case-outbound-exchange" routing-key="Case.Responses.binding"
-    channel-transacted="true"/>
+    message-converter="caseReceiptMarshallingMessageConverter" channel-transacted="true"/>
 </beans>
