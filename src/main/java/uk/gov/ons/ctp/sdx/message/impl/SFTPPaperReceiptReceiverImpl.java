@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.MessageEndpoint;
 import org.springframework.scheduling.annotation.Scheduled;
 import uk.gov.ons.ctp.sdx.config.AppConfig;
-import uk.gov.ons.ctp.sdx.message.SFTPPaperReceiptReciever;
+import uk.gov.ons.ctp.sdx.message.SFTPPaperReceiptReceiver;
 import uk.gov.ons.ctp.sdx.quarantine.common.CTPException;
 import uk.gov.ons.ctp.sdx.quarantine.common.CTPException.Fault;
 import uk.gov.ons.ctp.sdx.quarantine.common.DistributedLockManager;
@@ -28,7 +28,7 @@ import uk.gov.ons.ctp.sdx.service.ReceiptService;
 @Slf4j
 @MessageEndpoint
 @Configuration
-public class SFTPPaperReceiptRecieverImpl implements SFTPPaperReceiptReciever {
+public class SFTPPaperReceiptReceiverImpl implements SFTPPaperReceiptReceiver {
 
   private static final String SFTP_LOCK = "sftpLock";
 
