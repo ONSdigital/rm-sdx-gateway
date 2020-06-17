@@ -28,7 +28,7 @@ paths:
               $ref: '#/components/schemas/Receipt'
       responses:
         '201':
-          description: The collection exercise as associated with a sample
+          description: response receipt was successfully created
           content:
             application/json:
               schema:
@@ -53,7 +53,7 @@ paths:
                   format: binary
       responses:
         '201':
-          description: The file was sucessfule received.
+          description: The file was successfully received
   
 components:
   securitySchemes:
@@ -80,3 +80,4 @@ components:
           example: "12343543"
 security:
   - basicAuth: []
+
