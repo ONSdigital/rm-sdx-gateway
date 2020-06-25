@@ -17,21 +17,21 @@ import org.springframework.retry.support.RetryTemplate;
 
 @Configuration
 public class RabbitMQConfig {
-private final String username;
-private final String password;
-private final String hostname;
-private final int port;
-private final String virtualHost;
+private String username;
+private String password;
+private String hostname;
+private int port;
+private String virtualHost;
 
 @Value("${messaging.pubMaxAttempts}") 
 private int pubMaxAttempts;
 
     public RabbitMQConfig (
-        @Value("${rabbitmq.username}") final  String username,
-        @Value("${rabbitmq.password}") final  String password,
-        @Value("${rabbitmq.host}") final  String hostname,
-        @Value("${rabbitmq.port}") final int port,
-        @Value("${rabbitmq.virtualhost}") final String virtualHost) {
+        @Value("${rabbitmq.username}")  String username,
+        @Value("${rabbitmq.password}")  String password,
+        @Value("${rabbitmq.host}")  String hostname,
+        @Value("${rabbitmq.port}") int port,
+        @Value("${rabbitmq.virtualhost}") String virtualHost) {
 
         this.username = username;
         this.password = password;
@@ -41,9 +41,9 @@ private int pubMaxAttempts;
     }
 
     // Connection factories
-    public static CachingConnectionFactory createConnectionFactory(final int port, final String hostname, final String virtualHost,
-        final String password, final String username) {
-        final CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(hostname, port);
+    public static CachingConnectionFactory createConnectionFactory(int port, String hostname, String virtualHost,
+        String password, String username) {
+        CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(hostname, port);
 
         cachingConnectionFactory.setVirtualHost(virtualHost);
         cachingConnectionFactory.setPassword(password);
@@ -60,15 +60,15 @@ private int pubMaxAttempts;
 
     @Bean
     public RetryTemplate retryTemplate() {
-        final RetryTemplate retryTemplate = new RetryTemplate();
+        RetryTemplate retryTemplate = new RetryTemplate();
          
-        final ExponentialBackOffPolicy exponentialBackOffPolicy = new ExponentialBackOffPolicy();
+        ExponentialBackOffPolicy exponentialBackOffPolicy = new ExponentialBackOffPolicy();
         exponentialBackOffPolicy.setInitialInterval(1000L);
         exponentialBackOffPolicy.setMultiplier(3D);
         exponentialBackOffPolicy.setMaxInterval(30000L);
         retryTemplate.setBackOffPolicy(exponentialBackOffPolicy);
  
-        final SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
+        SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
         retryPolicy.setMaxAttempts(pubMaxAttempts);
         retryTemplate.setRetryPolicy(retryPolicy);
          
@@ -90,8 +90,8 @@ private int pubMaxAttempts;
 
     // Bindings
     @Bean
-    public Binding caseResponsesBinding(final Queue caseResponsesQueue, final DirectExchange caseOutboundExchange) {
-    final Binding binding = BindingBuilder.bind(caseResponsesQueue).to(caseOutboundExchange)
+    public Binding caseResponsesBinding(Queue caseResponsesQueue, DirectExchange caseOutboundExchange) {
+    Binding binding = BindingBuilder.bind(caseResponsesQueue).to(caseOutboundExchange)
         .with("x-dead-letter-routing-key");
     return binding;
     }
