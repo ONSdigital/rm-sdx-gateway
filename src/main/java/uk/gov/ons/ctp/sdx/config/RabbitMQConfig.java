@@ -1,6 +1,5 @@
 package uk.gov.ons.ctp.sdx.config;
 
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -9,6 +8,7 @@ import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.MarshallingMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,15 +60,26 @@ private int pubMaxAttempts;
         return createConnectionFactory(port, hostname, virtualHost, password, username);
     }
 
-    // AMQP template 
+    // AMQP templates
     @Bean
-    public AmqpTemplate rabbitTemplate() {
+    public RabbitTemplate amqpTemplate() {
         RabbitTemplate amqpTemplate = new RabbitTemplate(connectionFactory());
         amqpTemplate.setRetryTemplate(retryTemplate());
         return amqpTemplate;
     }
 
-    // Retry template
+    @Bean
+    public RabbitTemplate caseReceiptRabbitTemplate(ConnectionFactory connectionFactory, 
+        MarshallingMessageConverter caseReceiptMarshallingMessageConverter) {
+        RabbitTemplate caseReceiptRabbitTemplate = new RabbitTemplate(connectionFactory);
+        caseReceiptRabbitTemplate.setExchange("case-outbound-exchange");
+        caseReceiptRabbitTemplate.setRoutingKey("Case.Responses.binding");
+        caseReceiptRabbitTemplate.setMessageConverter(caseReceiptMarshallingMessageConverter);
+        caseReceiptRabbitTemplate.setChannelTransacted(true);
+        return caseReceiptRabbitTemplate;
+    }
+
+    // Retry templates
     @Bean
     public RetryTemplate retryTemplate() {
     	RetryTemplate retryTemplate = new RetryTemplate();
