@@ -1,12 +1,14 @@
 package uk.gov.ons.ctp.sdx.config;
 
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,9 +29,9 @@ private String virtualHost;
 private int pubMaxAttempts;
 
     public RabbitMQConfig (
-        @Value("${rabbitmq.username}")  String username,
-        @Value("${rabbitmq.password}")  String password,
-        @Value("${rabbitmq.host}")  String hostname,
+        @Value("${rabbitmq.username}") String username,
+        @Value("${rabbitmq.password}") String password,
+        @Value("${rabbitmq.host}") String hostname,
         @Value("${rabbitmq.port}") int port,
         @Value("${rabbitmq.virtualhost}") String virtualHost) {
 
@@ -55,25 +57,25 @@ private int pubMaxAttempts;
     @Bean
     @Primary
     public ConnectionFactory connectionFactory() {
-    return createConnectionFactory(port, hostname, virtualHost, password, username);
+        return createConnectionFactory(port, hostname, virtualHost, password, username);
     }
 
+    // AMQP template with backoff and retry
     @Bean
-    public RetryTemplate retryTemplate() {
-        RetryTemplate retryTemplate = new RetryTemplate();
-         
-        ExponentialBackOffPolicy exponentialBackOffPolicy = new ExponentialBackOffPolicy();
-        exponentialBackOffPolicy.setInitialInterval(1000L);
+    public AmqpTemplate rabbitTemplate() {
+		RabbitTemplate amqpTemplate = new RabbitTemplate(connectionFactory());
+		RetryTemplate retryTemplate = new RetryTemplate();
+		ExponentialBackOffPolicy exponentialBackOffPolicy = new ExponentialBackOffPolicy();
+		exponentialBackOffPolicy.setInitialInterval(1000L);
         exponentialBackOffPolicy.setMultiplier(3D);
         exponentialBackOffPolicy.setMaxInterval(30000L);
         retryTemplate.setBackOffPolicy(exponentialBackOffPolicy);
- 
         SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
         retryPolicy.setMaxAttempts(pubMaxAttempts);
         retryTemplate.setRetryPolicy(retryPolicy);
-         
-        return retryTemplate;
-    }
+		amqpTemplate.setRetryTemplate(retryTemplate);
+		return amqpTemplate;
+}
     
     // Exchanges
     @Bean
