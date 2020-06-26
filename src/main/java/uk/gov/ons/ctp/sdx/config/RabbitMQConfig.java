@@ -82,10 +82,10 @@ private int pubMaxAttempts;
     // Retry templates
     @Bean
     public RetryTemplate retryTemplate() {
-    	RetryTemplate retryTemplate = new RetryTemplate();
+        RetryTemplate retryTemplate = new RetryTemplate();
     
         ExponentialBackOffPolicy exponentialBackOffPolicy = new ExponentialBackOffPolicy();
-	    exponentialBackOffPolicy.setInitialInterval(1000L);
+        exponentialBackOffPolicy.setInitialInterval(1000L);
         exponentialBackOffPolicy.setMultiplier(3D);
         exponentialBackOffPolicy.setMaxInterval(30000L);
         retryTemplate.setBackOffPolicy(exponentialBackOffPolicy);
@@ -98,15 +98,15 @@ private int pubMaxAttempts;
     
     // Exchanges
     @Bean
-	DirectExchange caseOutboundExchange() {
-		return new DirectExchange("case-outbound-exchange");
+    DirectExchange caseOutboundExchange() {
+        return new DirectExchange("case-outbound-exchange");
     }
 
     // Queues
     @Bean
-	public Queue caseResponsesQueue() {
-		return QueueBuilder.durable("Case.Responses").withArgument("x-dead-letter-exchange", "case-deadletter-exchange")
-				.withArgument("x-dead-letter-routing-key", "Case.Responses.binding").build();
+    public Queue caseResponsesQueue() {
+        return QueueBuilder.durable("Case.Responses").withArgument("x-dead-letter-exchange", "case-deadletter-exchange")
+                .withArgument("x-dead-letter-routing-key", "Case.Responses.binding").build();
     }
 
     // Bindings
