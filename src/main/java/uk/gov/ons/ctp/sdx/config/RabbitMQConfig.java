@@ -85,7 +85,7 @@ private int pubMaxAttempts;
     @Bean
 	public Queue caseResponsesQueue() {
 		return QueueBuilder.durable("Case.Responses").withArgument("x-dead-letter-exchange", "case-deadletter-exchange")
-				.withArgument("x-dead-letter-routing-key", "Case.Responses").build();
+				.withArgument("x-dead-letter-routing-key", "Case.Responses.binding").build();
     }
 
     // Bindings
