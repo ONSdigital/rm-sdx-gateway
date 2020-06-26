@@ -14,15 +14,22 @@ Once SDX calls this gateway, case receipts are then published to the RabbitMQ qu
 
 ## Running
 
-There are two ways of running this service
+There are two ways of running this service.
+The easiest way is via docker (https://github.com/ONSdigital/ras-rm-docker-dev)
 
-* The easiest way is via docker (https://github.com/ONSdigital/ras-rm-docker-dev)
-* Alternatively running the service up in isolation
-    ```bash
-    cp .maven.settings.xml ~/.m2/settings.xml  # This only needs to be done once to set up mavens settings file
-    mvn clean install
-    mvn spring-boot:run
-    ```
+Alternatively, you can run the service locally. For this, you'll need redis server running in a second window (port is currently set to 7379). 
+```bash
+redis-server /usr/local/etc/redis.conf
+```
+You'll also need postgres and some other backend services running. For these you can cd to the ras-rm-docker-dev repo in a third window, and run:
+```bash
+$ docker-compose -f dev.yml up
+```
+With those up and running, in your first window run:
+```bash
+$ mvn clean install
+$ mvn spring-boot:run
+```
 
 # Code Styler
 To use the code styler please goto this url (https://github.com/google/google-java-format) and follow the Intellij instructions or Eclipse depending on what you use
