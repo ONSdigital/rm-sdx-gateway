@@ -60,22 +60,30 @@ private int pubMaxAttempts;
         return createConnectionFactory(port, hostname, virtualHost, password, username);
     }
 
-    // AMQP template with backoff and retry
+    // AMQP template 
     @Bean
     public AmqpTemplate rabbitTemplate() {
-		RabbitTemplate amqpTemplate = new RabbitTemplate(connectionFactory());
-		RetryTemplate retryTemplate = new RetryTemplate();
-		ExponentialBackOffPolicy exponentialBackOffPolicy = new ExponentialBackOffPolicy();
-		exponentialBackOffPolicy.setInitialInterval(1000L);
+        RabbitTemplate amqpTemplate = new RabbitTemplate(connectionFactory());
+        amqpTemplate.setRetryTemplate(retryTemplate());
+        return amqpTemplate;
+    }
+
+    // Retry template
+    @Bean
+    public RetryTemplate retryTemplate() {
+    	RetryTemplate retryTemplate = new RetryTemplate();
+    
+        ExponentialBackOffPolicy exponentialBackOffPolicy = new ExponentialBackOffPolicy();
+	    exponentialBackOffPolicy.setInitialInterval(1000L);
         exponentialBackOffPolicy.setMultiplier(3D);
         exponentialBackOffPolicy.setMaxInterval(30000L);
         retryTemplate.setBackOffPolicy(exponentialBackOffPolicy);
+        
         SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
         retryPolicy.setMaxAttempts(pubMaxAttempts);
         retryTemplate.setRetryPolicy(retryPolicy);
-		amqpTemplate.setRetryTemplate(retryTemplate);
-		return amqpTemplate;
-}
+        return retryTemplate;
+    }
     
     // Exchanges
     @Bean
