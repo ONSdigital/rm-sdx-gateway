@@ -23,5 +23,4 @@ public class CaseReceiptConfig {
         marshallingMessageConverter.setUnmarshaller(CaseReceiptMarshaller());
         return marshallingMessageConverter;
     }
-
 }
