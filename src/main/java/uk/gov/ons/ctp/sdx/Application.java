@@ -26,7 +26,6 @@ import uk.gov.ons.ctp.sdx.quarantine.common.RestExceptionHandler;
 @EnableAsync
 @EnableScheduling
 @EnableCaching
-@ImportResource("springintegration/main.xml")
 @SpringBootApplication
 public class Application {
 

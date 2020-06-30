@@ -54,7 +54,7 @@ RESPONSE_DATE_TIME_COL_FORMAT: dd/MM/yyyy
 # ie -Dlogging.level.org.springframework=DEBUG
 logging:
   level:
-    uk.gov.ons.ctp: INFO
+    uk.gov.ons.ctp: DEBUG
     org.springframework.context.annotation.ConfigurationClassPostProcessor: ERROR
   profile: DEV
 
