@@ -19,16 +19,16 @@ import org.springframework.retry.support.RetryTemplate;
 
 @Configuration
 public class RabbitMQConfig {
-private String username;
-private String password;
-private String hostname;
-private int port;
-private String virtualHost;
+  private String username;
+  private String password;
+  private String hostname;
+  private int port;
+  private String virtualHost;
 
-@Value("${messaging.pubMaxAttempts}") 
-private int pubMaxAttempts;
+  @Value("${messaging.pubMaxAttempts}") 
+  private int pubMaxAttempts;
 
-    public RabbitMQConfig (
+  public RabbitMQConfig (
         @Value("${rabbitmq.username}") String username,
         @Value("${rabbitmq.password}") String password,
         @Value("${rabbitmq.host}") String hostname,
@@ -106,14 +106,14 @@ private int pubMaxAttempts;
     @Bean
     public Queue caseResponsesQueue() {
         return QueueBuilder.durable("Case.Responses").withArgument("x-dead-letter-exchange", "case-deadletter-exchange")
-                .withArgument("x-dead-letter-routing-key", "Case.Responses.binding").build();
+          .withArgument("x-dead-letter-routing-key", "Case.Responses.binding").build();
     }
 
     // Bindings
     @Bean
-    public Binding xDeadLetterBinding(Queue caseResponsesQueue, DirectExchange caseOutboundExchange) {
+     public Binding xDeadLetterBinding(Queue caseResponsesQueue, DirectExchange caseOutboundExchange) {
     Binding binding = BindingBuilder.bind(caseResponsesQueue).to(caseOutboundExchange)
-        .with("x-dead-letter-routing-key");
+      .with("x-dead-letter-routing-key");
     return binding;
     }
 
