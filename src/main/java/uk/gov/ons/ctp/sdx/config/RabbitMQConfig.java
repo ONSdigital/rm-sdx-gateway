@@ -73,7 +73,7 @@ private int pubMaxAttempts;
         MarshallingMessageConverter caseReceiptMarshallingMessageConverter) {
         RabbitTemplate caseReceiptRabbitTemplate = new RabbitTemplate(connectionFactory);
         caseReceiptRabbitTemplate.setExchange("case-outbound-exchange");
-        caseReceiptRabbitTemplate.setRoutingKey("Case.Responses.binding");
+        caseReceiptRabbitTemplate.setRoutingKey("x-dead-letter-routing-key");
         caseReceiptRabbitTemplate.setMessageConverter(caseReceiptMarshallingMessageConverter);
         caseReceiptRabbitTemplate.setChannelTransacted(true);
         return caseReceiptRabbitTemplate;
@@ -98,7 +98,7 @@ private int pubMaxAttempts;
     
     // Exchanges
     @Bean
-    DirectExchange caseOutboundExchange() {
+    public DirectExchange caseOutboundExchange() {
         return new DirectExchange("case-outbound-exchange");
     }
 
@@ -111,9 +111,16 @@ private int pubMaxAttempts;
 
     // Bindings
     @Bean
-    public Binding caseResponsesBinding(Queue caseResponsesQueue, DirectExchange caseOutboundExchange) {
+    public Binding xDeadLetterBinding(Queue caseResponsesQueue, DirectExchange caseOutboundExchange) {
     Binding binding = BindingBuilder.bind(caseResponsesQueue).to(caseOutboundExchange)
         .with("x-dead-letter-routing-key");
+    return binding;
+    }
+
+    @Bean
+     public Binding caseResponsesBinding(Queue caseResponsesQueue, DirectExchange caseOutboundExchange) {
+    Binding binding = BindingBuilder.bind(caseResponsesQueue).to(caseOutboundExchange)
+      .with("Case.Responses.binding");
     return binding;
     }
 }
