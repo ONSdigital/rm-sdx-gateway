@@ -57,15 +57,8 @@ See `swagger.yaml` for API documentation.
 See `src/test/resources/curlTests.txt`
 
 ## Potential improvements
-The obsolete FTP code can be removed, including from:
-- application-test.properties
-- deployment.yaml
-- pom.xml
-- values.yaml
-- AppConfig.java  
-- Sftp.java
-- SFTPPaperReceiptReceiver.java
-- SFTPPaperReceiptReceiverImpl.java
+- Java can be upgraded to v11.
+- Spring Boot can be upgraded to 2.1.
 
 ## Copyright
 Copyright (C) 2017 Crown Copyright (Office for National Statistics)
