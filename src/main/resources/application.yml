@@ -57,15 +57,6 @@ logging:
     uk.gov.ons.ctp: DEBUG
     org.springframework.context.annotation.ConfigurationClassPostProcessor: ERROR
   profile: DEV
-
-sftp:
-  host: localhost
-  port: 122
-  username: centos
-  password: "JLibV2&XD,"
-  directory: Documents
-  cron: "0 * * * * ?"
-  filepattern: "Receipt*.csv"
   
 data-grid:
   address: localhost:7379
