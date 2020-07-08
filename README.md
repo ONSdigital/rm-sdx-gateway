@@ -58,7 +58,8 @@ See `swagger.yaml` for API documentation.
 See `src/test/resources/curlTests.txt`
 
 ## Potential improvements
-- Spring Boot can be upgraded to 2.1.
+- Spring Boot can be upgraded to 2.1
+- Godaddy-logger can be replaced
 
 ## Copyright
 Copyright (C) 2017 Crown Copyright (Office for National Statistics)
