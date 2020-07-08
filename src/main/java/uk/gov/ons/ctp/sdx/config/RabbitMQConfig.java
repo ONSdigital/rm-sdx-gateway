@@ -67,10 +67,10 @@ public class RabbitMQConfig {
         amqpTemplate.setRetryTemplate(retryTemplate());
         return amqpTemplate;
     }
-
+    
     @Bean
     public RabbitTemplate caseReceiptRabbitTemplate(ConnectionFactory connectionFactory, 
-        MarshallingMessageConverter caseReceiptMarshallingMessageConverter) {
+            MarshallingMessageConverter caseReceiptMarshallingMessageConverter) {
         RabbitTemplate caseReceiptRabbitTemplate = new RabbitTemplate(connectionFactory);
         caseReceiptRabbitTemplate.setExchange("case-outbound-exchange");
         caseReceiptRabbitTemplate.setRoutingKey("x-dead-letter-routing-key");
