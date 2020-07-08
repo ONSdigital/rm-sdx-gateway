@@ -34,11 +34,6 @@ spring:
   application:
     name: ONS SDX Gateway API
   
-sftp:
-  directory: Documents
-  cron: "0 0 12 25 7 ?" #Temporary Solution as SFTP will not be used for BRES
-  filepattern: "Receipt*.csv"
-  
 data-grid:
   address: ${cloud.services.redis.connection.host}:${cloud.services.redis.connection.port}
   lock-time-to-live-seconds: 1800
