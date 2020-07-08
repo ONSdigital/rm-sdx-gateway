@@ -14,12 +14,13 @@ Once SDX calls this gateway, case receipts are then published to the RabbitMQ qu
 
 ## Running
 
-There are two ways of running this service.
-The easiest way is via docker (https://github.com/ONSdigital/ras-rm-docker-dev)
+There are two ways of testing this service. The easiest way is to deploy it to your sandbox, using Github Actions.
 
-Alternatively, you can run the service locally. For this, you'll need redis server running in a second window (port is currently set to 7379). 
+It can also be deployed in a local container using docker-dev: (https://github.com/ONSdigital/ras-rm-docker-dev).
+
+For this, you'll need a redis server running in a second window (port is currently set to 7379). 
 ```bash
-redis-server /usr/local/etc/redis.conf
+$ redis-server /usr/local/etc/redis.conf
 ```
 You'll also need postgres and some other backend services running. For these you can cd to the ras-rm-docker-dev repo in a third window, and run:
 ```bash
@@ -57,8 +58,8 @@ See `swagger.yaml` for API documentation.
 See `src/test/resources/curlTests.txt`
 
 ## Potential improvements
-- Java can be upgraded to v11.
-- Spring Boot can be upgraded to 2.1.
+- Spring Boot can be upgraded to 2.1
+- Godaddy-logger can be replaced
 
 ## Copyright
 Copyright (C) 2017 Crown Copyright (Office for National Statistics)

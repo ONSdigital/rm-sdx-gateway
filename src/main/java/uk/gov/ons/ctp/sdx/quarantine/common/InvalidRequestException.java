@@ -1,10 +1,8 @@
 package uk.gov.ons.ctp.sdx.quarantine.common;
 
-import net.sourceforge.cobertura.CoverageIgnore;
 import org.springframework.validation.Errors;
 
 /** Invalid Requestion Exception */
-@CoverageIgnore
 public class InvalidRequestException extends Exception {
 
   private Errors errors;
