@@ -5,7 +5,7 @@ info:
   version: "1.0"
 
 servers:
-  - url: https://localhost:8191/
+  - url: http://localhost:8191/
     description: The path used by sdx-gateway when port forwarded by kubectl (8191:8080)
 
 tags:
