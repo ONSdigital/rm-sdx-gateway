@@ -13,7 +13,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <surefire.version>2.22.2</surefire.version>
+        <surefire.version>3.0.0-M5</surefire.version>
         <javax.activation.version>1.2.0</javax.activation.version>
         <jaxb.api.version>2.3.0</jaxb.api.version>
         <jacoco.version>0.8.5</jacoco.version>
@@ -356,7 +356,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
                 <configuration>
-                    <useSystemClassLoader>false</useSystemClassLoader>
                     <argLine>
                         --illegal-access=permit
                     </argLine>
