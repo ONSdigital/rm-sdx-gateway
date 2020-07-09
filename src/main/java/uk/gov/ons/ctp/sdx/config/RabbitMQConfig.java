@@ -8,7 +8,7 @@ import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.MarshallingMessageConverter;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -67,10 +67,10 @@ public class RabbitMQConfig {
         amqpTemplate.setRetryTemplate(retryTemplate());
         return amqpTemplate;
     }
-
+    
     @Bean
     public RabbitTemplate caseReceiptRabbitTemplate(ConnectionFactory connectionFactory, 
-        MarshallingMessageConverter caseReceiptMarshallingMessageConverter) {
+            Jackson2JsonMessageConverter caseReceiptMarshallingMessageConverter) {
         RabbitTemplate caseReceiptRabbitTemplate = new RabbitTemplate(connectionFactory);
         caseReceiptRabbitTemplate.setExchange("case-outbound-exchange");
         caseReceiptRabbitTemplate.setRoutingKey("x-dead-letter-routing-key");
