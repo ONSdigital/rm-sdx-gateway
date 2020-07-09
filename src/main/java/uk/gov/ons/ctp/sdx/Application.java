@@ -59,10 +59,6 @@ public class Application {
     return Redisson.create(config);
   }
 
-  @Bean
-  public RestExceptionHandler restExceptionHandler() {
-    return new RestExceptionHandler();
-  }
 
   /**
    * Custom Object Mapper
