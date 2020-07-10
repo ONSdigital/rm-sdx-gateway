@@ -29,10 +29,15 @@ management:
   health:
     rabbit:
       enabled: false
+  endpoints:
+    web:
+      base-path: / 
+
 
 server:
   port: 8443
-  servlet-path: /
+  servlet:
+    path: /
   ssl:
     key-store-type: PKCS12
     key-store: classpath:keystore/ons.p12

@@ -21,10 +21,14 @@ management:
   health:
     rabbit:
       enabled: false
+  endpoints:
+    web:
+      base-path: /
 
 server:
   port: 8191
-  servlet-path: /
+  servlet:
+    path: /
     
 spring:
   output:
