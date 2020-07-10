@@ -33,7 +33,7 @@ management:
     web:
       base-path: /
       exposure:
-        include: health,info,receipts,paperquestionnairereceipts
+        include: "*"
 
 server:
   port: 8443
