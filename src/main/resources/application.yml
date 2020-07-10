@@ -21,6 +21,9 @@ spring:
         password: secret
   application:
     name: Survey Data Exchange Gateway API
+  mvc:
+    servlet:
+      path: /
 
 management:
   security:
@@ -37,8 +40,6 @@ management:
 
 server:
   port: 8443
-  servlet:
-    path: /
   ssl:
     key-store-type: PKCS12
     key-store: classpath:keystore/ons.p12

@@ -26,8 +26,6 @@ management:
 
 server:
   port: 8191
-  servlet:
-    path: /
     
 spring:
   output:
@@ -39,6 +37,9 @@ spring:
     user:
       name: admin
       password: secret
+  mvc:
+    servlet:
+      path: /
   
 data-grid:
   address: ${cloud.services.redis.connection.host}:${cloud.services.redis.connection.port}
