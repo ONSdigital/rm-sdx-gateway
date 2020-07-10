@@ -6,11 +6,6 @@ info:
   branch: ${scmBranch}
   built: ${timestamp}
 
-security:
-  basic:
-    enabled: true
-    realm: sdc
-
 spring:
   output:
     ansi:
@@ -26,9 +21,6 @@ spring:
       path: /
 
 management:
-  security:
-    roles: SUPERUSER
-    enabled: true
   health:
     rabbit:
       enabled: false

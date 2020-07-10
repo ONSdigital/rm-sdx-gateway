@@ -5,16 +5,8 @@ info:
   commit: ${buildNumber}
   branch: ${scmBranch}
   built: ${timestamp}
-
-security:
-  basic:
-    enabled: true
-    realm: sdc
     
 management:
-  security:
-    roles: SUPERUSER
-    enabled: true
   health:
     rabbit:
       enabled: false
