@@ -19,7 +19,6 @@ spring:
       user:
         name: admin
         password: secret
-
   application:
     name: Survey Data Exchange Gateway API
 
@@ -32,8 +31,10 @@ management:
       enabled: false
   endpoints:
     web:
-      base-path: / 
-
+      base-path: /
+      exposure:
+        include:
+        - health,info,receipts,paperquestionnairereceipts
 
 server:
   port: 8443

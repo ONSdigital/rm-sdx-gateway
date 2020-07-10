@@ -21,6 +21,9 @@ management:
   endpoints:
     web:
       base-path: /
+      exposure:
+        include:
+        - health,info,receipts,paperquestionnairereceipts
 
 server:
   port: 8191
