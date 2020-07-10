@@ -10,9 +10,6 @@ security:
   basic:
     enabled: true
     realm: sdc
-  user:
-    name: admin
-    password: secret
     
 management:
   security:
@@ -34,9 +31,12 @@ spring:
   output:
     ansi:
       enabled: never
-
   application:
     name: ONS SDX Gateway API
+  security:
+    user:
+      name: admin
+      password: secret
   
 data-grid:
   address: ${cloud.services.redis.connection.host}:${cloud.services.redis.connection.port}

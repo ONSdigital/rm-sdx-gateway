@@ -10,14 +10,15 @@ security:
   basic:
     enabled: true
     realm: sdc
-  user:
-    name: admin
-    password: secret
 
 spring:
   output:
     ansi:
       enabled: never
+  security:
+      user:
+        name: admin
+        password: secret
 
   application:
     name: Survey Data Exchange Gateway API
@@ -46,12 +47,6 @@ server:
   http:
     port:
       8191
-
-endpoints:
-  info:
-    enabled: true
-    sensitive: false
-  enabled: true
 
 RESPONSE_DATE_TIME_COL_FORMAT: dd/MM/yyyy
 
