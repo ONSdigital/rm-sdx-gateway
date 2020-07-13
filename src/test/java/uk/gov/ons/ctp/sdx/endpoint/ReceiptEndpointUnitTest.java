@@ -29,7 +29,6 @@ import uk.gov.ons.ctp.sdx.service.ReceiptService;
 /** Test for Receipt Endpoint Test */
 public class ReceiptEndpointUnitTest {
 
-  private static final String LOCATION = "Location";
   private static final String CASE_ID = "fa622b71-f158-4d51-82dd-c3417e31e32d";
   private static final String USER_ID = "fa622b71-f158-4d51-82dd-c3417e31e32f";
   private static final String RECEIPT_INVALIDJSON_SCENARIO1 = "{\"random\":  \"abc\"}";
