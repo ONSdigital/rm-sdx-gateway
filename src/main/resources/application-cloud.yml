@@ -5,34 +5,33 @@ info:
   commit: ${buildNumber}
   branch: ${scmBranch}
   built: ${timestamp}
-
-security:
-  basic:
-    enabled: true
-    realm: sdc
-  user:
-    name: admin
-    password: secret
     
 management:
-  security:
-    roles: SUPERUSER
-    enabled: true
   health:
     rabbit:
       enabled: false
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: "*"
 
 server:
   port: 8191
-  servlet-path: /
     
 spring:
   output:
     ansi:
       enabled: never
-
   application:
     name: ONS SDX Gateway API
+  security:
+    user:
+      name: admin
+      password: secret
+  mvc:
+    servlet:
+      path: /
   
 data-grid:
   address: ${cloud.services.redis.connection.host}:${cloud.services.redis.connection.port}

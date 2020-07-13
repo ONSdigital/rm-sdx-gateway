@@ -4,9 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.NetworkTrafficServerConnector;
 import org.eclipse.jetty.server.Server;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.jetty.JettyEmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.jetty.JettyServerCustomizer;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
+import org.springframework.boot.web.embedded.jetty.JettyServerCustomizer;
+import org.springframework.boot.web.embedded.jetty.JettyServletWebServerFactory;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,11 +20,11 @@ public class HttpServerConfig {
     private int httpPort;
 
     @Bean
-    public EmbeddedServletContainerCustomizer containerCustomizer() {
+    public WebServerFactoryCustomizer containerCustomizer() {
         return container -> {
-            if (container instanceof JettyEmbeddedServletContainerFactory) {
-                JettyEmbeddedServletContainerFactory containerFactory =
-                        (JettyEmbeddedServletContainerFactory) container;
+            if (container instanceof JettyServletWebServerFactory) {
+                JettyServletWebServerFactory containerFactory =
+                        (JettyServletWebServerFactory) container;
 
                 // Add customized Jetty configuration with non blocking connection handler
                 containerFactory.addServerCustomizers(new JettyServerCustomizer() {

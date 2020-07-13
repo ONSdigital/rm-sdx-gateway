@@ -6,33 +6,32 @@ info:
   branch: ${scmBranch}
   built: ${timestamp}
 
-security:
-  basic:
-    enabled: true
-    realm: sdc
-  user:
-    name: admin
-    password: secret
-
 spring:
   output:
     ansi:
       enabled: never
-
+  security:
+      user:
+        name: admin
+        password: secret
   application:
     name: Survey Data Exchange Gateway API
+  mvc:
+    servlet:
+      path: /
 
 management:
-  security:
-    roles: SUPERUSER
-    enabled: true
   health:
     rabbit:
       enabled: false
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: "*"
 
 server:
   port: 8443
-  servlet-path: /
   ssl:
     key-store-type: PKCS12
     key-store: classpath:keystore/ons.p12
@@ -41,12 +40,6 @@ server:
   http:
     port:
       8191
-
-endpoints:
-  info:
-    enabled: true
-    sensitive: false
-  enabled: true
 
 RESPONSE_DATE_TIME_COL_FORMAT: dd/MM/yyyy
 
