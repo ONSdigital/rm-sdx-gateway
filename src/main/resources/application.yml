@@ -51,10 +51,6 @@ logging:
     org.springframework.context.annotation.ConfigurationClassPostProcessor: ERROR
   profile: DEV
   
-data-grid:
-  address: localhost:7379
-  lock-time-to-live-seconds: 1800
-  
 rabbitmq:
   username: guest
   password: guest
