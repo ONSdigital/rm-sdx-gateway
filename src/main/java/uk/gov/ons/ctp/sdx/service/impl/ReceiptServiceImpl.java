@@ -1,8 +1,6 @@
 package uk.gov.ons.ctp.sdx.service.impl;
 
 import java.io.InputStream;
-import java.util.List;
-import javax.xml.datatype.DatatypeConfigurationException;
 import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +10,6 @@ import uk.gov.ons.ctp.response.casesvc.message.feedback.InboundChannel;
 import uk.gov.ons.ctp.sdx.domain.Receipt;
 import uk.gov.ons.ctp.sdx.message.CaseReceiptPublisher;
 import uk.gov.ons.ctp.sdx.quarantine.common.CTPException;
-import uk.gov.ons.ctp.sdx.quarantine.common.DateTimeUtil;
-import uk.gov.ons.ctp.sdx.service.FileParser;
 import uk.gov.ons.ctp.sdx.service.ReceiptService;
 
 /** The service to acknowlegde receipts */
@@ -21,14 +17,10 @@ import uk.gov.ons.ctp.sdx.service.ReceiptService;
 @Service
 public class ReceiptServiceImpl implements ReceiptService {
 
-  private static final String EXCEPTION_ACKNOWLEGDING_RECEIPT =
-      "An unexpected error occured while acknowledging your receipt. ";
   public static final String EXCEPTION_INVALID_RECEIPT =
       "Invalid receipt. It can't be acknowledged.";
 
   @Autowired private CaseReceiptPublisher caseReceiptPublisher;
-
-  @Autowired private FileParser fileParser;
 
   @Override
   public final void acknowledge(Receipt receipt) throws CTPException {
@@ -44,30 +36,13 @@ public class ReceiptServiceImpl implements ReceiptService {
     caseReceipt.setPartyId(receipt.getUserId());
     caseReceipt.setInboundChannel(receipt.getInboundChannel());
 
-    try {
-      caseReceipt.setResponseDateTime(DateTimeUtil.giveMeCalendarForNow());
-    } catch (DatatypeConfigurationException e) {
-      String error =
-          String.format(
-              "DatatypeConfigurationException thrown while building dateTime for now with msg = %s",
-              e.getMessage());
-      log.error(error);
-      log.error("Stack trace: " + e);
-      throw new CTPException(
-          CTPException.Fault.SYSTEM_ERROR,
-          String.format("%s%s", EXCEPTION_ACKNOWLEGDING_RECEIPT, error));
-    }
-
     caseReceiptPublisher.send(caseReceipt);
   }
 
   @Override
-  public void acknowledgeFile(InputStream fileContents) throws CTPException {
+  public void acknowledgeFile(InputStream fileContents) {
     log.debug("acknowledgeFile {}", fileContents);
-    // TODO Need to amend the fileParser as we will need a caseId for each caseReceipt.
-    // TODO At the moment, only caseRef is populated.
-    List<CaseReceipt> caseReceipts = fileParser.parseIt(fileContents);
-    caseReceipts.forEach(caseReceipt -> caseReceiptPublisher.send(caseReceipt));
+    throw new UnsupportedOperationException("File acknowledgement no longer supported");
   }
 
   /**
