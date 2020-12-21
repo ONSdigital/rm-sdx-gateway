@@ -36,3 +36,6 @@ service:
 resources:
   requests:
     memory: "256Mi"
+
+gcp:
+  project: ras-rm-sandbox
