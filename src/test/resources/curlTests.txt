@@ -1,10 +1,10 @@
 ## To test the info endpoint
 curl http://localhost:8191/info/ -v -X GET
-200 {"name":"sdxgatewaysvc","version":"10.41.0-SNAPSHOT","origin":"git@github.com:ONSdigital/rm-sdx-gateway.git","commit":"337a2a0e1c10597b260000a5b6bb2899708351e9","branch":"master","built":"2017-08-01T10:49:55Z"}
+200 {"name":"sdxgatewaysvc","version":"10.41.0-SNAPSHOT","origin":"git@github.com:ONSdigital/rm-sdx-gateway.git","commit":"337a2a0e1c10597b260000a5b6bb2899708351e9","branch":"main","built":"2017-08-01T10:49:55Z"}
 
 
 curl http://localhost:8191/info -v -X GET -u gateway:ctp
-200 {"contactEmail":"philippe.brossier@ons.gov.uk","version":"9.27.0-SNAPSHOT","commit":"162cf42","branch":"master","buildTime":"16:10:00 BST on 04 October 2016"}
+200 {"contactEmail":"philippe.brossier@ons.gov.uk","version":"9.27.0-SNAPSHOT","commit":"162cf42","branch":"main","buildTime":"16:10:00 BST on 04 October 2016"}
 
 
 ## To post an invalid receipt (missing caseId)
